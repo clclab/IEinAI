@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Feature attribution for explainable AI in vision (LIME) Part 2 &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'vision/vision_lab2_LIME';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mechanistic Interpretability" href="../mechinterp/mechinterp_intro.html" />
+    <link rel="prev" title="Feature attribution for explainable AI in vision Part 1" href="vision_lab1_feature-attributions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop materials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../week1/week1_intro.html">Week 1</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../week1/week1_lab1_probing.html">Workshop 0: Introduction to Posthoc Interpretability</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../week1/week1_lab2_attribution.html">Explaining by Removing: a thorough investigation of feature attributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="vision_intro.html">Speech Perception</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vision_lab1_feature-attributions.html">Feature attribution for explainable AI in vision <mark>Part 1</mark></a></li>
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></a></li>
+
+
+
+
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../mechinterp/mechinterp_intro.html">Mechanistic Interpretability</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mechinterp/mechinterp_lab.html">Mechanistic Interpretability</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../speech-perception/speech-perception_intro.html">Speech Perception</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab1.html">Workshop Week 1: Introduction to Posthoc Interpretability</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab2_placeholder.html">Speech perception lab 2 placeholder</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../music-speech-generation/music-speech-generation_intro.html">Music &amp; Speech Generation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../music-speech-generation/music-speech-generation_lab_placeholder.html">Speech perception lab 2 placeholder</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/docs/vision/vision_lab2_LIME.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fvision/vision_lab2_LIME.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/vision/vision_lab2_LIME.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretable-representations">Interpretable Representations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-approach-details">LIME approach details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-of-a-pre-trained-vgg19-model">Initialization of a pre-trained VGG19 model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-pre-processing">Image pre-processing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-explanation">LIME explanation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-perturbations-of-image">Creating Perturbations of image</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-super-pixels-from-the-image">Extract super-pixels from the image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-random-perturbations">Creating random perturbations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-add-your-code-here">ACTIVITY add your code here</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-use-ml-classifier-to-predict-classes-of-newly-generated-images">Step 2: Use ML classifier to predict classes of newly generated images</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-add-your-code">ACTIVITY add your code</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-exercise-tosubmit">Lab exercise <mark>TOSUBMIT</mark></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#you-should-not-trust-me-tosubmit">You should not trust me! <mark>TOSUBMIT</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines-for-the-canvas-submissions">Guidelines for the Canvas submissions:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#journal-club-for-weeks-2-and-3">Journal club for weeks 2 and 3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-ideas">Mini-project ideas</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="feature-attribution-for-explainable-ai-in-vision-lime-part-2">
+<h1>Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark><a class="headerlink" href="#feature-attribution-for-explainable-ai-in-vision-lime-part-2" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://www.youtube.com/watch?v=6NPvTcJOGE0&amp;amp;ab_channel=DeepLearningIIE" title="How the XAI methods works"><img alt="Everything Is AWESOME" src="https://i3.ytimg.com/vi/6NPvTcJOGE0/maxresdefault.jpg" /></a></p>
+<p>In this post, we will study how
+<mark style="background-color:LavenderBlush;">LIME</mark> (Local
+Interpretable Model-agnostic Explanations) ([1]) generates
+explanations for image classification tasks. The basic idea is to
+understand why a machine learning model predicts that a specific image
+belongs to a certain class (<em>Caretta-caretta</em> in our visual example).
+Briefly, this technique constructs a <em>new</em> simple model (for
+example a <mark style="background-color:LavenderBlush;"><em>linear
+classifier</em></mark>) which is easy to be interpreted by humans and at the same time approximates
+the predictions of the <em>black-box</em> model in the neighborhood
+around the instance that needs to be explained (<em>local faithfulness
+</em>).</p>
+<p>The <mark style="background-color:LavenderBlush;">LIME</mark> explainer is <em>model-agnostic</em> which means is not
+restricted to a specific model and can be used to explain any
+<mark>black-box</mark> classifier. So we don’t need to have access to
+the details of our model (input, intermediate layers etc) to generate
+explanations. Moreover, the explainer is <em>local</em> meaning that it
+explains the prediction of the model in the neighborhood of the instance
+being explained. This technique lies in the PostHoc category of XAI
+methods, since it explains the behavior of the approach after the training process is performed.</p>
+<section id="interpretable-representations">
+<h2>Interpretable Representations<a class="headerlink" href="#interpretable-representations" title="Link to this heading">#</a></h2>
+<p>An interpretable explanation in an image classifier explainer should use
+a representation that is understandable to humans, by explaining which
+parts of the input image influence the model decision. For instance, the
+pixel-based representations are not very informative especially when we
+deal with huge images and therefore a better way to explain the model
+decision is to use
+<a class="reference external" href="https://infoscience.epfl.ch/record/149300">super-pixels</a> ([3]). Super-pixels
+are groups of pixels that share similar characteristics such as color
+and texture. Hence, a possible interpretable representation for image
+classification may be a binary vector indicating the <em>presence</em>
+or <em>absence</em> of a super-pixel.</p>
+<p>Thus, our explainer needs to find a way to attribute importance to each
+super-pixel in the initial input image. It’s important to note here,
+that the interpretable representations are meant to be just for the
+<mark style="background-color:LightCyan;">LIME</mark> explainer while the <em>black-box</em> can still be trained using the
+original pixel-based representations.</p>
+<p><mark style="background-color:LightCyan;">LIME</mark> approach aims to
+just explain why the classifier took a specific decision upon a specific
+input image. It does not aim to explain the whole model. Authors, in the
+paper, proposed a mechanism called
+<mark style="background-color:LightCyan;">SP-LIME</mark> that aims to
+explain the whole model. While we will not touch this method in this
+tutorial we encourage you to have a look at it in the original paper.</p>
+</section>
+<section id="lime-approach-details">
+<h2>LIME approach details<a class="headerlink" href="#lime-approach-details" title="Link to this heading">#</a></h2>
+<p>To explain how <mark style="background-color:LavenderBlush;">LIME</mark> works in detail we should introduce some definitions and maths
+😎.</p>
+<p>Hence, let <span class="math notranslate nohighlight">\(\mathbf{x} \in R^{d}\)</span> denote the original vector
+representation of an instance being explained (in our case a vector with
+all pixels in the image), and we use <span class="math notranslate nohighlight">\(\mathbf{x}^{\prime} \in \{0, 1\}^d\)</span> to denote a
+binary vector for its interpretable representation (super-pixels).</p>
+<p>The <mark style="background-color:LavenderBlush;">LIME</mark> explainer is defined as (or explanation model) <span class="math notranslate nohighlight">\(g \in G\)</span>, where <span class="math notranslate nohighlight">\(G\)</span>
+is a class of potentially interpretable models, such as <em>linear
+models</em>, <em>decision trees</em> etc. To keep things simple, in this
+tutorial, we will consider just the <em>linear classifier</em> case. As not
+every <span class="math notranslate nohighlight">\(g \in G\)</span> may be simple enough to be interpretable <span class="math notranslate nohighlight">\(\Omega(g)\)</span> is
+defined as a measure of complexity (in juxtaposition with the
+interpretability) of the explanation <span class="math notranslate nohighlight">\(g \in G\)</span>. For example, for
+decision trees <span class="math notranslate nohighlight">\(\Omega(g)\)</span> may be the depth of the tree, while for
+linear models, <span class="math notranslate nohighlight">\(\Omega(g)\)</span> may be the number of non-zero weights. We
+define as <span class="math notranslate nohighlight">\(f: R^{d} \to R\)</span> the <em>black-box</em> model that we would
+like to explain. In classification, <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> is the probability
+(or a binary indicator) that <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> belongs to a certain class.</p>
+<p>We further use <span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}(\mathbf{z})\)</span> as a proximity measure
+between an instance <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, so as to define
+locality around <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. Finally, let
+<span class="math notranslate nohighlight">\(\mathcal{L}(f, g, \pi_{\mathbf{x}})\)</span> be a measure of how unfaithful <span class="math notranslate nohighlight">\(g\)</span>
+is in approximating <span class="math notranslate nohighlight">\(f\)</span> in the locality defined by <span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}\)</span>.
+To ensure both <em>interpretability</em> and <em>local fidelity</em>,
+they must minimize <span class="math notranslate nohighlight">\(L(f, g, \pi_{x})\)</span> while having <span class="math notranslate nohighlight">\(\Omega(g)\)</span> be as low
+as possible. This will keep the complexity of the explanation low while
+maintaining the fidelity of the explanation high.</p>
+<p>Hence, the loss function for the <mark style="background-color:LavenderBlush;">LIME</mark> explaner is the following equation:</p>
+<div class="math notranslate nohighlight">
+\[\xi(\mathbf{x}) = \mathcal{L}(f, g, \pi_{\mathbf{x}}) + \Omega(g) \]</div>
+<p>The first term <span class="math notranslate nohighlight">\(\mathcal{L}(f, g, \pi_{\mathbf{x}})\)</span> in the equation is represented by the weighted square loss:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(f, g, \pi_{\mathbf{x}}) = \sum_{\mathbf{z}, \mathbf{z}^{'}}\pi_{\mathbf{x}}(\mathbf{z})(f(\mathbf{z})- g(\mathbf{z}^{'}))^{2} \]</div>
+<p>with <span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}\)</span> to be a kernel function that measures the proximity of <span class="math notranslate nohighlight">\(z\)</span> to <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\pi_{\mathbf{x}} =  \exp(-D(\mathbf{x},\mathbf{z})^{2}/\sigma*{2})\]</div>
+<p>The idea is that by tuning the weights <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> we can use them
+directly as a feature attribution to each super-pixel. The higher the
+weight that corresponds to a specific super-pixel the more important
+this super-pixel is for the prediction of the <em>black-box</em> model
+and vice-versa.</p>
+<p>Its important to remind you here the terms <em>faithfulness</em>
+and <em>local fidelity</em> which are about how well our explainer
+<span class="math notranslate nohighlight">\(g\)</span> can approximate the decision of the <em>black-box</em> model <span class="math notranslate nohighlight">\(f\)</span> in
+the locality defined by <span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}\)</span>.</p>
+<p>The whole <mark style="background-color:LavenderBlush;">LIME</mark> algorithm can be summarized as follows:</p>
+<p><img alt="" src="https://drive.google.com/uc?export=view&amp;id=1_Ax1JnqFGF6mHh8buyHPvfG4CWm-XEzR" /></p>
+<p>The <mark style="background-color:LavenderBlush;">kernel</mark> shows the proximity between the instance that we desire to explain and the
+generated samples in the neighborhood. The neighborhood is created by
+<mark style="background-color:LightCyan;">sampling</mark> instances
+around the initial image. The sampling is done by perturbing
+the instance being explained. For example, in the case of images, we can
+perturb the image by zeroing out some super-pixels. The perturbed
+instances are then fed to the <em>black-box</em> model and the output is
+used to train the explainer. The weights of the interpretable model are
+then used to explain the prediction of the <em>black-box</em> model.
+Finally, in the algorithm,
+<mark style="background-color:Lavender;">K-lasso</mark> refers to the
+regulizarion that is introduced in a previous equation and relates with
+the term <span class="math notranslate nohighlight">\(\Omega(g)\)</span>.</p>
+<center>
+<video autoplay muted loop controls src="files/LIME3.mp4" style="width:600px" type="video/mp4">
+</video>
+<figcaption>
+A demonstration of the whole <mark style="background-color:LavenderBlush;">LIME</mark> algorithm.
+</figcaption>
+</center>
+<p><a class="reference external" href="https://youtu.be/eLsB-aMjqfA" title="How the XAI methods works"><img alt="Everything Is AWESOME" src="https://i3.ytimg.com/vi/eLsB-aMjqfA/maxresdefault.jpg" /></a></p>
+<p>The above video explains the whole <mark style="background-color:LavenderBlush;">LIME</mark> process. The initial surface
+represents the <mark style="background-color:Lavender;">black-box</mark>
+classifier and the regions for the class of interest
+(e.g. Caretta-caretta with the light-pink color). The dark red-colored
+dot denotes the sample that we would like to explain and it is an image
+with the label <em> Caretta-caretta</em>. The first step is to sample
+the neighborhood of the point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> that we would like to
+explain. Several points are generated. The size of each generated sample
+and the transparency relates to the distance from the initial point
+<span class="math notranslate nohighlight">\(\mathbf{x}\)</span> which is calculated based using
+<span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}(\mathbf{z})\)</span>. The next step is to apply the
+<mark style="background-color:Lavender;">black-box</mark> classifier
+<span class="math notranslate nohighlight">\(f()\)</span> to find the label for each generated point. Samples with red
+represent the class caretta-caretta while samples with purple represent
+the adversary class (not Caretta-caretta ;). The next step is to train the
+interpretable model <span class="math notranslate nohighlight">\(g()\)</span> using the generated samples. The weights of
+the interpretable model are used to explain the prediction of the
+<mark style="background-color:Lavender;">black-box</mark> classifier.</p>
+</section>
+<section id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Link to this heading">#</a></h2>
+<p>To begin with, we will need to import the required libraries. The code is
+written in Python 3.6.9 and PyTorch 1.7.0. Before importing the libraries we need to mount the Google drive folder using the following command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">gdrive</span><span class="o">/</span><span class="n">My</span> <span class="n">Drive</span><span class="o">/</span><span class="n">LIME</span><span class="o">/</span><span class="n">files</span><span class="o">/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pwd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="initialization-of-a-pre-trained-vgg19-model">
+<h3>Initialization of a pre-trained VGG19 model<a class="headerlink" href="#initialization-of-a-pre-trained-vgg19-model" title="Link to this heading">#</a></h3>
+<p>The very first thing that we will do is load a pre-trained VGG19 model.
+This model will be used to classify images and we will try to explain
+its behavior. The output of the model is a vector of 1000 probabilities
+belonging to each class from the ImageNet dataset. The model is
+initialized and the weights are loaded. The model is set to evaluation
+mode. The model is set to run on GPU if available. You can do that on
+google colab by enabling the GPU option. The steps for that are the
+following: <mark>Edit -&gt; Notebook settings -&gt; Hardware accelerator -&gt;
+GPU</mark>. The code for all these steps is the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load model</span>
+<span class="c1"># model_type = &#39;vgg19&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">vgg19</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># run it on a GPU if available:</span>
+<span class="n">cuda</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cuda:&#39;</span><span class="p">,</span> <span class="n">cuda</span><span class="p">,</span> <span class="s1">&#39;device:&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="c1"># set model to evaluation</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ignore for now the warnings! This code should return the architecture of
+the VGG19 model. Of course, feel free to choose the model of your choice
+(the code should work with any model). Now let’s load and process the
+image (for the VGG19 classifier) that we would like to test our
+<mark style="background-color:Lavender;">LIME</mark> explainer. You can
+freely choose the image that you would like to explain.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">imread_img</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+
+  <span class="c1"># read the image and convert it - Set your pathto the image</span>
+  <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;img:&#39;</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;image not found - set your path to the image&#39;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">img</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We do make use of the
+<mark style="background-color:Lavender;">OpenCV</mark> library to read
+the <mark style="background-color:Lavender;">caretta.png</mark> image from <mark>Canvas files</mark>.
+You can check all the provided images or download one from the web.</p>
+<p>Note that you could do the same by using torchvision datasets and
+transforms. We will show an example of that when we will use the
+<mark style="background-color:Lavender;">LIME</mark> explainer for our
+lab exercise at the end of this tutorial.</p>
+</section>
+<section id="image-pre-processing">
+<h3>Image pre-processing<a class="headerlink" href="#image-pre-processing" title="Link to this heading">#</a></h3>
+<p>As usual, we will need to normalize our input image. The normalization
+is done using the mean and standard deviation of the ImageNet dataset.
+The image is also transposed to the correct tensor format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pre_processing</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">cuda</span><span class="p">):</span>
+    <span class="c1"># Students should transpose the image to the correct tensor format.</span>
+    <span class="c1"># Students should ensure that gradient for input is calculated</span>
+    <span class="c1"># set the GPU device</span>
+    <span class="k">if</span> <span class="n">cuda</span><span class="p">:</span>
+        <span class="n">torch_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">torch_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+    <span class="c1"># normalise for ImageNet</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span> <span class="o">/</span> <span class="mi">255</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="p">(</span><span class="n">obs</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+
+    <span class="c1"># make tensor format that keeps track of gradient</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="n">obs_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch_device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obs_tensor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can do the same (resizing, normalization and conversion to tensor) by
+using the torchvision transform:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span><span class="mf">0.225</span><span class="p">])])</span>
+
+</pre></div>
+</div>
+<p>Then, the next that we will do is load the image and preprocess it. We
+will also check the prediction of the VGG19 model. Note that the
+prediction is correct (E.g. 33 and 34 are ‘caretta-caretta’ and
+‘turtle’). The code is the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">cuda</span><span class="p">):</span>
+    <span class="c1"># Makes prediction after preprocessing image</span>
+    <span class="c1"># Note that output should be torch.tensor on cuda</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># calc output from model</span>
+    <span class="k">if</span> <span class="n">target_label_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">target_label_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">target_label_idx</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cuda</span><span class="p">:</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>                     <span class="c1"># calc prediction</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>           <span class="c1"># gather functionality of pytorch</span>
+    <span class="k">return</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">output</span>
+
+<span class="c1"># test preprocessing</span>
+<span class="c1"># you can check that the VGG network gives a correct prediction.</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">imread_img</span><span class="p">(</span><span class="s2">&quot;caretta_1.jpg&quot;</span><span class="p">)</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">pre_processing</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>          <span class="c1"># preprocess: image (normalise, transpose, make tensor on cuda, requires_grad=True)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">label</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output:&#39;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output label:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following code helps you to get the label of the prediction. The
+label is the index of the class in the ImageNet dataset. The index is
+used to get the class name from the <mark>.json</mark> file. The
+<mark>.json</mark> file is available in the repository.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">idx2label</span><span class="p">,</span> <span class="n">cls2label</span><span class="p">,</span> <span class="n">cls2idx</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;imagenet_class_index.json&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">class_idx</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">)</span>
+    <span class="n">idx2label</span> <span class="o">=</span> <span class="p">[</span><span class="n">class_idx</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_idx</span><span class="p">))]</span>
+    <span class="n">cls2label</span> <span class="o">=</span> <span class="p">{</span><span class="n">class_idx</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)][</span><span class="mi">0</span><span class="p">]:</span> <span class="n">class_idx</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_idx</span><span class="p">))}</span>
+    <span class="n">cls2idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">class_idx</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)][</span><span class="mi">0</span><span class="p">]:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_idx</span><span class="p">))}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="lime-explanation">
+<h2>LIME explanation<a class="headerlink" href="#lime-explanation" title="Link to this heading">#</a></h2>
+<p>The following figure illustrates the basic idea behind LIME. The figure
+shows light pink and blue areas which are the decision boundaries for
+the classifier (for the VGG19 pre-trained model on ImageNet for
+instance). <mark style="background-color:Lavender;">LIME</mark> can
+provide explanations for the predictions of an individual instance (the
+one with the dark red dot). These explanations are created by generating
+a new dataset of perturbations around the instance to be explained (in
+our image are depicted with dot circles around the initial instance).</p>
+<p><img alt="" src="https://drive.google.com/uc?export=view&amp;id=1iaIiUisB7vmyy6e_Jc2eAvXH7G5bgy1f" /></p>
+<p>Then, we apply our
+<mark style="background-color:Lavender;">black-box</mark> model
+<mark style="background-color:Lavender;"><span class="math notranslate nohighlight">\(f()\)</span></mark> and we can extract
+the label for all the perturbations (which can be seen with dark red and
+denotes turtle with purple to denote non-turtle). The
+<em>importance</em> of each perturbation is determined by measuring its
+distance from the original instance to be explained.
+<mark style="background-color:Lavender;"> These distances are
+converted to weights by mapping the distances to a zero-one scale using
+a kernel function (<span class="math notranslate nohighlight">\(\pi_{\mathbf{x}}\)</span> </mark>). All this information:
+the newly generated dataset, its class predictions and its weights are
+used to fit a simple model, such as a linear model (gray line), that can
+be interpreted. The coefficients for this model are extracted and used
+as the explanation for the prediction of the instance we want to
+explain. The higher the coefficient, the more important the feature is
+for the prediction.</p>
+</section>
+<section id="creating-perturbations-of-image">
+<h2>Creating Perturbations of image<a class="headerlink" href="#creating-perturbations-of-image" title="Link to this heading">#</a></h2>
+<p>In the case of image explanations, our perturbations will be generated
+by zeroing out some of the superpixels in the image.</p>
+<section id="extract-super-pixels-from-the-image">
+<h3>Extract super-pixels from the image<a class="headerlink" href="#extract-super-pixels-from-the-image" title="Link to this heading">#</a></h3>
+<p>The superpixels are generated using the
+<mark style="background-color:Lavender;">quickshift</mark> segmentation
+algorithm. This algorithm is provided by the
+<mark style="background-color:Lavender;">skimage.segmentation</mark>
+library. The amount of superpixesls depends on the
+<mark style="background-color:Lavender;">quickshift</mark> parameters
+(<mark style="background-color:Lavender;">kernel_size</mark> and
+<mark style="background-color:Lavender;">max_dist</mark>). The code
+snippet can be found below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">skimage.io</span>
+<span class="kn">import</span> <span class="nn">skimage.segmentation</span>
+
+<span class="n">superpixels</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">quickshift</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_dist</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="c1">#it returns an image with all the super-pixel regions</span>
+<span class="n">num_superpixels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">superpixels</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">num_superpixels</span>
+
+<span class="n">imgplot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">mark_boundaries</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="n">superpixels</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The generated superpixels for the input Caretta-caretta image are shown
+in the image above. Note that you can improve the result of the approach
+or use another method for creating the superpixels.</p>
+</section>
+<section id="creating-random-perturbations">
+<h3>Creating random perturbations<a class="headerlink" href="#creating-random-perturbations" title="Link to this heading">#</a></h3>
+<p>In this example, 14 super-pixels were used. However, for real-life
+applications, a larger number of super-pixels will produce more
+reliable explanations.</p>
+<p>Having extracted the super-pixels, the way that perturbations are calculated is the following: Random
+zeros and ones are generated and shaped as a matrix with perturbations
+as rows and superpixels as columns. An example of a perturbation (the
+first one) is shown below. Here, <code class="docutils literal notranslate"><span class="pre">1</span></code> represents that a superpixel is on
+and <code class="docutils literal notranslate"><span class="pre">0</span></code> represents it is off. Notice that the length of the shown vector
+corresponds to the number of superpixels in the image. By running this
+code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_perturb</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">perturbations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">num_perturb</span><span class="p">,</span> <span class="n">num_superpixels</span><span class="p">))</span>
+<span class="n">perturbations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#Show example of perturbation</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function <code class="docutils literal notranslate"><span class="pre">perturb_image</span></code> perturbs the given image (<code class="docutils literal notranslate"><span class="pre">img</span></code>)
+based on a perturbation vector (<code class="docutils literal notranslate"><span class="pre">perturbation</span></code>) and predefined
+superpixels (<code class="docutils literal notranslate"><span class="pre">segments</span></code>).</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="activity-add-your-code-here">
+<h1>ACTIVITY add your code here<a class="headerlink" href="#activity-add-your-code-here" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">perturb_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">perturbation</span><span class="p">,</span><span class="n">segments</span><span class="p">):</span>
+  <span class="n">active_pixels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">perturbation</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">segments</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="c1"># BEGIN YOUR CODE</span>
+  <span class="k">return</span> <span class="bp">NotImplemented</span>
+  <span class="c1"># END YOUR CODE</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s use the previous function to see what a perturbed image would look like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">skimage</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">perturb_image</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="n">perturbations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">superpixels</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="step-2-use-ml-classifier-to-predict-classes-of-newly-generated-images">
+<h2>Step 2: Use ML classifier to predict classes of newly generated images<a class="headerlink" href="#step-2-use-ml-classifier-to-predict-classes-of-newly-generated-images" title="Link to this heading">#</a></h2>
+<p>This is the most computationally expensive step in LIME because a
+prediction for each perturbed image is computed. We aim to construct a label for each perturbation. From the shape of the
+predictions, we can see for each of the perturbations we have the output
+probability for each of the 1000 classes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">pert</span> <span class="ow">in</span> <span class="n">perturbations</span><span class="p">:</span>
+  <span class="n">perturbed_img</span> <span class="o">=</span> <span class="n">perturb_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">pert</span><span class="p">,</span><span class="n">superpixels</span><span class="p">)</span>
+  <span class="nb">input</span> <span class="o">=</span> <span class="n">pre_processing</span><span class="p">(</span><span class="n">perturbed_img</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+  <span class="n">output</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+
+  <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="nb">print</span> <span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">target_label_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+  <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="n">predictions</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, we will need to calculate the distances between the perturbations
+and the original image. The distances are calculated using the cosine
+distance. The smaller the distance, the more similar the vectors are.
+The distances are then converted to weights using a kernel function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">original_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_superpixels</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:]</span> <span class="c1">#Perturbation with all superpixels enabled</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">original_image</span><span class="p">)</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">pairwise_distances</span><span class="p">(</span><span class="n">perturbations</span><span class="p">,</span><span class="n">original_image</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">distances</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we have shown before, after calculating the distances we need to apply
+kernels to use them in the loss function. The employed can is as
+follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_width</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">distances</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">kernel_width</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="c1">#Kernel function, this is the author implementation and slightly different than the one in the paper</span>
+<span class="n">weights</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The last two cells actually are calculating the proximity of the pertubations with the original image given the following recipe:</p>
+<div class="math notranslate nohighlight">
+\[\pi_{\mathbf{x}} =  \exp(-D(\mathbf{x},\mathbf{z})^{2}/\sigma*{2})\]</div>
+<p>At the end, what we would like to do is to train a linear classifier and use the calculated parameters of the linear classifier as a explanation of our image. Firstly, let’s check the first five classes of the prediction once again!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">out</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">top_values</span> <span class="o">=</span> <span class="n">out</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># Keep the first 5 values from each row</span>
+<span class="n">top_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>   <span class="c1"># Keep the corresponding indices</span>
+
+<span class="n">top5</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">topk_values</span> <span class="o">=</span> <span class="n">top_values</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">topk_indices</span> <span class="o">=</span>  <span class="n">top_indices</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">topk_values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">topk_indices</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now train the linear model using the perturbations and the
+predictions with the highest probability. The extracted coefficients (or
+the explainer model weights) of the linear model are the explanations
+for the predictions.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="activity-add-your-code">
+<h1>ACTIVITY add your code<a class="headerlink" href="#activity-add-your-code" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">simpler_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># BEGIN YOUR CODE</span>
+<span class="c1"># add the parameters for the linear model simple_model.fit()</span>
+<span class="c1">#END YOUR CODE</span>
+
+<span class="n">coeff</span> <span class="o">=</span> <span class="n">simpler_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">coeff</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now visualise the top features that the classifier used to make
+its prediction. The top features are the superpixels that have the
+highest coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_top_features</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">top_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">coeff</span><span class="p">)[</span><span class="o">-</span><span class="n">num_top_features</span><span class="p">:]</span>
+<span class="n">top_features</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Having calculated the top features, we can now create a mask that will
+highlight the top superpixels in the image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_superpixels</span><span class="p">)</span>
+<span class="n">mask</span><span class="p">[</span><span class="n">top_features</span><span class="p">]</span><span class="o">=</span> <span class="kc">True</span> <span class="c1">#Activate top superpixels</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">perturb_image</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">superpixels</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="lab-exercise-tosubmit">
+<h1>Lab exercise <mark>TOSUBMIT</mark><a class="headerlink" href="#lab-exercise-tosubmit" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<p>This part of the tutorial is a lab exercise where you will use LIME to
+debias a classifier. The goal is to understand how LIME can be used to
+explain the behavior of a classifier and how we can use this information
+to debias the classifier.</p>
+<p>The classifier <span class="math notranslate nohighlight">\(f()\)</span> (you can find the trained model on Canvas zip folder) is trained to classify images of <em>huskies</em> and
+<em>wolves</em>. We have zero knowledge of the training dataset and training details.</p>
+<p>We hope that we will be able to identify the biases in the classifier and
+try to debias it using LIME explainer.</p>
+<p>We will need to explain the behavior of the classifier
+using images from huskies and wolves. You should make use also the
+images that you can find on the Canvas page of the course or from google
+colab page. If you want you can use also your own husky and wolf images.</p>
+<p>Firstly, we will load the classifier and the images we want to explain.
+The following code checks the performance of the classifier in a test
+set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check_accuracy</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="n">num_correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">scores</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;prediction &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; label &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+            <span class="n">num_correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predictions</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">num_samples</span> <span class="o">+=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got </span><span class="si">{</span><span class="n">num_correct</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s1"> with accuracy </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">num_correct</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we will load the classifier, load the images and check the
+performance of the classifier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;hus_wolf_model.pth&#39;</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following code loads the images and creates the dataloader. The
+dataloader is used to load the images in batches. The images are
+preprocessed using the same transformations that were used to train the
+classifier. Note that the following code is the same as the one used in
+the previous part of the tutorial for preprocessing images.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the transformation for all the images</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span><span class="mf">0.225</span><span class="p">])])</span>
+
+<span class="c1"># Load the images</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="s2">&quot;LIME_test_files/&quot;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span> <span class="c1"># check if this path is correct</span>
+
+<span class="n">dataset</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;husky&#39;</span><span class="p">,</span><span class="s1">&#39;wolf&#39;</span><span class="p">]</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">class_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;husky&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;wolf&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">dataset</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="c1"># Check the accuracy of the classifier</span>
+<span class="n">check_accuracy</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>What is the accuracy of the method in the test set?</p>
+<p>By using the LIME algorithm established
+in previous cells, you should explain the behavior of the classifier.
+You should use the provided images from zip folder <mark>LIME_test_files</mark> folder.
+<mark style="background-color:Lavender;"> Add your conclusions about the
+model <span class="math notranslate nohighlight">\(f()\)</span></mark>. What are the main issues with this classifier?</p>
+<p>Add your conclusions as a second paragraph in your report. Moreocer, add also a grid-image with the result of the LIME explainer (applied to all the images in the <mark>LIME_test_files</mark> folder) together with the labels and the predictions.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="you-should-not-trust-me-tosubmit">
+<h1>You should not trust me! <mark>TOSUBMIT</mark><a class="headerlink" href="#you-should-not-trust-me-tosubmit" title="Link to this heading">#</a></h1>
+<p>Now you feel like a <em>hacker</em> and you would like to fool LIME
+explanations by constructing adversarial classifiers. To do that we will
+follow the process that is described in the following paper [2]. You
+can find a detailed also explanation in the following video:</p>
+<p><a class="reference external" href="https://www.youtube.com/watch?v=qCYAKmFFpbs&amp;amp;ab_channel=MLExplained-AggregateIntellect-AI.SCIENCE" title="You should not trust me!"><span class="image placeholder"
+original-image-src="../../../assets/img/2023-05-13-LIME/fooling_LIME.PNG"
+original-image-title="">You should not trust
+me!</span></a></p>
+<p>This part of the tutorial is the third part of the assignment you need to
+<mark>TOSUBMIT</mark>. The goal is to understand the limitations of LIME
+and how we can take advantage of them to perform adversarial attacks.
+The main focus is to understand the way that LIME generates samples (the
+perturbations and the distribution of the perturbations in comparison
+with the real data).</p>
+<p>The setup is the following:</p>
+<p>As an adversary hacker, you are intending to deploy the biased
+classifier <span class="math notranslate nohighlight">\(f\)</span> for making a <em>critical decision</em> (e.g., confusing
+huskies with wolves 😱) in the real world. The adversary must provide
+black box access to customers and examiners, who may use post hoc
+explanation techniques to better understand <span class="math notranslate nohighlight">\(f\)</span> and determine if <span class="math notranslate nohighlight">\(f\)</span> is
+ready to be used in the real world. If customers and regulators detect
+that <span class="math notranslate nohighlight">\(f\)</span> is biased, they are not likely to approve it for deployment.
+The goal of the adversary is to fool post hoc explanation techniques and
+hide the underlying biases of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>In this assignment, you need to illustrate the difference between the distribution of real samples and the perturbations. Find a way to illustrate that in an example of your choice. Find a way to plot that using the provided data! Think of way based on the provided paper!</p>
+<p><mark>Optionally</mark>, you should create a scaffolded classifier <span class="math notranslate nohighlight">\(e\)</span> that
+behaves exactly like <span class="math notranslate nohighlight">\(f\)</span> when making predictions on instances sampled
+from <span class="math notranslate nohighlight">\(X_{dist}\)</span> (real samples) but will not reveal the underlying biases of <span class="math notranslate nohighlight">\(f\)</span> when probed with leading post hoc explanation techniques such as LIME. That could give you some extra points in case of other mistakes in this assignment!</p>
+<p>To do that you will need to follow the steps of the suggested paper. You
+need to find ways to differentiate the real data from the generated data
+and based on that create the scaffolded classifier <span class="math notranslate nohighlight">\(e\)</span> that will fool
+LIME.</p>
+<p>For this assignment, you will need to read the proposed paper and think of ways to perform adversarial attacks using the provided model. Add in your report an explanation of the procedure and the image with the difference between the 2 distributions. Optionally you can add examples of how the classifier <span class="math notranslate nohighlight">\(e\)</span> can work in our case.</p>
+<section id="guidelines-for-the-canvas-submissions">
+<h2>Guidelines for the Canvas submissions:<a class="headerlink" href="#guidelines-for-the-canvas-submissions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>You should prepare a report based on researching the <mark>TOSUBMIT</mark> from both notebooks.</p></li>
+<li><p>This report should contain three paragraphs. One will be about Integrated gradient and the questions that can be found at the end of the first notebook, one for the LIME explanations using the provided model, and finally one about adversarial attacks (an image with the distributions).</p></li>
+<li><p>Optionally, you should add one paragraph with the results of a scaffolding classifier that can fool LIME and some visual results with that.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="journal-club-for-weeks-2-and-3">
+<h1>Journal club for weeks 2 and 3<a class="headerlink" href="#journal-club-for-weeks-2-and-3" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1711.11279.pdf">TCAV: Interpretability Beyond Feature Attribution</a></p></li>
+<li><p><a class="reference external" href="https://openaccess.thecvf.com/content/CVPR2021/papers/Chefer_Transformer_Interpretability_Beyond_Attention_Visualization_CVPR_2021_paper.pdf">Transformer_Interpretability_Beyond_Attention_Visualization</a></p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mini-project-ideas">
+<h1>Mini-project ideas<a class="headerlink" href="#mini-project-ideas" title="Link to this heading">#</a></h1>
+<p>This part of the tutorial relates to ideas about extending parts of this tutorial. One point of criticism of the LIME technique is the way that the perturbations are taking place since the distributions between real and generated data are significantly different.</p>
+<ul class="simple">
+<li><p>Think of ways to improve the gap (using alternative ways to perform perturbations).</p>
+<ul>
+<li><p>For instance, you can make use of generative models or counterfactual techniques.</p></li>
+<li><p>You can make use of evolution techniques.</p></li>
+<li><p>Perturbation methods: you can have a look at some perturbation methods in this <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0167865521002440">survey paper</a>.</p></li>
+<li><p>Improving the stability of LIME using <a class="reference external" href="https://dl.acm.org/doi/pdf/10.1145/3447548.3467274">this paper as inspiration</a>.</p></li>
+</ul>
+</li>
+<li><p>Think of ways to improve the feature repressions (replacing super-pixels).</p></li>
+<li><p>Propose an evaluation scheme and compare the results of different feature attribution methods for vision.</p></li>
+<li><p>Think of alternative baselines for the Integrated methods.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusions">
+<h1>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h1>
+<p>In this tutorial, we have analyzed LIME a posthoc XAI technique. An
+explanation of how this technique works but also step-by-step the code
+to implement it. We have also seen how we can use LIME to explain
+image-classifiers but also how to identify the bias in a classifier.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://arxiv.org/pdf/1602.04938.pdf">[1] Ribeuro, M.T. et al. Why Should I Trust You? Explaining the Predictions of Any Classifier, 2016. SIGKDD.</a></p>
+<p><a class="reference external" href="https://arxiv.org/pdf/1911.02508.pdf">[2] Slack, D. et al. Fooling LIME and SHAP: Adversarial Attacks on Post hoc Explanation Methods, 2020, AIES ‘20: Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society</a></p>
+<p><a class="reference external" href="https://www.robots.ox.ac.uk/~vedaldi/assets/pubs/vedaldi08quick.pdf">[3] Vevaldi, A. et al. Quick Shift and Kernel Methods
+for Mode Seeking, 2008, ECCV</a></p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./vision"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="vision_lab1_feature-attributions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Feature attribution for explainable AI in vision <mark>Part 1</mark></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../mechinterp/mechinterp_intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mechanistic Interpretability</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretable-representations">Interpretable Representations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-approach-details">LIME approach details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-of-a-pre-trained-vgg19-model">Initialization of a pre-trained VGG19 model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-pre-processing">Image pre-processing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lime-explanation">LIME explanation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-perturbations-of-image">Creating Perturbations of image</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-super-pixels-from-the-image">Extract super-pixels from the image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-random-perturbations">Creating random perturbations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-add-your-code-here">ACTIVITY add your code here</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-use-ml-classifier-to-predict-classes-of-newly-generated-images">Step 2: Use ML classifier to predict classes of newly generated images</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-add-your-code">ACTIVITY add your code</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-exercise-tosubmit">Lab exercise <mark>TOSUBMIT</mark></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#you-should-not-trust-me-tosubmit">You should not trust me! <mark>TOSUBMIT</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines-for-the-canvas-submissions">Guidelines for the Canvas submissions:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#journal-club-for-weeks-2-and-3">Journal club for weeks 2 and 3</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-ideas">Mini-project ideas</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

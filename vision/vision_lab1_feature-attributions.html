@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Feature attribution for explainable AI in vision Part 1 &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'vision/vision_lab1_feature-attributions';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Feature attribution for explainable AI in vision (LIME) Part 2" href="vision_lab2_LIME.html" />
+    <link rel="prev" title="Speech Perception" href="vision_intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop materials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../week1/week1_intro.html">Week 1</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../week1/week1_lab1_probing.html">Workshop 0: Introduction to Posthoc Interpretability</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../week1/week1_lab2_attribution.html">Explaining by Removing: a thorough investigation of feature attributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="vision_intro.html">Speech Perception</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Feature attribution for explainable AI in vision <mark>Part 1</mark></a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="vision_lab2_LIME.html">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></a></li>
+
+
+
+
+
+
+
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../mechinterp/mechinterp_intro.html">Mechanistic Interpretability</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mechinterp/mechinterp_lab.html">Mechanistic Interpretability</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../speech-perception/speech-perception_intro.html">Speech Perception</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab1.html">Workshop Week 1: Introduction to Posthoc Interpretability</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab2_placeholder.html">Speech perception lab 2 placeholder</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../music-speech-generation/music-speech-generation_intro.html">Music &amp; Speech Generation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../music-speech-generation/music-speech-generation_lab_placeholder.html">Speech perception lab 2 placeholder</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/docs/vision/vision_lab1_feature-attributions.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fvision/vision_lab1_feature-attributions.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/vision/vision_lab1_feature-attributions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Feature attribution for explainable AI in vision <mark>Part 1</mark></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Feature attribution for explainable AI in vision <mark>Part 1</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-environment">Set the environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-a-pretrained-cnn-model">1. Load a pretrained CNN model.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-preprocess-the-images">2. Load and preprocess the images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-class"><strong>2. Predict class</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-saliency-map"><strong>3.1 Visualise Saliency Map</strong>.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-fill-the-missing-code">ACTIVITY Fill the missing code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-the-saliency-map-gradients"><strong>3.2 Visualise the saliency map (gradients)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-saliency-maps-and-vanilla-gradient-saturation-issues"><strong>3.3 Problems with saliency maps and vanilla gradient (saturation issues)</strong>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grad-cam"><strong>4 Grad Cam</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-a-new-vgg-model-including-a-hook"><strong>4.1  Define a new VGG() model including a hook</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-fill-the-code">ACTIVITY Fill the code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#now-calculate-the-gradients-of-a-prediction-w-r-t-the-activation-map">4.2 Now calculate the gradients of a prediction w.r.t. the activation map.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-calculate-the-pooled-gradient-for-each-channel-and-return-it-in-a-variable-pooled-gradients">ACTIVITY - calculate the pooled gradient for each channel and return it in a variable <mark>pooled_gradients</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-integrated-gradients-recipe"><strong>5.1 Calculate Integrated Gradients recipe</strong>.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#homework-part-1-tosubmit"><strong>Homework-part 1 <mark>TOSUBMIT</mark></strong>.</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="feature-attribution-for-explainable-ai-in-vision-part-1">
+<h1>Feature attribution for explainable AI in vision <mark>Part 1</mark><a class="headerlink" href="#feature-attribution-for-explainable-ai-in-vision-part-1" title="Link to this heading">#</a></h1>
+<p>In this tutorial, we will try to explain what is happening inside the CNN using feature attribution methods.</p>
+<p><strong>Feature attribution methods</strong> highlight the features or pixels that were relevant for a certain image classification by a neural network.</p>
+<p><strong>Gradient-based:</strong> Many methods compute the gradient of the prediction (or classification score) with respect to the input features. The gradient-based methods (of which there are many) mostly differ in how the gradient is computed.</p>
+<p>In this tutorial, you will apply gradient-based feature attribution:</p>
+<ul class="simple">
+<li><p><strong>saliency mapping</strong>: use gradients to understand what image pixels are most important for classification.</p></li>
+<li><p><strong>GradCam</strong> to understand what areas of the image are important for classification.</p></li>
+<li><p><strong>integrated gradients</strong> for the same purpose.
+:
+We are making use of the following PyTorch implementations:</p></li>
+<li><p>Integrated Gradient blog: <a class="reference external" href="https://distill.pub/2020/attribution-baselines/">https://distill.pub/2020/attribution-baselines/</a></p></li>
+<li><p>Axiomatic Attribution for Deep Networks: <a class="reference external" href="https://arxiv.org/pdf/1703.01365.pdf">https://arxiv.org/pdf/1703.01365.pdf</a></p></li>
+</ul>
+<section id="set-the-environment">
+<h2>Set the environment<a class="headerlink" href="#set-the-environment" title="Link to this heading">#</a></h2>
+<p>We will first load the necessary python libraries.
+For google colab, we will connect to google drive. Please store the example files in the datafiles PATH.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
+<span class="n">datafiles</span> <span class="o">=</span> <span class="s1">&#39;gdrive/MyDrive/Integrated gradient/&#39;</span> <span class="c1"># The folder where the code/datasets and example images are located.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;data is in: &#39;</span><span class="p">,</span> <span class="n">datafiles</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># set-up environment</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># necessary</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">google.colab.patches</span> <span class="kn">import</span> <span class="n">cv2_imshow</span>   <span class="c1"># specific for colab</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-a-pretrained-cnn-model">
+<h2>1. Load a pretrained CNN model.<a class="headerlink" href="#load-a-pretrained-cnn-model" title="Link to this heading">#</a></h2>
+<p>We will make use of the VGG19 CNN network and ImageNet.</p>
+<ul class="simple">
+<li><p>ImageNet is a large collection of images.</p></li>
+<li><p>VGG19 is a convolutional neural network architecture.</p></li>
+<li><p>We can load a version that is trained on ImageNet and that can detect objects in 1000 classes.</p></li>
+<li><p>Read about and understand VGG ConvNet and Imagenet for background.</p></li>
+</ul>
+<p>The first step is that using the pytorch library, we load the pretrained version of VGG19.</p>
+<p>A Note on use of GPU. For more speed you may use some GPU, e.g. using Lisa. In order to make use to GPU you have to load your data in this specific mode.</p>
+<p>Since we will not train the model we set the model in evaluation mode.</p>
+<ul class="simple">
+<li><p>Print and investigate the network structure of the VGG network.</p></li>
+<li><p>Mention the three main architectural parts of this VGG network and describe short the purpose of these parts.</p></li>
+<li><p>Describe shortly the required dimensions of the input (images) and the dimensions of the output (prediction).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load model</span>
+<span class="c1"># model_type = &#39;vgg19&#39;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">vgg19</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># run it on a GPU if available:</span>
+<span class="n">cuda</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cuda:&#39;</span><span class="p">,</span> <span class="n">cuda</span><span class="p">,</span> <span class="s1">&#39;device:&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># set model to evaluation</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-and-preprocess-the-images">
+<h2>2. Load and preprocess the images<a class="headerlink" href="#load-and-preprocess-the-images" title="Link to this heading">#</a></h2>
+<p>Load an image. We have provided a few images on elephant and sharks, but please also use you own imagery.</p>
+<p>VGG-19 works best if image is normalised. Image should also be in the correct tensor format.</p>
+<p>–&gt; ensure that input is in correct tensor format. Tip: you can use pytorch method like:</p>
+<p>input = torch.tensor(input, dtype=torch.float32, device=torch_device).</p>
+<p>(note: we will provide a few images)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">gdrive</span><span class="o">/</span><span class="n">My</span> <span class="n">Drive</span><span class="o">/</span><span class="n">IG</span><span class="o">/</span><span class="n">images</span><span class="o">/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pre_processing</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">cuda</span><span class="p">):</span>
+    <span class="c1"># Students should transpose the image to the correct tensor format.</span>
+    <span class="c1"># Students should ensure that gradient for input is calculated</span>
+    <span class="c1"># set the GPU device</span>
+    <span class="k">if</span> <span class="n">cuda</span><span class="p">:</span>
+        <span class="n">torch_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">torch_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+    <span class="c1"># normalise</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">obs</span> <span class="o">/</span> <span class="mi">255</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="p">(</span><span class="n">obs</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+
+    <span class="c1"># make tensor format that keeps track of gradient</span>
+    <span class="c1"># BEGIN for students to do</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="n">obs_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch_device</span><span class="p">)</span>
+    <span class="c1"># END for students to do</span>
+    <span class="k">return</span> <span class="n">obs_tensor</span>
+
+<span class="c1"># read the image and convert it</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;elephant.jpg&#39;</span><span class="p">)</span>
+
+<span class="c1"># img = cv2.imread(datafiles+ &#39;shark/Shark1.jpeg&#39;)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;img:&#39;</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predict-class">
+<h2><strong>2. Predict class</strong><a class="headerlink" href="#predict-class" title="Link to this heading">#</a></h2>
+<p>We can now easily predict the class, and the softmax score of that prediction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">cuda</span><span class="p">):</span>
+    <span class="c1"># Student should make prediction after preprocessing image</span>
+    <span class="c1"># Student should use softmax for getting predicion &lt; 1.</span>
+    <span class="c1"># Note that output should be torch.tensor on cuda</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>            <span class="c1"># calc output from model</span>
+
+    <span class="k">if</span> <span class="n">target_label_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">target_label_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">target_label_idx</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cuda</span><span class="p">:</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>                     <span class="c1"># calc prediction</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>           <span class="c1"># gather functionality of pytorch</span>
+    <span class="k">return</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">output</span>
+
+<span class="c1"># test preprocessing</span>
+<span class="nb">input</span> <span class="o">=</span> <span class="n">pre_processing</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>          <span class="c1"># preprocess: image (normalise, transpose, make tensor on cuda, requires_grad=True)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output:&#39;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualise-saliency-map">
+<h2><strong>3.1 Visualise Saliency Map</strong>.<a class="headerlink" href="#visualise-saliency-map" title="Link to this heading">#</a></h2>
+<p>Now that we can predict the class of an object, we will try to understand which image pixels are the most important for the prediction using <em>feature Attribution XAI methods</em>. The first technique that we will make use of is the <mark>saliency maps</mark>. Briefly, this approach determines the gradient of the output with respect to the input.</p>
+<p>The idea of Saliency maps (called <em>Vanilla Gradient</em> as well), introduced by Simonyan et al. (<a class="reference external" href="https://arxiv.org/pdf/1312.6034.pdf">https://arxiv.org/pdf/1312.6034.pdf</a>) as one of the first pixel attribution approaches. The core idea is really simple and what needs to be done is to calculate the gradient of the loss function for the class we are interested in with respect to the input features. This gives us a saliency map of the same size with the input features with either negative to positive values.</p>
+<p>The recipe for this approach is as follows:</p>
+<ul class="simple">
+<li><p><strong>Perform a forward pass</strong> of the image (<span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>) of interest using the network <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x}_0)\)</span>.</p></li>
+<li><p><strong>Compute the gradient</strong> of class score of interest with respect to the input pixels (<span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>):</p></li>
+</ul>
+<p>$<span class="math notranslate nohighlight">\(g(x_o) = \frac{\partial \mathcal{F}}{\partial \mathbf{x}_0} \)</span>$.</p>
+<ul class="simple">
+<li><p><strong>Visualize the gradients</strong>: You can either show the absolute values or highlight negative and positive contributions separately.</p></li>
+</ul>
+<p><strong>The intructions for the PyTorch code</strong>:</p>
+<p>We have set the model in eval mode, but we can still catch the gradients of the input-image if we ask PyTorch to do this, and then do some backward calculation. So you need to perform the following steps:</p>
+<ul class="simple">
+<li><p>Input should be preprocessed (and converted into a torch tensor).</p></li>
+<li><p>Set the <mark>required_gradient=True</mark> on the input tensor.</p></li>
+<li><p>Calculate the output (with previous method predict).</p></li>
+<li><p>Set the gradient to zero and do a backward on the output.</p></li>
+<li><p>Gradients with respect to the input can now be found under <mark>input.grad</mark></p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="activity-fill-the-missing-code">
+<h1>ACTIVITY Fill the missing code<a class="headerlink" href="#activity-fill-the-missing-code" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_outputs_and_gradients</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># Students have to calculate the gradient of the output w.r.t. the input image</span>
+    <span class="c1"># The result should be a gradients numpy matrix of same dimensions as the inputs</span>
+    <span class="n">predict_idx</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span><span class="c1"># for every image</span>
+
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">pre_processing</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+        <span class="nb">input</span><span class="o">.</span><span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+        <span class="c1"># BEGIN students TODO</span>
+        <span class="c1"># Add the missing code for the backprop</span>
+        <span class="c1"># END students TODO</span>
+
+        <span class="n">gradient</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># do backward and gather gradients of input</span>
+        <span class="n">gradients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gradients</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">target_label_idx</span>
+
+<span class="c1"># calculate the gradient and the label index</span>
+<span class="n">gradients</span><span class="p">,</span> <span class="n">label_index</span> <span class="o">=</span> <span class="n">calculate_outputs_and_gradients</span><span class="p">([</span><span class="n">img</span><span class="p">],</span> <span class="n">model</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+<span class="n">gradients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gradients&#39;</span><span class="p">,</span> <span class="n">gradients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gradients</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualise-the-saliency-map-gradients">
+<h2><strong>3.2 Visualise the saliency map (gradients)</strong><a class="headerlink" href="#visualise-the-saliency-map-gradients" title="Link to this heading">#</a></h2>
+<p>Try to visualise the image and the saliency map.
+<strong>Tip:</strong> take absolute values of the gradients and maximize over all three channels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Retrieve the saliency map and also pick the maximum value from channels on each pixel.</span>
+<span class="c1"># In this case, we look at dim=2. Recall the shape of gradients (width, height, channel)</span>
+
+<span class="k">def</span> <span class="nf">plot_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+  <span class="c1"># plots image (dimensions: Width X Heigth X 3) and gradients (dimensions: Width X Heigh x 3) - both numpy arrays</span>
+  <span class="n">saliency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gradients</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>       <span class="c1"># takes maximum over 3 color channels</span>
+  <span class="c1"># Visualize the image and the saliency map</span>
+  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+  <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+  <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">saliency</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">)</span>
+  <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+  <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="s1">&#39;The Image and Its Gradient Map&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="problems-with-saliency-maps-and-vanilla-gradient-saturation-issues">
+<h2><strong>3.3 Problems with saliency maps and vanilla gradient (saturation issues)</strong>.<a class="headerlink" href="#problems-with-saliency-maps-and-vanilla-gradient-saturation-issues" title="Link to this heading">#</a></h2>
+<p>Vanilla Gradient methods, notoriously, are facing saturation problems, as explained in <a class="reference external" href="https://arxiv.org/abs/1704.02685">Avanti et al. (2017)</a>. When the ReLU is used, and when the activation goes below zero, then, the activation is limited at zero and does not change any more. Hence, the activation is saturated.</p>
+</section>
+<section id="grad-cam">
+<h2><strong>4 Grad Cam</strong><a class="headerlink" href="#grad-cam" title="Link to this heading">#</a></h2>
+<p>Unlike saliency maps, in the <strong>Grad-Cam</strong> approach the gradient is not backpropagated all the way back to the image, but (usually) to the last convolutional layer in order to generate a visualization map that highlights important regions of the input.</p>
+<p>A naive visualization approach could be the following:</p>
+<ul class="simple">
+<li><p>Simply employ the values for each feature map, (of the last convolutional layer),</p></li>
+<li><p>Then, average these feature maps and overlay this over our image (by rescaling back to initial size).</p></li>
+</ul>
+<p>However, while simple, it is not really helpful approach, since these maps encode information for all classes, while we are interested in a specific class. <strong>Grad-CAM</strong> needs to figure out the importance for each of the <span class="math notranslate nohighlight">\(k\)</span> feature map <span class="math notranslate nohighlight">\(A_k \in \mathbb{R}^{w \times h}\)</span> (<span class="math notranslate nohighlight">\(w\)</span> the width and <span class="math notranslate nohighlight">\(h\)</span> the height of the features maps) in respect to our class <span class="math notranslate nohighlight">\(c\)</span> of interest.</p>
+<p>Therefore, we have to weight each pixel of each feature map with the gradient before averaging over the feature maps <span class="math notranslate nohighlight">\(A_k\)</span>. This calculated heatmap is send through the ReLU function which set all negative values to zero. The reason for that is that we are only interested in the parts that contribute to the selected class <span class="math notranslate nohighlight">\(c\)</span> and not to other classes. The final feature map is rescaled back to the original image size. We then overlay it over the original image for producing the final visualization.</p>
+<p><strong>Grad Cam recipe:</strong></p>
+<ul class="simple">
+<li><p>Forward-propagate the input image <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> through the convolutional VGG19 network by calculating the <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x}_0)\)</span>.</p></li>
+<li><p>Obtain the score for the class of interest, that means the activation before the softmax layer.</p></li>
+<li><p>All the rest classes’ activations should be set to zero.</p></li>
+<li><p>Back-propagate the gradient of the class of interest to the last convolutional layer before the fully connected layers:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{\partial y_{c}}{\partial A^k}\]</div>
+<ul class="simple">
+<li><p>Weight each feature map <em>pixel</em> by the gradient for the class. Indices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> refer to the width and height dimensions:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\alpha^{c}_{k} = \overbrace{\frac{1}{Z} \sum_i \sum_j}^{\text{global averaging pooling}} \underbrace{\frac{\partial y_{c}}{\partial A^{k}_{ij}}}_{\text{gradients of the backpropagation}}\]</div>
+<p>This means that the gradients are globally pooled.</p>
+<ul class="simple">
+<li><p>Calculate an average of the feature maps, weighted per pixel by backpropagated gradient.</p></li>
+<li><p>Apply ReLU to the averaged feature map.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[  L_{ij}^c = ReLU \sum_k \alpha^{c}_{k} A^{k}_{ij}\]</div>
+<p>We now have a heatmap <span class="math notranslate nohighlight">\(L^c\)</span> for the class <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<ul class="simple">
+<li><p>Regarding the visualization: Scale values of the <span class="math notranslate nohighlight">\(L^c\)</span> to the interval between 0 and 1. Upscale the image and overlay it over the original image.</p></li>
+</ul>
+<p>In our classification example this approach uses the activation map of the final convolutional layer (with VGG: the final features layer). Note that such an Activation Map can be a block of <span class="math notranslate nohighlight">\(14 \times 14 \times 512\)</span>, where the <span class="math notranslate nohighlight">\(14 \times 14\)</span> indicated a grid on the image (noted by subscripts i and j) and the 512 is the number of channels (features, noted by the letter k). <strong>Grad Cam</strong> pools the Activation Map over the channels, and it gives a weight equal to the contribution of each channel to the prediction. This contribution of each channel is calculated by taking the gradient of the output w.r.t. the Activation Map and then pool this over the spacial (<span class="math notranslate nohighlight">\(14\times14\)</span>) dimensions.</p>
+<p>For the calculation of the gradient w.r.t the Activation Map we need a little PyTorch trick since this gradient cannot be accessed by default. The PyTorch trick is called a <em>hook</em>. We can register a hook on a tensor of the network. With a hook we can define a little program that is executed when the tensor is touched during a backward pass. In our case we register a hook on the Activation Map we want to study and that is the 36th layer of the VGG19 convolutional <em>features</em> layer. The hook needs to be registered during a forward pass, so we will redefine the forward pass for our model.</p>
+<p>There is a nice youtube tutorial on pytorch and hooks <a class="reference external" href="https://www.youtube.com/watch?v=syLFCVYua6Q">https://www.youtube.com/watch?v=syLFCVYua6Q</a>. (22 minutes but I think it is worth it)</p>
+</section>
+<section id="define-a-new-vgg-model-including-a-hook">
+<h2><strong>4.1  Define a new VGG() model including a hook</strong><a class="headerlink" href="#define-a-new-vgg-model-including-a-hook" title="Link to this heading">#</a></h2>
+<p>The VGG() class is based on the pretrained models.vgg19 that we have already load before.</p>
+<p>The <mark>Activation Map</mark> that we want to study should be defined in the init function. That is the output of the first 36 feature layers.</p>
+<p>In the <mark>activations_hook</mark> method we should define our hook that will store the gradient calculated on the tensor in <mark>self.gradients</mark>.</p>
+<p>In the forward pass, we should execute all VGG layers <em>by hand</em>. The hook is registered on the output of the first 36 feature layers. And then the remaining layers are defined.</p>
+<p>Fill the code procedures for accessing the activation maps and gradients w.r.t. these activation maps.</p>
+<p>When defined, we load this model, move it to our GPU if available and put the model in eval mode.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="activity-fill-the-code">
+<h1>ACTIVITY Fill the code<a class="headerlink" href="#activity-fill-the-code" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VGG</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VGG</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># get the pretrained VGG19 network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">vgg19</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># self.vgg = model</span>
+
+        <span class="c1"># disect the network to access its last convolutional layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features_conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span><span class="o">.</span><span class="n">features</span><span class="p">[:</span><span class="mi">36</span><span class="p">]</span>
+
+        <span class="c1"># get the max pool of the features stem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># get the classifier of the vgg19</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span><span class="o">.</span><span class="n">classifier</span>
+
+        <span class="c1"># placeholder for the gradients</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># hook for the gradients of the activations: it stores the calculated grad (on our tensor) in self.gradients.</span>
+    <span class="k">def</span> <span class="nf">activations_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span> <span class="o">=</span> <span class="n">grad</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># gives the output of the first 36 &#39;feature&#39; layers</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features_conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># register the hook (note: h is a handle, giving the hook a identifier, we do not use it here)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activations_hook</span><span class="p">)</span>
+
+        <span class="c1"># apply the remaining pooling</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># apply the remaining classifying</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="c1"># method for the gradient extraction</span>
+    <span class="k">def</span> <span class="nf">get_activations_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># BEGIN students TODO</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="c1"># END students TODO</span>
+
+    <span class="c1"># method for the activation exctraction</span>
+    <span class="k">def</span> <span class="nf">get_activations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+
+        <span class="c1"># BEGIN students TODO</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="c1"># END students TODO</span>
+
+<span class="n">vgg</span> <span class="o">=</span> <span class="n">VGG</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cuda:&#39;</span><span class="p">,</span> <span class="n">cuda</span><span class="p">,</span> <span class="s1">&#39;device:&#39;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">vgg</span> <span class="o">=</span> <span class="n">vgg</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">vgg</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="now-calculate-the-gradients-of-a-prediction-w-r-t-the-activation-map">
+<h2>4.2 Now calculate the gradients of a prediction w.r.t. the activation map.<a class="headerlink" href="#now-calculate-the-gradients-of-a-prediction-w-r-t-the-activation-map" title="Link to this heading">#</a></h2>
+<p>We should perform a prediction with our newly defined model <mark>vgg</mark>, and perform a backward on the output (the logit of the prediction vector that is largest). After the backward, the gradients w.r.t the activation map are stored in self.gradient</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the most likely prediction of the model</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="n">pre_processing</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>          <span class="c1"># preprocess: image (normalise, transpose, make tensor on cuda, requires_grad=True)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">pred</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">vgg</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>                        <span class="c1"># prediction gives class 2 = shark, or 386 = elephant</span>
+                                           <span class="c1"># maybe work with softmax here too</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the gradient of the output with respect to the parameters of the model</span>
+<span class="n">output</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="activity-calculate-the-pooled-gradient-for-each-channel-and-return-it-in-a-variable-pooled-gradients">
+<h1>ACTIVITY - calculate the pooled gradient for each channel and return it in a variable <mark>pooled_gradients</mark><a class="headerlink" href="#activity-calculate-the-pooled-gradient-for-each-channel-and-return-it-in-a-variable-pooled-gradients" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pull the gradients out of the model</span>
+<span class="n">gradients</span> <span class="o">=</span> <span class="n">vgg</span><span class="o">.</span><span class="n">get_activations_gradient</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gradients:&#39;</span><span class="p">,</span> <span class="n">gradients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># pool the gradients across the channels</span>
+
+<span class="c1"># BEGIN TODO</span>
+<span class="c1"># Calculate the gradient weint and return it in a variable pooled_gradients</span>
+<span class="c1"># END TODO</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pooled gradients:&#39;</span><span class="p">,</span> <span class="n">pooled_gradients</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># get the activations of the last convolutional layer</span>
+<span class="n">activations</span> <span class="o">=</span> <span class="n">vgg</span><span class="o">.</span><span class="n">get_activations</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+<span class="c1"># weight the channels by corresponding gradients</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">512</span><span class="p">):</span>
+    <span class="n">activations</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="n">pooled_gradients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="c1"># average the channels of the activations</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+<span class="c1"># relu on top of the heatmap</span>
+<span class="c1"># expression (2) in https://arxiv.org/pdf/1610.02391.pdf</span>
+<span class="c1"># heatmap = np.maximum(heatmap, 0)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># normalize the heatmap</span>
+<span class="n">heatmap</span> <span class="o">/=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;heatmap:&#39;</span><span class="p">,</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># draw the heatmap</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># draw the image</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;img:&#39;</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">img</span><span class="o">/</span><span class="mi">255</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">heatmap</span><span class="p">)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">applyColorMap</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLORMAP_JET</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">img</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">heatmap</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">heatmap</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="n">super_img</span> <span class="o">=</span> <span class="n">heatmap</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="n">img</span> <span class="o">*</span> <span class="mf">0.6</span>
+<span class="n">super_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">super_img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">super_img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>#<strong>5. Integrated gradient</strong></p>
+<p>Path-attribution methods compare the current image to a reference image, which can be an artificial <em>zero</em> image such as a completely black image or random noise image.</p>
+<p>Let us consider the linear path between the baseline <span class="math notranslate nohighlight">\(\mathbf{x}^{'}\)</span> (black image or random noise) and our input image <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and compute all the points along this path using variable <span class="math notranslate nohighlight">\(a\)</span>. Integrated gradients (IG) are obtained by cumulating these gradients between the initial image and the gradual difference between the initial image with the baseline.</p>
+<p>Specifically, IG is defined as the path integral of the gradients along the straightline path from the baseline <span class="math notranslate nohighlight">\(\mathbf{x}^{'}\)</span> to the input <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p>The integral gradient for the <span class="math notranslate nohighlight">\(k^{\text{th}}\)</span> for an input <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and baseline <span class="math notranslate nohighlight">\(\mathbf{x}^{'}\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+IG_k(\mathbf{x}) =  \underbrace{({x}_i - {x}^{'}_i)}_{\text{Difference from baseline}} \overbrace{\int_{a=0}^{1} \frac{\partial \mathcal{F}( {\mathbf{x}}^{'} + a\times (\mathbf{x} -\mathbf{x}^{'}) )}{\partial x_i} \,da}^{\text{Accumulated  local gradients}}
+\]</div>
+<p>The baseline <span class="math notranslate nohighlight">\(\mathbf{x}^{'}\)</span>  represents the <mark>absence</mark> of a feature input.</p>
+<p>If we have a closer look in the above equation, IG accumulates gradients on images interpolated between the baseline value and the current input.</p>
+<p><strong>But why would doing this make sense?</strong> Recall that the gradient of a function represents the direction of maximum increase. The gradient is telling us which pixels have the steepest local slope with respect to the output. For this reason, the gradient of a network at the input was one of the earliest saliency methods.</p>
+<p>But using only the gradients for the visualization can lead to saturation problems. The gradients of input features may have small magnitudes around a sample even if the network depends heavily on those features. This can happen if the network function flattens after those features reach a certain magnitude. Intuitively, shifting the pixels in an image by a small amount typically doesn’t change what the network sees in the image.</p>
+<p>Hence, in IG, we really want to know is how our network got from predicting essentially nothing at <span class="math notranslate nohighlight">\(\mathbf{x}^{'}\)</span> to being completely saturated towards the correct output class at <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. Which pixels, when scaled along this path, most increased the network output for the correct class? This is exactly what the formula for integrated gradients gives us.</p>
+<p>By integrating over a path, integrated gradients avoids problems with local gradients being saturated. We can break the original equation down and visualize it in three separate parts:</p>
+<ul class="simple">
+<li><p>the interpolated image between the baseline image and the target image,</p></li>
+<li><p>the gradients at the interpolated image,</p></li>
+<li><p>and accumulating many such gradients over <span class="math notranslate nohighlight">\(\alpha\)</span>.</p></li>
+</ul>
+<p>Fortunately, instead of calculating the integral of integrated gradients we can approximate it via a summation. We can calculate it through the following equation:</p>
+<div class="math notranslate nohighlight">
+\[
+IG_k(\mathbf{x}) =  ({x}_i - {x}^{'}_i) \times  {\sum_{K=1}^{m} \frac{\partial F( \mathbf{x}^{'} + \frac{k}{m}\times (\mathbf{x} - \mathbf{x}^{'}) )}{\partial x_i} \times \frac{1}{m}}
+\]</div>
+<section id="calculate-integrated-gradients-recipe">
+<h2><strong>5.1 Calculate Integrated Gradients recipe</strong>.<a class="headerlink" href="#calculate-integrated-gradients-recipe" title="Link to this heading">#</a></h2>
+<p>Read first the literature on Integrated Gradients.</p>
+<p>Instructions for students:</p>
+<ul class="simple">
+<li><p><strong>Choose a baseline image</strong>. For this purpose we choose a black image.</p></li>
+<li><p><strong>Build a series of inputs to IG</strong>, each input consists of the baseline plus an additional fraction of the input image. The final IG input is the baseline plus the full image. Choose your fraction at 20.</p></li>
+<li><p>For each of these inputs, <strong>calculate the gradients of the input</strong> w.r.t. the prediction (using pre-defined methods). Take the average of all these gradients.</p></li>
+<li><p><strong>Calculate the difference of image and baseline</strong>: I-B. And calculate Integrated Gradient = (I-B)*average of gradients.</p></li>
+<li><p>If you have chosen another baseline, e.g. <em>uniform random</em> generated baseline, then perform this procedure for multiple samples.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># integrated gradients</span>
+<span class="k">def</span> <span class="nf">integrated_gradients</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">baseline</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="c1"># determine baseline</span>
+    <span class="k">if</span> <span class="n">baseline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">baseline</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">inputs</span>
+    <span class="c1"># scale inputs and compute gradients</span>
+    <span class="n">scaled_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">baseline</span> <span class="o">+</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="n">steps</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">inputs</span> <span class="o">-</span> <span class="n">baseline</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">grads</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calculate_outputs_and_gradients</span><span class="p">(</span><span class="n">scaled_inputs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+    <span class="n">avg_grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">grads</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">avg_grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">avg_grads</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">delta_X</span> <span class="o">=</span> <span class="p">(</span><span class="n">pre_processing</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span> <span class="o">-</span> <span class="n">pre_processing</span><span class="p">(</span><span class="n">baseline</span><span class="p">,</span> <span class="n">cuda</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">delta_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">delta_X</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">integrated_grad</span> <span class="o">=</span> <span class="n">delta_X</span> <span class="o">*</span> <span class="n">avg_grads</span>
+    <span class="k">return</span> <span class="n">integrated_grad</span>
+
+<span class="k">def</span> <span class="nf">random_baseline_integrated_gradients</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">num_random_trials</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># when baseline randomly generated, take some samples and average result</span>
+    <span class="n">all_intgrads</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">random_baseline</span> <span class="o">=</span> <span class="mf">255.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_random_trials</span><span class="p">):</span>
+        <span class="n">integrated_grad</span> <span class="o">=</span> <span class="n">integrated_gradients</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">target_label_idx</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="n">random_baseline</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="n">cuda</span><span class="p">)</span>
+        <span class="n">all_intgrads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">integrated_grad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the trial number is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">avg_intgrads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_intgrads</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">avg_intgrads</span>
+
+<span class="c1"># calculate the integrated gradients</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;img:&#39;</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s1">&#39;label_index&#39;</span><span class="p">,</span> <span class="n">label_index</span><span class="p">)</span>
+
+<span class="c1"># for zero baseline</span>
+<span class="n">int_gradients_zerobl</span> <span class="o">=</span> <span class="n">integrated_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">label_index</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="n">cuda</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DONE&#39;</span><span class="p">)</span>
+<span class="c1"># for random baselines, we average over number of trials</span>
+<span class="n">int_gradients_randombl</span> <span class="o">=</span> <span class="n">random_baseline_integrated_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">label_index</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_random_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cuda</span><span class="o">=</span><span class="n">cuda</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;DONE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>##<strong>Visualise the integrated gradients</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># visualise overall</span>
+
+<span class="c1"># calculate gradients</span>
+<span class="n">gradients</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calculate_outputs_and_gradients</span><span class="p">([</span><span class="n">img</span><span class="p">],</span> <span class="n">model</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cuda</span><span class="p">)</span>
+<span class="n">gradients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># combine it all in one image</span>
+<span class="n">plot_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="s1">&#39;The Image and Its Gradient Map&#39;</span><span class="p">)</span>
+<span class="n">plot_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">int_gradients_zerobl</span><span class="p">,</span> <span class="s1">&#39;Image and Integrated Gradients&#39;</span><span class="p">)</span>
+<span class="n">plot_gradients</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">int_gradients_randombl</span><span class="p">,</span> <span class="s1">&#39;Image and Integrated Gradients with Random Baseline&#39;</span><span class="p">)</span>
+
+<span class="c1">## By the way - I do not trust the results very much - integrated gradients seem to focus on pixels just above the elephants</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="homework-part-1-tosubmit">
+<h1><strong>Homework-part 1 <mark>TOSUBMIT</mark></strong>.<a class="headerlink" href="#homework-part-1-tosubmit" title="Link to this heading">#</a></h1>
+<p>Work for home:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1. Read the main article for IG
+2. Why do integrated gradients give better results than the other saliency methods?
+3. Think about the role of the baseline and how it negatively impacts the results.
+4. Which alternative baselines are more efficient than the black or random baseline? Write down the reasons for that and show some visual examples (show the result from two methods in comparison with the random and black baseline).
+</pre></div>
+</div>
+<p><mark>TOSUBMIT</mark> At the first paragraph of your report you should analyze this and answer 2-4. Then, add the requested image!</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./vision"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="vision_intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Speech Perception</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="vision_lab2_LIME.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Feature attribution for explainable AI in vision <mark>Part 1</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-environment">Set the environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-a-pretrained-cnn-model">1. Load a pretrained CNN model.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-preprocess-the-images">2. Load and preprocess the images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-class"><strong>2. Predict class</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-saliency-map"><strong>3.1 Visualise Saliency Map</strong>.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-fill-the-missing-code">ACTIVITY Fill the missing code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualise-the-saliency-map-gradients"><strong>3.2 Visualise the saliency map (gradients)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problems-with-saliency-maps-and-vanilla-gradient-saturation-issues"><strong>3.3 Problems with saliency maps and vanilla gradient (saturation issues)</strong>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grad-cam"><strong>4 Grad Cam</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-a-new-vgg-model-including-a-hook"><strong>4.1  Define a new VGG() model including a hook</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-fill-the-code">ACTIVITY Fill the code</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#now-calculate-the-gradients-of-a-prediction-w-r-t-the-activation-map">4.2 Now calculate the gradients of a prediction w.r.t. the activation map.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#activity-calculate-the-pooled-gradient-for-each-channel-and-return-it-in-a-variable-pooled-gradients">ACTIVITY - calculate the pooled gradient for each channel and return it in a variable <mark>pooled_gradients</mark></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-integrated-gradients-recipe"><strong>5.1 Calculate Integrated Gradients recipe</strong>.</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#homework-part-1-tosubmit"><strong>Homework-part 1 <mark>TOSUBMIT</mark></strong>.</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
