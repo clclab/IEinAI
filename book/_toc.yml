@@ -5,7 +5,7 @@ format: jb-book
 root: intro
 
 parts:
-  - caption: Workshop materials
+  - caption: Workshop Materials
     chapters:
       - file: week1/week1_intro
         sections:
