@@ -1,3 +1,3 @@
-# Speech Perception
+# Vision
 
-Welcome to the Speech Perception workshop!
+Welcome to the Vision workshop!

@@ -1,3 +1,3 @@
-# Speech Perception
+# Symbolic Regression
 
-Welcome to the Speech Perception workshop!
+Welcome to the Symbolic Regression workshop!
