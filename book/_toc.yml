@@ -18,7 +18,7 @@ parts:
       - file: mechinterp/mechinterp_intro
         sections:
           - file: mechinterp/mechinterp_lab
-      - file: symbolic/symbolic_intro
+      - file: symbolic/symbolic-regression_intro
         sections:
           - file: symbolic/symbolic_lab_DeepLTL
           - file: symbolic/symbolic_lab_probing
