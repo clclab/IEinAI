@@ -9,8 +9,8 @@ parts:
     chapters:
       - file: week1/week1_intro
         sections:
-          - file: week1/week1_lab1_probing
-          - file: week1/week1_lab2_attribution
+          - file: week1/w1a_IEinAi_probing_student_version
+          - file: week1/w1b_IEinAI_attribution_student_version
       - file: vision/vision_intro
         sections:
           - file: vision/vision_lab1_feature-attributions
