@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
   
@@ -59,11 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'week1/week1_lab1_probing';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'week1/w1a_IEinAi_probing_student_version';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Explaining by Removing: a thorough investigation of feature attributions for language models" href="week1_lab2_attribution.html" />
-    <link rel="prev" title="Week 1" href="week1_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,12 +180,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="week1_intro.html">Week 1</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Workshop 0: Introduction to Posthoc Interpretability</a></li>
-
-
-<li class="toctree-l2"><a class="reference internal" href="week1_lab2_attribution.html">Explaining by Removing: a thorough investigation of feature attributions for language models</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="week1_intro.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../vision/vision_intro.html">Vision</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -283,7 +279,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/docs/week1/week1_lab1_probing.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/clclab/IEinAI/blob/main/book/week1/w1a_IEinAi_probing_student_version.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -314,7 +310,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/clclab/IEinAI" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -331,7 +327,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fweek1/week1_lab1_probing.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/clclab/IEinAI/issues/new?title=Issue%20on%20page%20%2Fweek1/w1a_IEinAi_probing_student_version.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -361,7 +357,7 @@
       
       
       
-      <li><a href="../_sources/week1/week1_lab1_probing.ipynb" target="_blank"
+      <li><a href="../_sources/week1/w1a_IEinAi_probing_student_version.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -528,22 +524,17 @@ Note: answers to the questions marked as ToSubmit (and only those!) need to be s
 <p>And point add the directory in which you are running this notebook in the bottom of this cell.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="o">*</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span> 
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
 <span class="n">DEVICE</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
 
 <span class="c1"># Mount to drive so we can access our own files</span>
 <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
 <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mounted at /content/drive
 </pre></div>
 </div>
 </div>
@@ -561,26 +552,21 @@ Note: answers to the questions marked as ToSubmit (and only those!) need to be s
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMPORTANT: Point this towards the drive folder in which you have stored this notebook</span>
-<span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">drive</span><span class="o">/</span><span class="n">My</span> <span class="n">Drive</span><span class="o">/</span><span class="n">IEinAI</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMPORTANT: Point this towards the drive folder in which you have stored this notebook</span>
+<span class="o">%</span><span class="k">cd</span> /content/drive/My Drive/IEinAI
 
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">gdown</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>gdown
 <span class="c1"># Download a drive folder containing train.txt, dev.txt, and test.txt.</span>
 <span class="c1"># If you want to do this manually you can find the folder here:</span>
 <span class="c1"># https://drive.google.com/drive/folders/1UbiuZbIAPq30BvVgB4wg0z6imqaSNiIa?usp=sharing</span>
-<span class="err">!</span><span class="n">gdown</span> <span class="o">--</span><span class="n">folder</span> <span class="mi">1</span><span class="n">UbiuZbIAPq30BvVgB4wg0z6imqaSNiIa</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/content/drive/My Drive/IEinAI
+<span class="o">!</span>gdown<span class="w"> </span>--folder<span class="w"> </span>1UbiuZbIAPq30BvVgB4wg0z6imqaSNiIa
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nltk</span>
 
 <span class="k">def</span> <span class="nf">load_corpus</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">is_binary</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -631,10 +617,11 @@ Note: answers to the questions marked as ToSubmit (and only those!) need to be s
 <ul class="simple">
 <li><p>Look at a couple of sentences; e.g. sentence #117</p></li>
 <li><p>Look at the token labels and determine which of the words have negative (<span class="math notranslate nohighlight">\(&lt; 2\)</span>) and which have positive sentiment (<span class="math notranslate nohighlight">\(&gt;2\)</span>).</p></li>
+<li><p>Do the sentence labels always agree with the token labels?</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># your code here</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># your code here</span>
 </pre></div>
 </div>
 </div>
@@ -645,7 +632,7 @@ Include one example sentence (different from the one above) in your report, with
 <p>Furthermore, for the sake of simplicity we will only be considering words that are not split up into multiple subwords by the model tokenizer. (Current language models, such as the Transformer models that we look at in this Lab, make use of <strong>subword tokenization</strong>, which may split up a longer word into multiple subwords: <code class="docutils literal notranslate"><span class="pre">&quot;ungrateful&quot;</span></code> could become <code class="docutils literal notranslate"><span class="pre">&quot;un&quot;</span> <span class="pre">+</span> <span class="pre">&quot;grate&quot;</span> <span class="pre">+</span> <span class="pre">&quot;ful&quot;</span></code>. This makes probing a bit harder, because it’s hard to tell how sentiment is distributed over these multiple subwords).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Function to create a mask for sentiment-carrying words (needs access to model&#39;s tokenizer)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Function to create a mask for sentiment-carrying words (needs access to model&#39;s tokenizer)</span>
 
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -690,7 +677,7 @@ Include one example sentence (different from the one above) in your report, with
 <p>For loading the models we will be making use of Huggingface’s transformer library, that has become the de facto standard for transformer models within NLP.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>transformers
 
 <span class="kn">import</span> <span class="nn">transformers</span>
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForSequenceClassification</span>
@@ -720,7 +707,7 @@ Include one example sentence (different from the one above) in your report, with
 In the diagram above you see a sketch of the typical Transformer setup for sentence classifications. As indicated, the CLS token in the output layer is typically used to determine the class (e.g. the sentiment class) of the whole sentence. Which other hidden states would be interesting targets for probing?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Key functions for extracting the hidden states (for a given set of sentences)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Key functions for extracting the hidden states (for a given set of sentences)</span>
 
 <span class="k">def</span> <span class="nf">extract_hidden_states</span><span class="p">(</span>
     <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">all_sen_masks</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
@@ -784,7 +771,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 <hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Key functions for creating the probing datasets</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Key functions for creating the probing datasets</span>
 <span class="k">def</span> <span class="nf">preprocess_cls_data</span><span class="p">(</span>
     <span class="n">cls_states</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">sentence_labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">is_binary</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">):</span>
@@ -796,6 +783,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 
     <span class="c1"># Map fine-grained sentiments to binary labels</span>
     <span class="k">if</span> <span class="n">is_binary</span><span class="p">:</span>
+        <span class="c1"># Your code here</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">return</span> <span class="n">cls_states</span><span class="p">,</span> <span class="n">sentence_labels</span>
@@ -841,7 +829,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Compute and store internal states (Note that running this cell may take a few minutes (and again, make sure GPU is enabled!))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Compute and store internal states (Note that running this cell may take a few minutes (and again, make sure GPU is enabled!))</span>
 
 <span class="n">sentiments</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">is_binary</span> <span class="o">=</span> <span class="kc">True</span>
@@ -858,6 +846,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
     <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
     <span class="n">num_layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">roberta</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layer</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)</span>
 
     <span class="n">train_X</span><span class="p">,</span> <span class="n">cls_train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">cls_train_y</span> <span class="o">=</span> <span class="n">create_probe_data</span><span class="p">(</span>
         <span class="s2">&quot;data/train.txt&quot;</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">sentiments</span><span class="p">,</span> <span class="n">is_binary</span>
@@ -867,7 +856,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
     <span class="p">)</span>
 
     <span class="n">data_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;train_X&quot;</span><span class="p">:</span> <span class="n">train_X</span><span class="p">,</span>  <span class="c1"># Dictionary mapping layer_idx -&gt; tensor </span>
+        <span class="s2">&quot;train_X&quot;</span><span class="p">:</span> <span class="n">train_X</span><span class="p">,</span>  <span class="c1"># Dictionary mapping layer_idx -&gt; tensor</span>
         <span class="s2">&quot;train_y&quot;</span><span class="p">:</span> <span class="n">train_y</span><span class="p">,</span>
         <span class="s2">&quot;test_X&quot;</span><span class="p">:</span> <span class="n">test_X</span><span class="p">,</span>
         <span class="s2">&quot;test_y&quot;</span><span class="p">:</span> <span class="n">test_y</span><span class="p">,</span>
@@ -883,9 +872,9 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 <p>Instead of extracting the hidden states manually, you can also download them directly by running the following cell:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Download and store precomputed hidden states</span>
-<span class="c1"># Stores the hidden states as a data_dict.pt file. </span>
-<span class="err">!</span><span class="n">gdown</span> <span class="mi">1</span><span class="n">vFNdE6iHguHoddWbj640w7DRQSkY8F</span><span class="o">-</span><span class="n">c</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Download and store precomputed hidden states</span>
+<span class="c1"># Stores the hidden states as a data_dict.pt file.</span>
+<span class="o">!</span>gdown<span class="w"> </span>1vFNdE6iHguHoddWbj640w7DRQSkY8F-c
 
 <span class="c1"># In case gdown gives an error (this happens if too many people download it), you can also try the following:</span>
 <span class="c1"># !wget -O data_dict.pt https://surfdrive.surf.nl/files/index.php/s/9RLi10OFNIxzIhf/download</span>
@@ -903,15 +892,13 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 <p>You will train a probes on all the intermediate layers as well (that is, a separate probe for each layer, don’t train a single probe on all layers at once).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
-
-<span class="n">num_layers</span><span class="o">=</span><span class="mi">12</span>
 
 <span class="n">cls_probes</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="p">{</span>
@@ -930,14 +917,14 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
     <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
         <span class="c1"># Skip neutral sentence and binarise sentiment classification</span>
         <span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_train_X&quot;</span><span class="p">][</span><span class="n">layer_idx</span><span class="p">],</span> 
+            <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_train_X&quot;</span><span class="p">][</span><span class="n">layer_idx</span><span class="p">],</span>
             <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_train_y&quot;</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="n">cls_probes</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="n">layer_idx</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
 
         <span class="n">test_X</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_test_X&quot;</span><span class="p">][</span><span class="n">layer_idx</span><span class="p">],</span> 
+            <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_test_X&quot;</span><span class="p">][</span><span class="n">layer_idx</span><span class="p">],</span>
             <span class="n">data_dict</span><span class="p">[</span><span class="n">model_name</span><span class="p">][</span><span class="s2">&quot;cls_test_y&quot;</span><span class="p">]</span>
         <span class="p">)</span>
 
@@ -951,7 +938,7 @@ In the diagram above you see a sketch of the typical Transformer setup for sente
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Plotting these results</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Plotting these results</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -976,13 +963,13 @@ What differences do you observe between the fine-tuned model and the base model 
 <p>(i.e. you need to adapt the code above, such that you do not read <code class="docutils literal notranslate"><span class="pre">cls_train_x</span></code> etc from the probing dataset, but read the internal states from nodes for sentiment-carrying words instead).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Your code for probing the word-level states</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Your code for probing the word-level states</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p><font color='red'><b>ToSubmit 2:</b></font></p>
-<p>Include a plot in your Workshop-0 Report that shows both the sentence-level (CLS) and the word-level probing results.</p>
+<p>Include a plot in your Workshop-0 Report that shows both the sentence-level (CLS) and the word-level probing results. Add a caption of 1-2 sentences, describing the difference that we observe between both models.</p>
 <p><font color='blue'><b>ToThink 3</b></font></p>
 <p>What differences do you observe between the fine-tuned model and the base model?</p>
 <p>Finally, we can also use a probe that has been trained on one type of representation (e.g. on <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">#3</span></code>), and evaluate that probe on a different representation (e.g. that of <code class="docutils literal notranslate"><span class="pre">layer</span> <span class="pre">#9</span></code>).</p>
@@ -996,7 +983,7 @@ What differences do you observe between the fine-tuned model and the base model 
 <p>Write the code for computing cross-layer accuracy for all combinations of layers.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## Your code for computing the cross-layer accuracy</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Your code for computing the cross-layer accuracy</span>
 </pre></div>
 </div>
 </div>
@@ -1043,24 +1030,6 @@ Include in your report a plot of the cross-accuracy matrix: the matrix that give
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="week1_intro.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Week 1</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="week1_lab2_attribution.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Explaining by Removing: a thorough investigation of feature attributions for language models</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Explaining by Removing: a thorough investigation of feature attributions for language models &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+    <title>Feature Attribution for Language Models - Approaches and Evaluation &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
   
@@ -59,11 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'week1/week1_lab2_attribution';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'week1/w1b_IEinAI_attribution_student_version';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Vision" href="../vision/vision_intro.html" />
-    <link rel="prev" title="Workshop 0: Introduction to Posthoc Interpretability" href="week1_lab1_probing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,12 +180,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="week1_intro.html">Week 1</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="week1_lab1_probing.html">Workshop 0: Introduction to Posthoc Interpretability</a></li>
-
-
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Explaining by Removing: a thorough investigation of feature attributions for language models</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="week1_intro.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../vision/vision_intro.html">Vision</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -283,7 +279,7 @@
       
       
       
-      <li><a href="https://colab.research.google.com/github/executablebooks/jupyter-book/blob/master/docs/week1/week1_lab2_attribution.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/clclab/IEinAI/blob/main/book/week1/w1b_IEinAI_attribution_student_version.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -314,7 +310,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+      <li><a href="https://github.com/clclab/IEinAI" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -331,7 +327,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fweek1/week1_lab2_attribution.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/clclab/IEinAI/issues/new?title=Issue%20on%20page%20%2Fweek1/w1b_IEinAI_attribution_student_version.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -361,7 +357,7 @@
       
       
       
-      <li><a href="../_sources/week1/week1_lab2_attribution.ipynb" target="_blank"
+      <li><a href="../_sources/week1/w1b_IEinAI_attribution_student_version.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -445,7 +441,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Explaining by Removing: a thorough investigation of feature attributions for language models</h1>
+    <h1>Feature Attribution for Language Models - Approaches and Evaluation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -481,8 +477,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="explaining-by-removing-a-thorough-investigation-of-feature-attributions-for-language-models">
-<h1>Explaining by Removing: a thorough investigation of feature attributions for language models<a class="headerlink" href="#explaining-by-removing-a-thorough-investigation-of-feature-attributions-for-language-models" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="feature-attribution-for-language-models-approaches-and-evaluation">
+<h1>Feature Attribution for Language Models - Approaches and Evaluation<a class="headerlink" href="#feature-attribution-for-language-models-approaches-and-evaluation" title="Link to this heading">#</a></h1>
 <p><em>Assignment created by <strong>Jaap Jumelet</strong>, with additional help from <strong>Tom Kersten</strong> and <strong>Jelle Zuidema</strong>. Part of the UvA AI MSc course Interpretability &amp; Explainability in AI, June 2022. Updated to fit within one werkcollege by <strong>Maria Heuss</strong> (June 2024).</em></p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
@@ -527,14 +523,6 @@ document.write(`
 
 <span class="c1"># We use a fine-tuned roberta model in our experiments</span>
 <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;textattack/roberta-base-SST-2&quot;</span><span class="p">)</span>
-
-<span class="c1"># Append a zero-valued embedding that can be used as a baseline later on</span>
-<span class="n">orig_embs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">roberta</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span>
-<span class="n">new_embs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">orig_embs</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">orig_embs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)))</span>
-<span class="n">model</span><span class="o">.</span><span class="n">roberta</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">new_embs</span>
-<span class="n">model</span><span class="o">.</span><span class="n">roberta</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">num_embeddings</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="n">zero_id</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">50265</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -552,10 +540,10 @@ document.write(`
 <span class="c1"># We still need to encode the raw sentences based on the tokenizer we&#39;re using</span>
 <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
     <span class="n">encoded</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
-        <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span> 
-        <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span> 
-        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-        <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> 
+        <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+        <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;longest&quot;</span><span class="p">,</span>
+        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
         <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span>
     <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
@@ -571,7 +559,8 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">detokenize</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">single_string</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert tokenized text back to a human-readable format.</span>
+<span class="sd">    Convert tokenized text back to a human-readable format. We will use this</span>
+<span class="sd">    function to make our examples easier to read.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">    tokens (list of str): The tokenized text.</span>
@@ -605,7 +594,7 @@ document.write(`
 <p><font color='green'><b>ToDo 2</b></font></p>
 <ul class="simple">
 <li><p>Produce a prediction using the model for the first sentence in the dataset in the test set. What sentiment is being predicted? Does this agree with the actual sentiment label?</p></li>
-<li><p>List 5 sentences from the test set for which the model produces <strong>incorrect</strong> predictions (in the test set).</p></li>
+<li><p>List the first 5 sentences from the test set for which the model produces <strong>incorrect</strong> predictions (in the test set).</p></li>
 </ul>
 <p><font color='red'><b>ToSubmit 1</b></font>
 The list of 5 sentences you have found on which the model makes an incorrect prediction. Add a brief caption to the listing in which you state some patterns that you observe (max 50 words).</p>
@@ -623,8 +612,6 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
     <span class="n">probabilities</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">predicted_class</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">predicted_class</span><span class="p">,</span> <span class="n">probabilities</span>
-
-<span class="c1"># Your code here (Get the predicted class). </span>
 </pre></div>
 </div>
 </div>
@@ -646,7 +633,7 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
 <li><p>Integrated Gradients</p></li>
 <li><p>KernelShap</p></li>
 </ul>
-<p>To make sure these four methods are compatible with subsequent evaluation procedures, we will let each instantiation inherit from an abstract <code class="docutils literal notranslate"><span class="pre">FeatureAttributor</span></code> class. Note that this class also contains a method to retrieve the model logits, which may be of use in your implementation of the attribution methods.</p>
+<p>To make sure these four methods are compatible with subsequent evaluation procedures, we will let each instantiation inherit from an abstract <code class="docutils literal notranslate"><span class="pre">FeatureAttributor</span></code> class. Note that this class also contains a method to retrieve the model logits, which may be of use in your implementation of the attribution methods. We will generate explanations based on the change of logits, rather than the change in class probability.</p>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">visualize_attribution</span></code> method to visualize the attributions for a particular method.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -662,9 +649,9 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">attribute</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
-        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -687,7 +674,6 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
-
     <span class="k">def</span> <span class="nf">logits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">squeeze_output</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">squeeze_output</span><span class="p">:</span>
@@ -698,11 +684,12 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
               <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">logits</span>
             <span class="k">else</span><span class="p">:</span>
               <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">logits</span><span class="p">[:,</span> <span class="n">target</span><span class="p">]</span>
-            
+
         <span class="k">if</span> <span class="n">squeeze_output</span><span class="p">:</span>
             <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">logits</span>
+
 
 <span class="k">def</span> <span class="nf">visualize_attribution</span><span class="p">(</span><span class="n">sen</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">attributions</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">human_readable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="n">attributions</span> <span class="o">=</span> <span class="n">attributions</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
@@ -710,7 +697,7 @@ The list of 5 sentences you have found on which the model makes an incorrect pre
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">attributions</span> <span class="o">/=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">attributions</span><span class="o">.</span><span class="n">abs</span><span class="p">())</span>
 
-    <span class="k">if</span> <span class="n">human_readable</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">human_readable</span><span class="p">:</span>
         <span class="n">sen</span> <span class="o">=</span> <span class="n">detokenize</span><span class="p">(</span><span class="n">sen</span><span class="p">,</span> <span class="n">single_string</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">raw_html</span> <span class="o">=</span> <span class="n">visualization</span><span class="o">.</span><span class="n">format_word_importances</span><span class="p">(</span>
@@ -734,9 +721,9 @@ Implement the ablation attribution method below. You can test your method on the
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AblationAttributor</span><span class="p">(</span><span class="n">FeatureAttributor</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">attribute</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
-        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="c1"># Your code for computing feature ablation</span>
@@ -832,7 +819,7 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 <span class="sd">            shape: (2**sen_len,)</span>
 <span class="sd">            The output logit for each coalition</span>
 <span class="sd">        coalition_to_index : Dict[Tuple[int], int]</span>
-<span class="sd">            Dictionary mapping a coalition tuple to its index in the </span>
+<span class="sd">            Dictionary mapping a coalition tuple to its index in the</span>
 <span class="sd">            coalition_logits tensor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sen_len</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -878,7 +865,7 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 <p>Directly computing Shapley values is an expensive process, as it scales exponentially with the size of the input. Because of this, computing Shapley values for larger inputs becomes infeasible, especially over larger datasets. As such, approximations are needed to compute these values.</p>
 <p>KernelSHAP (<a class="reference external" href="https://arxiv.org/abs/1705.07874">Lundberg and Lee, 2017</a>) is one such approximation. It seeks to reduce the complexity to a managable scale by using a different approach called LIME (<a class="reference external" href="https://arxiv.org/abs/1602.04938">Ribeiro, Singh, and Guestrin, 2016</a>). LIME seeks to produce a linear approximation of a model, and inspect this surrogate model. It trains a linear model on a simplified input, noting the presence or absence of individual training features, which produces a model which is able to mimic the original model. However, for this process a loss function, weighing kernel and a regularization term are needed. In Lunderberg and Lee (2017), they show that by carefully choosing these parameters, the regression coefficients of the model resemble the Shapley values corresponding to these.</p>
 <p><font color='green'><b>ToDo 5</b></font>
-Fill in the missing part in <code class="docutils literal notranslate"><span class="pre">ShapAttributor.attribute</span></code> below. You can make use of the <code class="docutils literal notranslate"><span class="pre">captum</span></code> implementation of KernelSHAP (check out the API <a class="reference external" href="https://captum.ai/api/kernel_shap.html">here</a>).</p>
+Fill in the missing part in <code class="docutils literal notranslate"><span class="pre">ShapAttributor.attribute</span></code> below. You can make use of the <code class="docutils literal notranslate"><span class="pre">captum</span></code> implementation of KernelSHAP (check out the API <a class="reference external" href="https://captum.ai/api/kernel_shap.html">here</a>). Experiment with the number of coalitions that are being sampled (n_samples) and make sure the estimation is fairly stable.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">captum.attr</span> <span class="kn">import</span> <span class="n">KernelShap</span>
@@ -887,18 +874,17 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 
 <span class="k">class</span> <span class="nc">ShapAttributor</span><span class="p">(</span><span class="n">FeatureAttributor</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">attribute</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
-        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
+        <span class="n">baseline_ids</span> <span class="o">=</span> <span class="n">baseline_ids</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">ks</span> <span class="o">=</span> <span class="n">KernelShap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logits</span><span class="p">)</span>
-        <span class="n">attributions</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">attribute</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">attributions</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
+        <span class="c1"># Your code here</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <span class="n">shap_attributor</span> <span class="o">=</span> <span class="n">ShapAttributor</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="n">shap_attributions</span> <span class="o">=</span> <span class="n">shap_attributor</span><span class="o">.</span><span class="n">attribute</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">baseline_ids</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
@@ -916,7 +902,7 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 <p>As you can read in the original paper of IG, this path integral actually approximates a quantity from game theory as well, the Aumann-Shapley value, which can roughly be understood as the extension of the (discrete) Shapley value to the case in which the players are continuous. Fairly vague and hard to wrap your head around, so don’t worry to much about it 😃.</p>
 <p><font color='green'><b>ToDo 6</b></font>
 Fill in the missing part in <code class="docutils literal notranslate"><span class="pre">IGAttributor.attribute</span></code> below. You can make use of the <code class="docutils literal notranslate"><span class="pre">captum</span></code> implementation of Integrated Gradients. Make sure to have a look at the documentation of their implementation here: <a class="reference external" href="https://captum.ai/api/integrated_gradients.html">https://captum.ai/api/integrated_gradients.html</a></p>
-<p>Important to keep in mind is that Integrated Gradients operate on the embedding space, and as such the method expects the input to be the word embeddings, and not the input ids. You can access the word embeddings of RoBERTa as follows: <code class="docutils literal notranslate"><span class="pre">model.roberta.embeddings.word_embeddings(..)</span></code></p>
+<p>Important to keep in mind is that Integrated Gradients operate on the embedding space, and as such the method expects the input to be the word embeddings, and not the input ids. You can access the word embeddings of RoBERTa as follows: <code class="docutils literal notranslate"><span class="pre">model.roberta.embeddings.word_embeddings(..)</span></code> To get back to token-level attributes, we take the sum of the attribution values over the dimensions of the embedding for each individual token.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">captum.attr</span> <span class="kn">import</span> <span class="n">IntegratedGradients</span>
@@ -928,9 +914,9 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 
 <span class="k">class</span> <span class="nc">IGAttributor</span><span class="p">(</span><span class="n">FeatureAttributor</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">attribute</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> 
-        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
-        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">baseline_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -938,16 +924,18 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
         <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">baseline_ids</span> <span class="o">=</span> <span class="n">baseline_ids</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="c1"># Get the word embeddings for input and baseline </span>
+        <span class="c1"># Get the word embeddings for input and baseline</span>
 
-        <span class="c1"># Use the model_forward from above for initialization of IntegratedGradients  </span>
+        <span class="c1"># Use the model_forward from above for the initialization of IntegratedGradients</span>
 
-        <span class="c1"># Determine attributions </span>
+        <span class="c1"># Determine attributions</span>
 
-        <span class="c1"># Apply L2 norm to the attribution values for each vector sample</span>
-        <span class="n">word_attributions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">attributions</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="n">word_attributions</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="c1"># Take the sum over the feature attributes for each individual token</span>
+
+        <span class="k">return</span> <span class="n">ig_attributions</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+
+
 
 
 <span class="n">ig_attributor</span> <span class="o">=</span> <span class="n">IGAttributor</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -979,7 +967,7 @@ Fill in the missing part in <code class="docutils literal notranslate"><span cla
 <p>Sufficiency (<a class="reference external" href="https://aclanthology.org/2020.acl-main.408/">DeYoung et al, 2020</a>) is the average difference of the change in predicated class probability before and after keeping only the top k% of tokens according to the used attribution method. This method is very similar to Comprehensiveness, but flips the premise and seeks to identify how much information is captured in only the top k% of tokens. This score is defined similarly to Comprehensiveness, only changing <span class="math notranslate nohighlight">\(x_{i}^{(k)}\)</span> to mean the modififed sentence with only the top k% tokens.</p>
 <p>A common value for <span class="math notranslate nohighlight">\(k\)</span> is <span class="math notranslate nohighlight">\(20\%\)</span>.</p>
 <p><font color='green'><b>ToDo 7</b></font>
-Fill in the three methods for comprehensiveness, and sufficiency below.</p>
+Fill in the two methods for comprehensiveness, and sufficiency below.</p>
 <p><font color='green'><b>ToDo 8</b></font>
 Compute the methods for the example sentence we have been using. You can compute the metrics with relation to the target label. Do you observe any differences between the methods?</p>
 <p><font color='blue'><b>ToThink</b></font>
@@ -989,12 +977,11 @@ What impact does a token like <em>not</em> have on the evaluation scores? Can at
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">comprehensiveness</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">attributions</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-
 <span class="k">def</span> <span class="nf">sufficiency</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">attributions</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 
-<span class="n">evaluate</span> <span class="o">=</span> <span class="n">comprehensiveness</span>
+<span class="n">evaluate</span> <span class="o">=</span> <span class="n">sufficiency</span>
 <span class="n">sen_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">attributions</span> <span class="ow">in</span> <span class="p">[</span>
@@ -1011,16 +998,18 @@ What impact does a token like <em>not</em> have on the evaluation scores? Can at
 <p>We now have all the steps in place to evaluate our attribution methods on a corpus, and compute its faithfulness using the three methods we have defined in the previous step.</p>
 <p>Because of the computational constraints of the exact Shapley Values, we will leave out this method here, and rely on the approximation provided by KernelSHAP.</p>
 <p><font color='red'><b>ToSubmit 2</b></font>
-Create a table for the attribution evaluation scores with an attribution method on each row, and an evaluation method on each column. Your table will be 3x2: three attribution methods, and 2 evaluation methods. To save computation time you may opt to compute this table on a subset of the test set (say, 300 items). Write a brief caption that describes the general patterns that you observe here.</p>
+Create a table for the attribution evaluation scores with an attribution method on each row, and an evaluation method on each column. Your table will be 3x2: three attribution methods, and 2 evaluation methods. To save computation time you may opt to compute this table on a subset of the test set of the first 300 items. Write a brief caption that describes the general patterns that you observe here.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">attributor</span><span class="p">,</span> <span class="n">attributor_name</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">notebook</span>
+
+<span class="k">def</span> <span class="nf">evaluate_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">attributor</span><span class="p">,</span> <span class="n">attributor_name</span><span class="p">):</span>
     <span class="n">all_attributions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">scores_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;comp&quot;</span><span class="p">,</span> <span class="s2">&quot;suff&quot;</span><span class="p">])</span>
 
     <span class="k">for</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">notebook</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span>
-        <span class="n">corpus</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span> 
-        <span class="n">corpus</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">],</span> 
+        <span class="n">corpus</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span>
+        <span class="n">corpus</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">],</span>
         <span class="n">corpus</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
     <span class="p">)):</span>
         <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">[</span><span class="n">attention_mask</span><span class="o">.</span><span class="n">bool</span><span class="p">()]</span>
@@ -1030,19 +1019,19 @@ Create a table for the attribution evaluation scores with an attribution method 
 
         <span class="n">comp_score</span> <span class="o">=</span> <span class="n">comprehensiveness</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">attributions</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
         <span class="n">suff_score</span> <span class="o">=</span> <span class="n">sufficiency</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">attributions</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-        
+
         <span class="n">entry</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">attributor_name</span><span class="p">,</span> <span class="n">comp_score</span><span class="p">,</span> <span class="n">suff_score</span><span class="p">],</span> 
+            <span class="p">[</span><span class="n">attributor_name</span><span class="p">,</span> <span class="n">comp_score</span><span class="p">,</span> <span class="n">suff_score</span><span class="p">],</span>
             <span class="n">index</span><span class="o">=</span><span class="n">scores_df</span><span class="o">.</span><span class="n">columns</span>
         <span class="p">)</span>
-        <span class="n">scores_df</span> <span class="o">=</span> <span class="n">scores_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">scores_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">scores_df</span><span class="p">)]</span> <span class="o">=</span> <span class="n">entry</span>
 
         <span class="n">all_attributions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attributions</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">all_attributions</span><span class="p">,</span> <span class="n">scores_df</span>
 
 
-<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">sample_size</span> <span class="o">=</span> <span class="mi">300</span>
 <span class="n">sample</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">][:</span><span class="n">sample_size</span><span class="p">]</span>
 
 <span class="n">ablation_attributions</span><span class="p">,</span> <span class="n">ablation_df</span> <span class="o">=</span> <span class="n">evaluate_corpus</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ablation_attributor</span><span class="p">,</span> <span class="s2">&quot;ablation&quot;</span><span class="p">)</span>
@@ -1062,7 +1051,8 @@ Using the attributions you have computed, perform a more in-depth analysis. You 
 <li><p>Are there sentences where one attribution method scores much better than the others?</p></li>
 <li><p>Related to the ToThink question of above: how do attribution methods with word interactions like negation (<em>not bad at all</em>) and adverbials (<em>incredibly bad</em>)? How do such interactions impact attribution evaluation methods?</p></li>
 </ul>
-<p>Think of <em>a single hypothesis</em> that you aim to address. The questions raised above may help you aid in formulating this hypothesis, but you can think of something yourself as well. The main goal here, on the one hand, is to use our attribution scores to obtain a better understanding of our model, yet on the other hand, to understand whether the evaluation methods are a valid way of measuring faithfulness.</p>
+<p>Think of <em>a single hypothesis</em> that you aim to address. The questions raised above may help you aid in formulating this hypothesis, but you can think of something yourself as well. The main goal here, on the one hand, is to use our attribution scores to obtain a better understanding of our model, yet on the other hand, to understand whether the evaluation methods are a valid way of measuring faithfulness. Your results can also be negative, meaning your hypothesis seems to be not supported.</p>
+<p>For your report, submit the hypothesis that you are investigating, <strong>one</strong> sentence together with the feature attributions and a 1-3 sentence discussion on whether the hypothesis is supported by the qualitative example and why.</p>
 </section>
 </section>
 </section>
@@ -1097,24 +1087,6 @@ Using the attributions you have computed, perform a more in-depth analysis. You 
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="week1_lab1_probing.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Workshop 0: Introduction to Posthoc Interpretability</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="../vision/vision_intro.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Vision</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
