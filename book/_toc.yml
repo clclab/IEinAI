@@ -11,21 +11,21 @@ parts:
         sections:
           - file: week1/w1a_IEinAi_probing_student_version
           - file: week1/w1b_IEinAI_attribution_student_version
-      - file: vision/vision_intro
-        sections:
-          - file: vision/vision_lab1_feature-attributions
-          - file: vision/vision_lab2_LIME
-      - file: mechinterp/mechinterp_intro
-        sections:
-          - file: mechinterp/mechinterp_lab
-      - file: symbolic/symbolic-regression_intro
-        sections:
-          - file: symbolic/symbolic_lab_DeepLTL
-          - file: symbolic/symbolic_lab_probing
-      - file: speech-perception/speech-perception_intro
-        sections:
-          - file: speech-perception/speech-perception_lab1
-          - file: speech-perception/speech-perception_lab2_placeholder
-      - file: music-speech-generation/music-speech-generation_intro
-        sections:
-          - file: music-speech-generation/music-speech-generation_lab_placeholder
+      # - file: vision/vision_intro
+      #   sections:
+      #     - file: vision/vision_lab1_feature-attributions
+      #     - file: vision/vision_lab2_LIME
+      # - file: mechinterp/mechinterp_intro
+      #   sections:
+      #     - file: mechinterp/mechinterp_lab
+      # - file: symbolic/symbolic-regression_intro
+      #   sections:
+      #     - file: symbolic/symbolic_lab_DeepLTL
+      #     - file: symbolic/symbolic_lab_probing
+      # - file: speech-perception/speech-perception_intro
+      #   sections:
+      #     - file: speech-perception/speech-perception_lab1
+      #     - file: speech-perception/speech-perception_lab2_placeholder
+      # - file: music-speech-generation/music-speech-generation_intro
+      #   sections:
+      #     - file: music-speech-generation/music-speech-generation_lab_placeholder
