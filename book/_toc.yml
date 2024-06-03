@@ -15,9 +15,9 @@ parts:
       #   sections:
       #     - file: vision/vision_lab1_feature-attributions
       #     - file: vision/vision_lab2_LIME
-      # - file: mechinterp/mechinterp_intro
-      #   sections:
-      #     - file: mechinterp/mechinterp_lab
+      - file: mechinterp/mechinterp_intro
+        sections:
+          - file: mechinterp/mechinterp_lab
       # - file: symbolic/symbolic-regression_intro
       #   sections:
       #     - file: symbolic/symbolic_lab_DeepLTL
