@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Feature Attribution for Language Models - Approaches and Evaluation &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+    <title>1.2: Feature Attribution for Language Models — Approaches and Evaluation &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
   
   
   
@@ -62,8 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'week1/w1b_IEinAI_attribution_student_version';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Vision" href="../vision/vision_intro.html" />
-    <link rel="prev" title="Workshop 0: Introduction to Posthoc Interpretability" href="w1a_IEinAi_probing_student_version.html" />
+    <link rel="prev" title="1.1: Introduction to Posthoc Interpretability" href="w1a_IEinAi_probing_student_version.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -182,51 +181,10 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="week1_intro.html">Week 1</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="w1a_IEinAi_probing_student_version.html">Workshop 0: Introduction to Posthoc Interpretability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="w1a_IEinAi_probing_student_version.html">1.1: Introduction to Posthoc Interpretability</a></li>
 
 
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Feature Attribution for Language Models - Approaches and Evaluation</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../vision/vision_intro.html">Vision</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../vision/vision_lab1_feature-attributions.html">Feature attribution for explainable AI in vision <mark>Part 1</mark></a></li>
-
-
-
-
-<li class="toctree-l2"><a class="reference internal" href="../vision/vision_lab2_LIME.html">Feature attribution for explainable AI in vision (LIME) <mark>Part 2</mark></a></li>
-
-
-
-
-
-
-
-
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../mechinterp/mechinterp_intro.html">Mechanistic Interpretability</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../mechinterp/mechinterp_lab.html">Mechanistic Interpretability</a></li>
-
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../symbolic/symbolic-regression_intro.html">Symbolic Regression</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../symbolic/symbolic_lab_DeepLTL.html">Week 3 Lab 1: DeepLTL data analysis (I)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../symbolic/symbolic_lab_probing.html">Investigating how Transformers learn propositional logic</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../speech-perception/speech-perception_intro.html">Speech Perception</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab1.html">Workshop Week 1: Introduction to Posthoc Interpretability</a></li>
-
-
-
-
-
-<li class="toctree-l2"><a class="reference internal" href="../speech-perception/speech-perception_lab2_placeholder.html">Speech perception lab 2 placeholder</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../music-speech-generation/music-speech-generation_intro.html">Music &amp; Speech Generation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../music-speech-generation/music-speech-generation_lab_placeholder.html">Music &amp; Speech Generation lab placeholder</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1.2: Feature Attribution for Language Models — Approaches and Evaluation</a></li>
 </ul>
 </details></li>
 </ul>
@@ -445,7 +403,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Feature Attribution for Language Models - Approaches and Evaluation</h1>
+    <h1>1.2: Feature Attribution for Language Models — Approaches and Evaluation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -485,7 +443,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="feature-attribution-for-language-models-approaches-and-evaluation">
-<h1>Feature Attribution for Language Models - Approaches and Evaluation<a class="headerlink" href="#feature-attribution-for-language-models-approaches-and-evaluation" title="Link to this heading">#</a></h1>
+<h1>1.2: Feature Attribution for Language Models — Approaches and Evaluation<a class="headerlink" href="#feature-attribution-for-language-models-approaches-and-evaluation" title="Link to this heading">#</a></h1>
 <p><em>Assignment created by <strong>Jaap Jumelet</strong>, with additional help from <strong>Tom Kersten</strong> and <strong>Jelle Zuidema</strong>. Part of the UvA AI MSc course Interpretability &amp; Explainability in AI, June 2022. Updated to fit within one werkcollege by <strong>Maria Heuss</strong> (June 2024).</em></p>
 <section id="when-to-start-working-on-this-lab">
 <h2>When to start working on this lab<a class="headerlink" href="#when-to-start-working-on-this-lab" title="Link to this heading">#</a></h2>
@@ -1104,17 +1062,8 @@ Using the attributions you have computed, perform a more in-depth analysis. You 
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Workshop 0: Introduction to Posthoc Interpretability</p>
+        <p class="prev-next-title">1.1: Introduction to Posthoc Interpretability</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="../vision/vision_intro.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Vision</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
