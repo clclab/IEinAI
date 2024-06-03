@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'mechinterp/mechinterp_lab';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Mechanistic Interpretability" href="mechinterp_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,12 +179,17 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../week1/week1_intro.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../week1/w1a_IEinAi_probing_student_version.html">1.1: Introduction to Posthoc Interpretability</a></li>
 
 
 <li class="toctree-l2"><a class="reference internal" href="../week1/w1b_IEinAI_attribution_student_version.html">1.2: Feature Attribution for Language Models — Approaches and Evaluation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="mechinterp_intro.html">Mechanistic Interpretability</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Mechanistic Interpretability</a></li>
+
 </ul>
 </details></li>
 </ul>
@@ -479,7 +483,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus">6. Bonus</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-complicated-ablation-paths-through-the-computational-graph">More complicated ablation paths through the computational graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5. Bonus</a></li>
 </ul>
 </li>
 </ul>
@@ -496,7 +500,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="mechanistic-interpretability">
 <h1>Mechanistic Interpretability<a class="headerlink" href="#mechanistic-interpretability" title="Link to this heading">#</a></h1>
-<p><strong>TAs: Michael Hanna &amp; Oskar van der Wal</strong></p>
+<p><strong>TAs: Michael Hanna &amp; Maria Heuss</strong></p>
 <p><strong>Notebook Credits:</strong></p>
 <ul class="simple">
 <li><p>This notebook was created by Michael Hanna and Oskar van der Wal.</p></li>
@@ -580,9 +584,12 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">circuitsvis</span> <span class="k">as</span> <span class="nn">cv</span>
-<span class="c1"># Testing that the library works</span>
-<span class="n">cv</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">circuitsvis</span> <span class="k">as</span> <span class="nn">cv</span>
 
 <span class="c1"># Import stuff</span>
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -595,25 +602,13 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-
 <span class="kn">from</span> <span class="nn">jaxtyping</span> <span class="kn">import</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">import</span> <span class="nn">json</span>
-
-
-<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
 <span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">import</span> <span class="nn">datasets</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">transformer_lens</span>
+
+<span class="kn">import</span> <span class="nn">transformer_lens</span>
 <span class="kn">import</span> <span class="nn">transformer_lens.utils</span> <span class="k">as</span> <span class="nn">utils</span>
 <span class="kn">from</span> <span class="nn">transformer_lens.hook_points</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">HookedRootModule</span><span class="p">,</span>
@@ -831,7 +826,7 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 </section>
 <section id="tosubmit-1">
 <h4>🧠 2.2 ToSubmit 1 ✍️<a class="headerlink" href="#tosubmit-1" title="Link to this heading">#</a></h4>
-<p>In the first week, you studied Transformer embeddings returned by the <code class="docutils literal notranslate"><span class="pre">output_hidden_states</span></code> functionality of RoBERTa and Wav2Vec. Look at the analogous <a class="reference external" href="https://huggingface.co/docs/transformers/main_classes/output#transformers.modeling_outputs.BaseModelOutput.hidden_states">functionality in HuggingFace’s GPT-2 implementation</a>.</p>
+<p>In the first week, you studied Transformer embeddings returned by the <code class="docutils literal notranslate"><span class="pre">output_hidden_states</span></code> functionality of HuggingFace’s RoBERTa implementation. Look at the analogous <a class="reference external" href="https://huggingface.co/docs/transformers/main_classes/output#transformers.modeling_outputs.BaseModelOutput.hidden_states">functionality in HuggingFace’s GPT-2 implementation</a>.</p>
 <p><strong>Then, answer the following questions in 1 sentence each (no more!). In your report, please <code class="docutils literal notranslate"><span class="pre">enumerate</span></code> the list as done here. Consider reading the “Logit Lens” and “Residual Stream” sections before answering:</strong></p>
 <ol class="arabic simple">
 <li><p>Which hook point does the output given by <code class="docutils literal notranslate"><span class="pre">return_hidden_states</span></code> correspond to, for the layer n=7?</p></li>
@@ -1176,7 +1171,7 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 <p>Circuits are a useful abstraction of model behavior because they can tell us precisely which components matter to a certain task, and how the model performs that task. We can even verify them, by ablating all non-circuit nodes in the model, and testing that model behavior remains the same. In this section, we’ll focus mainly on finding which nodes belong to a circuit (its structure); however, once we’ve found a circuit, we can also dig into what each head does (its semantics). All in all, circuits provide a much more organized view of what models do than other interpretability hypotheses.</p>
 <section id="circuit-theory">
 <h3>Circuit Theory<a class="headerlink" href="#circuit-theory" title="Link to this heading">#</a></h3>
-<p>So what is a circuit, formally? In this section, we go over some necessary theory to understand what circuits are, and how to find them.</p>
+<p>So what is a circuit, formally? In this section, we go over some necessary theory to understand what circuits are, and how to find them. Confused about this? Read Section 2 of <a class="reference external" href="https://arxiv.org/abs/2403.17806">this paper</a>.</p>
 <section id="the-residual-stream">
 <h4>The Residual Stream<a class="headerlink" href="#the-residual-stream" title="Link to this heading">#</a></h4>
 <p>Before we start thinking of transformer based models as computational graphs, we first have to reframe how we view them. While it’s typical to think of a model like GPT-2 as a feed-forward entity, where e.g. the transformer block in layer 4 receives as input, the output of the block in layer 3, there are better ways of thinking about it. One such way is the residual stream view.</p>
@@ -1230,12 +1225,13 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 <section id="practice">
 <h4>Practice<a class="headerlink" href="#practice" title="Link to this heading">#</a></h4>
 <p>In practice, ablating direct and indirect connections is rather tricky in TransformerLens. Since there is no distinction in these models between the direct effects of a component on another component, vs. its indirect effects, we must recreate this ourself.</p>
-<p>We can do this as follows. Say we want to ablate the direct connection between <span class="math notranslate nohighlight">\(A\)</span> and the logits. We can first run the model twice: once on our original dataset, and once on our ablation dataset. We store the direct outputs of <span class="math notranslate nohighlight">\(A\)</span> as <code class="docutils literal notranslate"><span class="pre">a_original</span></code> and <code class="docutils literal notranslate"><span class="pre">a_ablation</span></code>.</p>
-<p>Then, we run the model one more time on the original dataset, but this time, we hook into the inputs of logits. By the residual stream view, the input to logits is simply the sum of all prior components’ outputs, including that of <span class="math notranslate nohighlight">\(A\)</span>. We subtract <code class="docutils literal notranslate"><span class="pre">a_original</span></code> from logits’s inputs, and add <code class="docutils literal notranslate"><span class="pre">a_ablation</span></code>. In this way we have ablated the connection between <span class="math notranslate nohighlight">\(A\rightarrow\)</span>logits, without propagating the ablation of <span class="math notranslate nohighlight">\(A\)</span> anywhere else via indirect effects.</p>
+<p>We can do this as follows. Say we want to ablate the direct connection between a node <span class="math notranslate nohighlight">\(v\)</span> and the logits. We can first run the model twice: once on our original dataset, and once on our ablation dataset. We store the direct outputs of <span class="math notranslate nohighlight">\(v\)</span> as <code class="docutils literal notranslate"><span class="pre">v_original</span></code> and <code class="docutils literal notranslate"><span class="pre">v_ablation</span></code>.</p>
+<p>Then, we run the model one more time on the original dataset, but this time, we hook into the inputs of logits. By the residual stream view, the input to logits is simply the sum of all prior components’ outputs, including that of <span class="math notranslate nohighlight">\(v\)</span>. We subtract <code class="docutils literal notranslate"><span class="pre">v_original</span></code> from logits’s inputs, and add <code class="docutils literal notranslate"><span class="pre">v_ablation</span></code>. In this way we have ablated the connection between <span class="math notranslate nohighlight">\(v\rightarrow\)</span>logits, without propagating the ablation of <span class="math notranslate nohighlight">\(v\)</span> anywhere else via indirect effects.</p>
 </section>
 <section id="tosubmit-6">
 <h4>📊 4.1 ToSubmit 6 ✍️<a class="headerlink" href="#tosubmit-6" title="Link to this heading">#</a></h4>
-<p>Implement direct ablations, and use them to iteratively test which heads / MLPs most contribute to the task. This will be very similar to the prior experiment. <strong>Submit the heat map we plot at the end of the code with a one or two sentence caption describing what you see (e.g. similarlities / differences from the prior ToSubmit). Also submit the one-liner from <code class="docutils literal notranslate"><span class="pre">final_residual_stream_hook</span></code> (starting with <code class="docutils literal notranslate"><span class="pre">updated_final_residual_stream</span> <span class="pre">=</span></code>), as well as the location you hooked into (e.g.<code class="docutils literal notranslate"><span class="pre">hook_pos_embed</span></code>)</strong></p>
+<p>Implement direct ablations, and use them to iteratively test which heads / MLPs most contribute to the task. This will be very similar to the prior experiment. <strong>Submit the heat map we plot at the end of the code with a one or two sentence caption describing what you see (e.g. similarlities / differences from the prior ToSubmit).</strong></p>
+<p><strong>Also submit the one-liner from <code class="docutils literal notranslate"><span class="pre">final_residual_stream_hook</span></code> (starting with <code class="docutils literal notranslate"><span class="pre">updated_final_residual_stream</span> <span class="pre">=</span></code>), as well as the location you hooked into (e.g.<code class="docutils literal notranslate"><span class="pre">hook_pos_embed</span></code>)</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
@@ -1244,7 +1240,7 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 <span class="n">_</span><span class="p">,</span> <span class="n">original_cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_with_cache</span><span class="p">(</span><span class="n">female_stereo_toks</span><span class="p">)</span>
 <span class="n">_</span><span class="p">,</span> <span class="n">ablated_cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_with_cache</span><span class="p">(</span><span class="n">male_stereo_toks</span><span class="p">[</span><span class="n">sampling_indices</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">make_final_residual_stream_hook</span><span class="p">(</span><span class="n">A_original</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">A_ablated</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">make_final_residual_stream_hook</span><span class="p">(</span><span class="n">v_original</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">v_ablated</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">final_residual_stream_hook</span><span class="p">(</span><span class="n">final_residual_stream</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch pos d_residual&quot;</span><span class="p">],</span> <span class="n">hook</span><span class="p">:</span> <span class="n">HookPoint</span><span class="p">):</span>
         <span class="c1"># TODO: one-liner; just return the updated value of the final residual stream as described in the last paragraph of the prior section</span>
         <span class="c1"># Only update the end / final position</span>
@@ -1254,7 +1250,7 @@ Both parts of the workshop will focus primarily on gender bias, but can easily b
 
 
 <span class="k">def</span> <span class="nf">direct_ablation</span><span class="p">(</span><span class="n">layer</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">head_or_mlp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;mlp&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="c1"># TODO: retrieve the correct values A_original and A_ablation. Then, run the model with the hook you&#39;ve implemented above to get new logits</span>
+    <span class="c1"># TODO: retrieve the correct values v_original and v_ablation. Then, run the model with the hook you&#39;ve implemented above to get new logits</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
     <span class="k">return</span> <span class="n">direct_logits</span>
 
@@ -1331,7 +1327,6 @@ We hope that – if you intend to do your last project on mechanistic interpreta
 <li><p>Are gender stereotypes and grammatical gender represented by the same components/circuits in a GPT-2 model?</p></li>
 <li><p>Does intervening at the identified components result in a diminished bias score on some other benchmark/task?</p></li>
 <li><p>Are the TransformerLens results consistent across different sentences/sentence structures? (I.e. How contextual are these circuits? Is there redundancy in how this behaviour is encoded?)</p></li>
-<li><p>How do the results compare to other approaches (e.g., attribution methods; check out the <a class="reference external" href="https://github.com/inseq-team/inseq">Inseq library</a>)?</p></li>
 <li><p>Does debiasing the model via finetuning on a more balanced dataset especially affect the identified circuits?</p></li>
 </ul>
 </section>
@@ -1339,7 +1334,64 @@ We hope that – if you intend to do your last project on mechanistic interpreta
 <section class="tex2jax_ignore mathjax_ignore" id="bonus">
 <h1>6. Bonus<a class="headerlink" href="#bonus" title="Link to this heading">#</a></h1>
 <p>Congratulations on finishing this notebook! Mechanistic interpretability is a large field, though, and we’ve only scratched the surface of it. Here are some more interesting lines of work that you might want to look into when you’re done with this.</p>
+<section id="id5">
+<h2>5. Bonus<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>Congratulations on finishing this notebook! Mechanistic interpretability is a large field, though, and we’ve only scratched the surface of it. Here are some interesting lines of work that you might want to look into when you’re done with this.</p>
 <ul class="simple">
+<li><p>Circuits work:</p>
+<ul>
+<li><p>in real language models:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2211.00593">IOI</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2305.00586">Greater-Than</a></p></li>
+<li><p><a class="reference external" href="https://openreview.net/forum?id=8sKcAWOf2D">Entity Tracking</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.15154">Sentiment</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2307.09458">QA in Chinchilla</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.08744">Circuit Component Re-use</a></p></li>
+</ul>
+</li>
+<li><p>in toy models:</p>
+<ul>
+<li><p><a class="reference external" href="https://openreview.net/forum?id=9XFSbDPmdW">Grokking modular addition</a></p></li>
+<li><p><a class="reference external" href="https://www.lesswrong.com/posts/u6KXXmKFbXfWzoAXn/a-circuit-for-python-docstrings-in-a-4-layer-attention-only">Docstring circuit</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Automated circuit finding work:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2304.14997">Automated Circuit Discovery</a></p></li>
+<li><p>Edge Attribution Patching:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.neelnanda.io/mechanistic-interpretability/attribution-patching">original blog post</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.10348">paper</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2403.00745">AtP*, a follow-up</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2403.17806">EAP-IG</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Sparse Auto-encoders:</p>
+<ul>
+<li><p><a class="reference external" href="https://transformer-circuits.pub/2023/monosemantic-features/index.html">Anthropic’s paper</a> and <a class="reference external" href="https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html">an application to larger models</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2309.08600">Eleuther AI’s paper</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2403.19647">Sparse Feature Circuits</a></p></li>
+</ul>
+</li>
+<li><p>Studies of individual components:</p>
+<ul>
+<li><p><a class="reference external" href="https://openreview.net/pdf?id=kvcbV8KQsi">Successor Heads</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.04625">Copy Suppression</a></p></li>
+</ul>
+</li>
+<li><p>Mechanistic Interpretability Methods:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2304.05969">Path Patching</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2311.17030">Subspace Patching Illusions</a> and this <a class="reference external" href="https://arxiv.org/abs/2401.12631">rebuttal</a></p></li>
+<li><p><a class="reference external" href="https://openreview.net/forum?id=Hf17y6u9BC">Best Practices in Activation Patching</a></p></li>
+<li><p><a class="reference external" href="https://www.alignmentforum.org/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing">Causal Scrubbing</a></p></li>
+</ul>
+</li>
 <li><p>Anthropic’s work on mech. interp.:</p>
 <ul>
 <li><p><a class="reference external" href="https://www.anthropic.com/index/a-mathematical-framework-for-transformer-circuits">A Mathematical Framework for Circuits</a>, and a <a class="reference external" href="https://www.anthropic.com/index/circuits-updates-may-2023">recent update</a></p></li>
@@ -1348,163 +1400,20 @@ We hope that – if you intend to do your last project on mechanistic interpreta
 <li><p><a class="reference external" href="https://www.anthropic.com/index/privileged-bases-in-the-transformer-residual-stream">Privileged Bases in the Residual Stream</a></p></li>
 </ul>
 </li>
-<li><p>Chris Olah’s <a class="reference external" href="https://distill.pub/2020/circuits/">blog posts</a> on circuits in ConvNets, which spurred much of current mech. interp. research:</p></li>
-<li><p>Work from Redwood Research:</p>
+<li><p>Other cool (mostly) mechanistic work:</p>
 <ul>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2211.00593">IOI</a>, <a class="reference external" href="https://t.co/ZN6zWjlaaI">Greater-than</a></p></li>
-<li><p><a class="reference external" href="https://www.alignmentforum.org/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing">Causal Scrubbing</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2304.05969">Path Patching</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2304.14997">Automated Circuit Discovery</a></p></li>
-<li><p><a class="reference external" href="https://github.com/redwoodresearch/rust_circuit_public">rust-circuit</a>, another interpretability framework</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2202.05262.pdf">ROME</a> and this <a class="reference external" href="https://arxiv.org/pdf/2301.04213.pdf">follow-up</a>, plus more on fact retrieval: <a class="reference external" href="https://arxiv.org/abs/2304.14767">paper 1</a> <a class="reference external" href="https://openreview.net/forum?id=P2gnDEHGu3">paper 2</a> <a class="reference external" href="https://www.alignmentforum.org/posts/iGuwZTHWb6DFY3sKB/fact-finding-attempting-to-reverse-engineer-factual-recall">paper 3</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2210.13382">Interpreting a model trained to play Othello</a> and this <a class="reference external" href="https://www.neelnanda.io/mechanistic-interpretability/othello">follow up</a>.</p></li>
+<li><p>The <a class="reference external" href="https://arxiv.org/abs/2307.15771">“hydra effect”</a></p></li>
+<li><p>Chris Olah’s <a class="reference external" href="https://distill.pub/2020/circuits/">blog posts</a> on circuits in ConvNets</p></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="https://arxiv.org/pdf/2202.05262.pdf">ROME</a> and this <a class="reference external" href="https://arxiv.org/pdf/2301.04213.pdf">follow-up</a></p></li>
-<li><p>Neel Nanda’s</p>
-<ul>
-<li><p><a class="reference external" href="https://openreview.net/forum?id=9XFSbDPmdW">Work on grokking</a></p></li>
-<li><p><a class="reference external" href="https://www.neelnanda.io/mechanistic-interpretability/othello">Follow up</a> to the Othello paper discussed during the course.</p></li>
-</ul>
-</li>
-<li><p>Other recent work by <a class="reference external" href="https://scholar.google.com/citations?user=GxpQbSkAAAAJ&amp;amp;hl=en">Mor Geva</a></p></li>
 </ul>
 <p>If you’re looking for more notebooks or practice with TransformerLens, have a look at these:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://colab.research.google.com/github/neelnanda-io/TransformerLens/blob/main/demos/Main_Demo.ipynb">Original Demo Notebook</a></p></li>
-<li><p><a class="reference external" href="https://colab.research.google.com/drive/17i8LctAgVLTJ883Nyo8VIEcCNeKNCYnr?usp=share_link">Induction Heads Notebook</a></p></li>
-<li><p><a class="reference external" href="https://colab.research.google.com/drive/1puoiNww84IAEgkUMI0PnWp_aL1vai707?usp=sharing">Parentheses Balancer Notebook</a></p></li>
+<li><p><a class="reference external" href="https://arena3-chapter1-transformer-interp.streamlit.app/">Intro to mechanistic interpretability (from ARENA)</a></p></li>
 </ul>
-<section id="more-complicated-ablation-paths-through-the-computational-graph">
-<h2>More complicated ablation paths through the computational graph<a class="headerlink" href="#more-complicated-ablation-paths-through-the-computational-graph" title="Link to this heading">#</a></h2>
-<p>Curious how to make more complicated ablation paths through the computational graph in TransformerLens? Check this out:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HeadOrMLP</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;logits&#39;</span><span class="p">],</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;mlp&#39;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">],</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">],</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">],</span><span class="kc">None</span><span class="p">]]]</span>
-<span class="n">Node</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">HeadOrMLP</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
-<span class="c1"># A node is a triple of (layer, &#39;logits&#39; / &#39;mlp&#39; / (Head #, q/k/v), position)</span>
-
-<span class="k">def</span> <span class="nf">assert_valid_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Node</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="c1"># asserts that a path is valid (by this I mean that for every pair of nodes in the path, the first node has an effect on the second)</span>
-    <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="n">source_layer</span><span class="p">,</span> <span class="n">source_head_or_mlp</span><span class="p">,</span> <span class="n">source_position</span> <span class="o">=</span> <span class="n">source</span>
-        <span class="n">target_layer</span><span class="p">,</span> <span class="n">target_head_or_mlp</span><span class="p">,</span> <span class="n">target_position</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="k">if</span> <span class="n">target_head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;logits&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">source_position</span> <span class="o">!=</span> <span class="n">target_position</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> has mismatched position (invalid for logit target)&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">target_head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;mlp&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">source_position</span> <span class="o">!=</span> <span class="n">target_position</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> has mismatched position (invalid for mlp target)&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">source_layer</span> <span class="o">&gt;</span> <span class="n">target_layer</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> has source layer &gt; target layer (invalid for mlp target)&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">source_layer</span> <span class="o">&gt;</span> <span class="n">target_layer</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> has source layer &gt;= target layer (invalid for attn target)&quot;</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">is_upstream_of</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="c1"># checks if node u is upstream of node v</span>
-    <span class="n">u_layer</span><span class="p">,</span> <span class="n">u_head_or_mlp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">u</span>
-    <span class="n">v_layer</span><span class="p">,</span> <span class="n">v_head_or_mlp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="k">if</span> <span class="n">u_head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;logits&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">v_head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;logits&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="n">v_head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;mlp&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">u_layer</span> <span class="o">&lt;</span> <span class="n">v_layer</span><span class="p">)</span> <span class="ow">or</span> <span class="p">((</span><span class="n">u_layer</span> <span class="o">==</span> <span class="n">v_layer</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">u_head_or_mlp</span> <span class="o">!=</span> <span class="s1">&#39;mlp&#39;</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">u_layer</span> <span class="o">&lt;</span> <span class="n">v_layer</span>
-
-<span class="k">def</span> <span class="nf">get_output_from_cache</span><span class="p">(</span><span class="n">cache</span><span class="p">:</span> <span class="n">ActivationCache</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">head_or_mlp</span><span class="p">:</span> <span class="n">HeadOrMLP</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="c1"># given specification of a node, get the activations thereof from the cache</span>
-    <span class="k">if</span> <span class="n">head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;logits&#39;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Just use the actual logits&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;mlp&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;blocks.</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s1">.hook_mlp_out&#39;</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">head</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">head_or_mlp</span>
-        <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;blocks.</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s1">.attn.hook_result&#39;</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">head</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">intervene_on_input</span><span class="p">(</span><span class="n">layer</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
-                       <span class="n">head_or_mlp</span><span class="p">:</span> <span class="n">HeadOrMLP</span><span class="p">,</span>
-                       <span class="n">position</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                       <span class="n">original</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch pos d_residual position&quot;</span><span class="p">],</span>
-                       <span class="n">ablated</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch pos d_residual position&quot;</span><span class="p">]):</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a target layer and head, and a position in its input, modifies the input, subtracting out original and adding in ablated.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">residual_stream_hook</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch pos d_residual&quot;</span><span class="p">],</span> <span class="n">hook</span><span class="p">:</span> <span class="n">HookPoint</span><span class="p">):</span>
-        <span class="n">value</span><span class="p">[:,</span> <span class="n">position</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[:,</span> <span class="n">position</span><span class="p">]</span> <span class="o">-</span> <span class="n">original</span><span class="p">[:,</span> <span class="n">position</span><span class="p">]</span> <span class="o">+</span> <span class="n">ablated</span><span class="p">[:,</span> <span class="n">position</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">value</span>
-    <span class="k">if</span> <span class="n">head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;logits&#39;</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;blocks.11.hook_resid_post&quot;</span>
-    <span class="k">elif</span> <span class="n">head_or_mlp</span> <span class="o">==</span> <span class="s1">&#39;mlp&#39;</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;blocks.</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">.ln2.hook_normalized&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">head</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">head_or_mlp</span>
-        <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;blocks.</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">.ln1.hook_normalized&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;blocks.</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">.attn.hook_</span><span class="si">{</span><span class="n">stream</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">residual_stream_hook</span>
-
-<span class="c1"># Each tuple is (layer, head, position)</span>
-<span class="k">def</span> <span class="nf">path_ablation</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Node</span><span class="p">],</span> <span class="n">original_toks</span><span class="p">,</span> <span class="n">ablation_toks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a path (list of nodes), original toks, and ablation toks, performs an interchange ablation.</span>
-<span class="sd">    The effects of this ablation will propagate only through the specified path.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">assert_valid_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">original_cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_with_cache</span><span class="p">(</span><span class="n">original_toks</span><span class="p">)</span>
-    <span class="n">ablated_logits</span><span class="p">,</span> <span class="n">ablated_cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_with_cache</span><span class="p">(</span><span class="n">ablation_toks</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">source_info</span><span class="p">,</span> <span class="n">target_info</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-        <span class="c1"># get original</span>
-        <span class="n">original</span> <span class="o">=</span> <span class="n">get_output_from_cache</span><span class="p">(</span><span class="n">original_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">source_info</span><span class="p">)</span>
-        <span class="c1"># get ablated</span>
-        <span class="n">ablated</span> <span class="o">=</span> <span class="n">get_output_from_cache</span><span class="p">(</span><span class="n">ablated_cache</span><span class="p">,</span> <span class="o">*</span><span class="n">source_info</span><span class="p">)</span>
-
-        <span class="c1"># create and add hook</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">source_position</span> <span class="o">=</span> <span class="n">source_info</span>
-        <span class="n">target_layer</span><span class="p">,</span> <span class="n">target_head_or_mlp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">target_info</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">add_hook</span><span class="p">(</span><span class="o">*</span><span class="n">intervene_on_input</span><span class="p">(</span><span class="n">target_layer</span><span class="p">,</span> <span class="n">target_head_or_mlp</span><span class="p">,</span> <span class="n">source_position</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">ablated</span><span class="p">))</span>
-
-        <span class="c1"># run_with_hooks, propagating the ablation</span>
-        <span class="n">ablated_logits</span><span class="p">,</span> <span class="n">ablated_cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_with_cache</span><span class="p">(</span><span class="n">original_toks</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">reset_hooks</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">ablated_logits</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="n">profession_position</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">end_position</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">end_position</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;logits&#39;</span><span class="p">,</span> <span class="n">end_position</span><span class="p">)]</span>
-    <span class="n">prob_diffs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">head_or_mlp</span> <span class="ow">in</span> <span class="p">[</span><span class="o">*</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">12</span><span class="p">),</span> <span class="s1">&#39;mlp&#39;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">is_upstream_of</span><span class="p">((</span><span class="n">layer</span><span class="p">,</span> <span class="n">head_or_mlp</span><span class="p">,</span> <span class="n">profession_position</span><span class="p">),</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                <span class="n">path_logits</span> <span class="o">=</span> <span class="n">path_ablation</span><span class="p">([(</span><span class="n">layer</span><span class="p">,</span> <span class="n">head_or_mlp</span><span class="p">,</span> <span class="n">profession_position</span><span class="p">)]</span> <span class="o">+</span> <span class="n">path</span><span class="p">,</span> <span class="n">female_stereo_toks</span><span class="p">,</span> <span class="n">male_stereo_toks</span><span class="p">[</span><span class="n">sampling_indices</span><span class="p">])</span>
-                <span class="n">path_probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">path_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">prob_diff</span> <span class="o">=</span> <span class="n">path_probs</span><span class="p">[</span><span class="n">she_token</span><span class="p">]</span> <span class="o">-</span> <span class="n">path_probs</span><span class="p">[</span><span class="n">he_token</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">prob_diff</span> <span class="o">=</span> <span class="n">orig_prob_diff</span>
-            <span class="n">prob_diffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob_diff</span><span class="p">)</span>
-    <span class="n">prob_diffs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">prob_diffs</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-    <span class="n">prob_change</span> <span class="o">=</span> <span class="n">prob_diffs</span> <span class="o">-</span> <span class="n">orig_prob_diff</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">prob_change</span> <span class="o">=</span> <span class="n">prob_change</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">prob_change</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">color_continuous_scale</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">zmin</span><span class="o">=-</span><span class="mf">0.06</span><span class="p">,</span> <span class="n">zmax</span><span class="o">=</span><span class="mf">0.06</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="s1">&#39;head or mlp&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="s1">&#39;layer&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;prob diff change&#39;</span><span class="p">},</span> <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)),</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)),</span> <span class="s1">&#39;mlp&#39;</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Prob Diff Change by Layer / Head&#39;</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">head_or_mlp</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">reset_hooks</span><span class="p">()</span>
-    <span class="k">raise</span> <span class="n">e</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 
@@ -1538,6 +1447,15 @@ We hope that – if you intend to do your last project on mechanistic interpreta
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="mechinterp_intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mechanistic Interpretability</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -1619,7 +1537,7 @@ We hope that – if you intend to do your last project on mechanistic interpreta
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus">6. Bonus</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-complicated-ablation-paths-through-the-computational-graph">More complicated ablation paths through the computational graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">5. Bonus</a></li>
 </ul>
 </li>
 </ul>
