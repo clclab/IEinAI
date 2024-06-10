@@ -22,10 +22,9 @@ parts:
       #   sections:
       #     - file: symbolic/symbolic_lab_DeepLTL
       #     - file: symbolic/symbolic_lab_probing
-      # - file: speech-perception/speech-perception_intro
-      #   sections:
-      #     - file: speech-perception/speech-perception_lab1
-      #     - file: speech-perception/speech-perception_lab2_placeholder
+      - file: speech-perception/speech-perception_intro
+        sections:
+          - file: speech-perception/speech_perception_lab
       # - file: music-speech-generation/music-speech-generation_intro
       #   sections:
       #     - file: music-speech-generation/music-speech-generation_lab_placeholder
