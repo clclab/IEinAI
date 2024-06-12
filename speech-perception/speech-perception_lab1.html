@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Workshop Week 1: Introduction to Posthoc Interpretability &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'speech-perception/speech-perception_lab1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to the IEinAI Workshop Materials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../week1/week1_intro.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../week1/w1a_IEinAi_probing_student_version.html">1.1: Introduction to Posthoc Interpretability</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../week1/w1b_IEinAI_attribution_student_version.html">1.2: Feature Attribution for Language Models — Approaches and Evaluation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../mechinterp/mechinterp_intro.html">Mechanistic Interpretability</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/clclab/IEinAI/blob/main/book/speech-perception/speech-perception_lab1.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/clclab/IEinAI" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/clclab/IEinAI/issues/new?title=Issue%20on%20page%20%2Fspeech-perception/speech-perception_lab1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/speech-perception/speech-perception_lab1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Workshop Week 1: Introduction to Posthoc Interpretability</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop Week 1: Introduction to Posthoc Interpretability</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-2-probing-audio-models">Lab 2: Probing Audio Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-timit-dataset">The TIMIT dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wav2vec2-model">The Wav2Vec2 Model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-model-input-and-analyze-transcriptions">Prepare model input and analyze transcriptions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-hidden-states">Extract hidden states</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#map-fine-grained-phoneme-labels-to-broader-categories">Map fine-grained phoneme labels to broader categories</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#train-and-evaluate-probing-classifiers">Train and evaluate probing classifiers</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="workshop-week-1-introduction-to-posthoc-interpretability">
+<h1>Workshop Week 1: Introduction to Posthoc Interpretability<a class="headerlink" href="#workshop-week-1-introduction-to-posthoc-interpretability" title="Link to this heading">#</a></h1>
+<p><em>Interpretability &amp; Explainability in AI, MSc A.I., University of Amsterdam, June 2022</em></p>
+<section id="lab-2-probing-audio-models">
+<h2>Lab 2: Probing Audio Models<a class="headerlink" href="#lab-2-probing-audio-models" title="Link to this heading">#</a></h2>
+<p>In the previous notebook, you have trained probes on the hidden states of a fine-tuned RoBERTa model, to gain insights into how sentiment is represented in this model across layers. In this notebook, you will perform a similar analysis on an <strong>audio-based language model: Wav2Vec2</strong>. This self-supervised model learns powerful speech representations from raw audio data and can be applied to many downstream tasks, including <strong>Automatic Speech Recognition (ASR)</strong>.</p>
+<p>Before the rise of deep learning, ASR was performed using a pipeline of different components, each performing a subpart of the task. The ASR pipeline includes the following steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Feature extraction</strong>: extracting relevant time-frequency information from the raw audio signal.</p></li>
+<li><p><strong>Acoustic modelling</strong>: mapping the extracted audio features to a sequence of <a class="reference external" href="https://prowritingaid.com/phoneme">phonemes</a>, the smallest meaningful units in speech. Phonemes only refer to sounds and do not necessarily match with written letters. For example, consider the words <em>fit</em>, <em>phone</em>, and <em>laugh</em>. These words all contain the same phoneme: /f/. Since the same phoneme can be written in several different ways (<em>f</em>, <em>ph</em>, <em>gh</em>), it is useful for an ASR model to have an intermediate phoneme representation.</p></li>
+<li><p><strong>Language modelling</strong>: mapping the sequence of phonemes to a sequence of written words.</p></li>
+</ol>
+<p>Self-supervised speech models such as Wav2Vec2 are able to perform all of the above steps in an <strong>end-to-end</strong> fashion. In this assignment, we will try to find evidence for the implicit execution of the second subcomponent: acoustic modelling. We will therefore be probing the layers of the model for <strong>phoneme information</strong>.</p>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<p>Don’t forget to enable the GPU runtime at the top! (Runtime -&gt; Change runtime type)</p>
+<p>Install necessary packages:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span><span class="o">==</span><span class="mf">1.18.3</span> <span class="c1"># we need this specific version of datasets in order to load the TIMIT data</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">transformers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Connect to the GPU:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set a random seed for reproducibility of the experiments:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set random seed.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">seed</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># if you are using GPU</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-timit-dataset">
+<h1>The TIMIT dataset<a class="headerlink" href="#the-timit-dataset" title="Link to this heading">#</a></h1>
+<p>We will use the <a class="reference external" href="https://catalog.ldc.upenn.edu/LDC93S1">TIMIT Acoustic-Phonetic Continuous Speech Corpus</a>, which contains sentence recordings of 630 speakers of eight major American-English dialects. Each speaker read aloud the same ten sentences, which were designed to elicit a wide variety of speech sounds. The corpus includes time-aligned transcriptions, as well as the raw waveform for each spoken sentence, sampled at a rate of 16 kHz.</p>
+<p><font color='green'><strong>ToDo1</strong></font></p>
+<p>Load the TIMIT corpus by running the cell below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">load_metric</span>
+
+<span class="n">timit</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;timit_asr&quot;</span><span class="p">,</span> <span class="s2">&quot;clean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Print number of train and test samples</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">timit</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">timit</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><font color='green'><strong>ToThink1</strong></font></p>
+<p>Look at some examples of the data and try to understand the annotations.</p>
+<p>What information is annotated in <code class="docutils literal notranslate"><span class="pre">phonetic_detail?</span></code> Tip: an explanation of the labels can be found <a class="reference external" href="https://catalog.ldc.upenn.edu/docs/LDC93S1/PHONCODE.TXT">here</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># YOUR CODE HERE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-wav2vec2-model">
+<h1>The Wav2Vec2 Model<a class="headerlink" href="#the-wav2vec2-model" title="Link to this heading">#</a></h1>
+<p>The Wav2Vec2 model was proposed in <a class="reference external" href="https://arxiv.org/abs/2006.11477">wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations</a> by Alexei Baevski, Henry Zhou, Abdelrahman Mohamed, Michael Auli.</p>
+<p>The model takes raw audio waveforms as input and splits them into fixed-size frames of 25 milliseconds. During pre-training, some of these frames are masked and the model has to predict the correct speech unit for the masked position. In doing so, the model learns powerful speech representations in a self-supervised manner.</p>
+<p>After pre-training, the model can be fine-tuned for several downstream tasks. We will investigate a model version that is fine-tuned for <strong>Automatic Speech Recognition</strong>, i.e. predicting written transcriptions that correspond to the spoken input. More specifically, the model was fine-tuned to predict a character for each of the 25ms-frames that we discussed above. These characters are then collapsed into well-formed transcriptions using <a class="reference external" href="https://distill.pub/2017/ctc/">Connectionist Temporal Classification</a>.</p>
+<p><font color='green'><strong>ToThink2</strong></font></p>
+<p>Read <a class="reference external" href="https://jonathanbgn.com/2021/09/30/illustrated-wav2vec-2.html">this blogpost</a> about Wav2Vec2 and make sure you understand the different components inside the model.</p>
+<p><font color='green'><strong>ToDo2</strong></font></p>
+<p>Load the model and processor by running the cell below. Examine the architecture carefully.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Wav2Vec2Processor</span><span class="p">,</span> <span class="n">Wav2Vec2ForCTC</span>
+
+<span class="c1"># Load model and processor</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Wav2Vec2ForCTC</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/wav2vec2-base-960h&quot;</span><span class="p">)</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">Wav2Vec2Processor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/wav2vec2-base-960h&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set model to evaluation mode</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="prepare-model-input-and-analyze-transcriptions">
+<h2>Prepare model input and analyze transcriptions<a class="headerlink" href="#prepare-model-input-and-analyze-transcriptions" title="Link to this heading">#</a></h2>
+<p><font color='green'><strong>ToDo3</strong></font></p>
+<p>The Wav2Vec 2.0 model takes raw waveforms as input. Select one waveform from the data, plot the signal and listen to the audio.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">IPython.display</span> <span class="k">as</span> <span class="nn">ipd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">librosa</span>
+
+<span class="c1"># Select a data item you want to examine</span>
+<span class="n">item_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Retrieve the waveform from the data</span>
+<span class="n">raw_waveform</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+
+<span class="c1"># Plot the raw waveform</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveshow</span><span class="p">(</span><span class="n">raw_waveform</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="c1"># Print corresponding text</span>
+<span class="n">text</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Text:&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+<span class="c1"># Listen to the audio</span>
+<span class="n">ipd</span><span class="o">.</span><span class="n">Audio</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">raw_waveform</span><span class="p">),</span> <span class="n">autoplay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><font color='green'><strong>ToDo4</strong></font></p>
+<p>Let the model generate a transcription for the waveform. Are there any mistakes?</p>
+<p><font color='red'><strong>ToSubmit1</strong></font></p>
+<p>Please submit your plot of the waveform signal, together with the input text and the transcription that Wav2Vec2 generated for that particular waveform.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tokenize</span>
+<span class="n">input_values</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="n">raw_waveform</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;max_length&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">input_values</span>  <span class="c1"># Batch size 1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input shape:&quot;</span><span class="p">,</span> <span class="n">input_values</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Generate transcription with the model</span>
+<span class="c1"># YOUR CODE HERE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="extract-hidden-states">
+<h1>Extract hidden states<a class="headerlink" href="#extract-hidden-states" title="Link to this heading">#</a></h1>
+<p>We will now extract the hidden states from the model’s Transformer layers. These hidden states will serve as the training and evaluation data for our probing classifiers.</p>
+<p>Concretely, we will perform the following steps to achieve this:</p>
+<ol class="arabic simple">
+<li><p><strong>Prepare input</strong>: Retrieve the raw waveforms (i.e. audio arrays) from the TIMIT corpus and process them using the Wav2Vec2 processor.</p></li>
+<li><p><strong>Forward pass</strong>: Pass the waveforms through the model with <code class="docutils literal notranslate"><span class="pre">output_hidden_states</span></code> set to True.</p></li>
+<li><p><strong>Save hidden states</strong>: Save the hidden states in a dictionary, which is organized by Transformer layer index and waveform index. Each waveform will have list of frame-level hidden states.</p></li>
+<li><p><strong>Sort hidden states per phoneme class</strong>: Sort the hidden states by phoneme class using the time-aligned transcriptions from TIMIT.</p></li>
+</ol>
+<p><font color='green'><strong>ToDo5</strong></font></p>
+<p>Finish the function below to extract the hidden states from the Transformer layers of the model. Hint: You can simply extract hidden states by calling <code class="docutils literal notranslate"><span class="pre">.hidden_states</span></code> on the model output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">extract_hidden_states</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Extract hidden states from Wav2Vec 2.0 transformer layers.</span>
+<span class="sd">    :param model: Wav2Vec 2.0 model</span>
+<span class="sd">    :param processor: Wav2Vec 2.0 processor</span>
+<span class="sd">    :param inputs: list of TIMIT instances (i.e. timit[&#39;train&#39;] or timit[&#39;test&#39;])</span>
+<span class="sd">    :return: dictionary containing frame-level hidden states saved per transformer layer and per waveform</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Get waveforms</span>
+    <span class="n">waveforms</span> <span class="o">=</span> <span class="p">[</span><span class="nb">input</span><span class="p">[</span><span class="s2">&quot;audio&quot;</span><span class="p">][</span><span class="s2">&quot;array&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span>
+
+    <span class="c1"># Here we will save all frame-level hidden states, sorted by layer and waveform</span>
+    <span class="n">frame_states</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">layer_idx</span><span class="p">:</span> <span class="p">{</span>
+            <span class="n">waveform_idx</span><span class="p">:</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">waveform_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">waveforms</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">waveform_idx</span><span class="p">,</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">waveforms</span><span class="p">):</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Extracting hidden states from waveform </span><span class="si">{</span><span class="n">waveform_idx</span><span class="si">}</span><span class="s1"> out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">waveforms</span><span class="p">)</span><span class="si">}</span><span class="s1"> waveforms...&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Process waveform using the Wav2Vec2 processor</span>
+        <span class="n">processed_input</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_values</span>
+
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">processed_input</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">DEVICE</span><span class="p">)</span>
+
+            <span class="c1"># forward pass</span>
+            <span class="n">model_output</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+
+            <span class="c1"># get all hidden outputs</span>
+            <span class="n">transformer_layers</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+
+        <span class="c1"># Save frame-level hidden states, organized by layer and waveform</span>
+        <span class="k">for</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transformer_layers</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">:</span>
+              <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">waveform</span><span class="p">:</span>
+                  <span class="n">frame_states</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">][</span><span class="n">waveform_idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">frame_states</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Function to sort the hidden states by phoneme class using the time-aligned transcriptions from TIMIT:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sort_states_per_phoneme</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frame_states</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">):</span>
+
+    <span class="n">frame_states_per_phoneme</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">layer_idx</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">frame_states</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="k">for</span> <span class="n">waveform_idx</span><span class="p">,</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1"># retrieve phoneme annotation for the current waveform</span>
+            <span class="n">phonemes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">waveform_idx</span><span class="p">][</span><span class="s2">&quot;phonetic_detail&quot;</span><span class="p">]</span>
+            <span class="n">phoneme_indeces</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">],</span> <span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">],</span> <span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;utterance&#39;</span><span class="p">]):</span>
+
+                <span class="c1"># divide start and stop point by sample rate (16000 hz) and frame length (0.020 sec)</span>
+                <span class="n">start_index</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">start</span> <span class="o">/</span> <span class="mi">16000</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.020</span><span class="p">)</span>
+                <span class="n">stop_index</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">stop</span> <span class="o">/</span> <span class="mi">16000</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.020</span><span class="p">)</span>
+                <span class="n">phoneme_indeces</span><span class="p">[</span><span class="n">phoneme</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="n">stop_index</span><span class="p">))</span>
+
+            <span class="c1"># find hidden states corresponding to phoneme indeces and save them per layer and per phoneme</span>
+            <span class="k">for</span> <span class="n">phoneme</span><span class="p">,</span> <span class="n">indeces</span> <span class="ow">in</span> <span class="n">phoneme_indeces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">phoneme_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">waveform</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indeces</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">waveform</span><span class="p">)]</span>
+                <span class="n">frame_states_per_phoneme</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">][</span><span class="n">phoneme</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">phoneme_states</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">frame_states_per_phoneme</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><font color='green'><strong>ToDo6</strong></font></p>
+<p>Extract the hidden states for training and testing our probes (this might take some time):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># We select a relatively small number of sentences since they will be split up in a large number of frames</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">num_layers</span> <span class="o">=</span> <span class="mi">13</span> <span class="c1"># input plus 12 transformer layers</span>
+
+<span class="c1"># Generate random indeces to select a subset of the train and test data</span>
+<span class="n">train_indeces</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">timit</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">])),</span> <span class="n">train_size</span><span class="p">)</span>
+<span class="n">test_indeces</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">timit</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">])),</span> <span class="n">test_size</span><span class="p">)</span>
+
+<span class="n">train_subset</span> <span class="o">=</span> <span class="n">timit</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">train_indeces</span><span class="p">)</span>
+<span class="n">test_subset</span> <span class="o">=</span> <span class="n">timit</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">test_indeces</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_subset</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_subset</span><span class="p">))</span>
+
+<span class="c1"># Extract frame-level hidden states for training and testing the probes (make sure you pass the data subset)</span>
+<span class="n">frame_states_train</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+<span class="n">frame_states_test</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+
+<span class="c1"># Sort the hidden states by phoneme (make sure you pass the data subset)</span>
+<span class="n">phoneme_states_train</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+<span class="n">phoneme_states_test</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="map-fine-grained-phoneme-labels-to-broader-categories">
+<h1>Map fine-grained phoneme labels to broader categories<a class="headerlink" href="#map-fine-grained-phoneme-labels-to-broader-categories" title="Link to this heading">#</a></h1>
+<p>Phonemes can have different realizations depending on the context in which they occur, or depending on the dialect of the speaker. TIMIT contains annotations for many of these realizations (61 in total). We will merge phonemes that sound very similar into a single category, such that we end up with 39 broader categories in total.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The original labels</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">phoneme_states_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">phoneme_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dx&#39;</span><span class="p">:</span> <span class="s1">&#39;dx&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dh&#39;</span><span class="p">:</span> <span class="s1">&#39;dh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;th&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;jh&#39;</span><span class="p">:</span> <span class="s1">&#39;jh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ch&#39;</span><span class="p">:</span> <span class="s1">&#39;ch&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;iy&#39;</span><span class="p">:</span> <span class="s1">&#39;iy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eh&#39;</span><span class="p">:</span> <span class="s1">&#39;eh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ey&#39;</span><span class="p">:</span> <span class="s1">&#39;ey&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ae&#39;</span><span class="p">:</span> <span class="s1">&#39;ae&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;aw&#39;</span><span class="p">:</span> <span class="s1">&#39;aw&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ay&#39;</span><span class="p">:</span> <span class="s1">&#39;ay&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;oy&#39;</span><span class="p">:</span> <span class="s1">&#39;oy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ow&#39;</span><span class="p">:</span> <span class="s1">&#39;ow&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uh&#39;</span><span class="p">:</span> <span class="s1">&#39;uh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ah&#39;</span><span class="p">:</span> <span class="s1">&#39;ah&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ax&#39;</span><span class="p">:</span> <span class="s1">&#39;ah&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ax-h&#39;</span><span class="p">:</span> <span class="s1">&#39;ah&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;aa&#39;</span><span class="p">:</span> <span class="s1">&#39;aa&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ao&#39;</span><span class="p">:</span> <span class="s1">&#39;aa&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;er&#39;</span><span class="p">:</span> <span class="s1">&#39;er&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;axr&#39;</span><span class="p">:</span> <span class="s1">&#39;er&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hh&#39;</span><span class="p">:</span> <span class="s1">&#39;hh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hv&#39;</span><span class="p">:</span> <span class="s1">&#39;hh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ih&#39;</span><span class="p">:</span> <span class="s1">&#39;ih&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ix&#39;</span><span class="p">:</span> <span class="s1">&#39;ih&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;el&#39;</span><span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;em&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;en&#39;</span><span class="p">:</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ng&#39;</span><span class="p">:</span> <span class="s1">&#39;ng&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eng&#39;</span><span class="p">:</span> <span class="s1">&#39;ng&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sh&#39;</span><span class="p">:</span> <span class="s1">&#39;sh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;zh&#39;</span><span class="p">:</span> <span class="s1">&#39;sh&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;uw&#39;</span><span class="p">:</span> <span class="s1">&#39;uw&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ux&#39;</span><span class="p">:</span> <span class="s1">&#39;uw&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;pcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;kcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gcl&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;h#&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;pau&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;epi&#39;</span><span class="p">:</span> <span class="s1">&#39;sil&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="train-and-evaluate-probing-classifiers">
+<h1>Train and evaluate probing classifiers<a class="headerlink" href="#train-and-evaluate-probing-classifiers" title="Link to this heading">#</a></h1>
+<p>It is now time to train and evaluate our probes. We will define a probing classifier for each layer of the Wav2Vec2 model to see how phoneme information is represented across layers. We will be using Logistic Regression as our classification models (but feel free to experiment with other classifiers such as SVM).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="c1"># Define layer-wise probes, to be trained and tested on frame-level Wav2Vec2 embeddings</span>
+<span class="n">layer_probes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">layer_idx</span><span class="p">:</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;liblinear&quot;</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Helper functions for putting the data in the right format for Logistic Regression models, and for balancing the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_loader</span><span class="p">(</span><span class="n">hidden_state_dict</span><span class="p">,</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">target_phonemes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">phoneme</span><span class="p">,</span> <span class="n">hidden_state_list</span> <span class="ow">in</span> <span class="n">hidden_state_dict</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hidden_state_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">phoneme</span> <span class="o">!=</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">target_phonemes</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phoneme_mapping</span><span class="p">[</span><span class="n">phoneme</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="n">target_phonemes</span><span class="p">:</span>
+                        <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phoneme_mapping</span><span class="p">[</span><span class="n">phoneme</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="k">def</span> <span class="nf">balance_classes</span><span class="p">(</span><span class="n">X_instances</span><span class="p">,</span> <span class="n">y_labels</span><span class="p">):</span>
+
+    <span class="n">balanced_data_X</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">balanced_data_y</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">class_distribution</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">y_labels</span><span class="p">)</span>
+    <span class="n">num_instances_per_class</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">class_distribution</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">class_distribution</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">instances</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X_instances</span><span class="p">,</span> <span class="n">y_labels</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">label</span><span class="p">:</span>
+                <span class="n">instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_instances_per_class</span><span class="p">:</span>
+                    <span class="n">balanced_data_X</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span>
+                    <span class="n">balanced_data_y</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">balanced_data_X</span><span class="p">,</span> <span class="n">balanced_data_y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><font color='green'><strong>ToDo7</strong></font></p>
+<p>Train and evaluate the probing classifier for each layer (this will take some time). Examine the difference in probing accuracy when predicting different categories of phonemes (i.e. stops, fricatives, nasals, glides, vowels). The different categories are explained <a class="reference external" href="http://www.ello.uos.de/field.php/PhoneticsandPhonology/MannerOfArticulation">here</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">phoneme_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;stops&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;fricatives&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;dh&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;sh&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;nasals&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;ng&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;approximants&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;hh&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;vowels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;aa&#39;</span><span class="p">,</span> <span class="s1">&#39;ow&#39;</span><span class="p">,</span> <span class="s1">&#39;iy&#39;</span><span class="p">,</span> <span class="s1">&#39;eh&#39;</span><span class="p">,</span> <span class="s1">&#39;uh&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Save layer-wise accuracies for each phoneme category</span>
+<span class="n">accs_per_category</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">phoneme_category</span><span class="p">,</span> <span class="n">target_phonemes</span> <span class="ow">in</span> <span class="n">phoneme_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training layer-wise probes to predict </span><span class="si">{</span><span class="n">phoneme_category</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+  <span class="n">accs</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="c1"># Train and test an individual probe for each layer</span>
+  <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+
+    <span class="c1"># Put train data in the right format for our probing classifier + balance classes</span>
+    <span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="p">(</span><span class="n">phoneme_states_train</span><span class="p">,</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">target_phonemes</span><span class="o">=</span><span class="n">target_phonemes</span><span class="p">)</span>
+    <span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span> <span class="o">=</span> <span class="n">balance_classes</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">layer_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced class distribution TRAIN:&quot;</span><span class="p">,</span> <span class="n">Counter</span><span class="p">(</span><span class="n">train_y</span><span class="p">))</span>
+
+    <span class="c1"># Train model</span>
+    <span class="c1"># YOUR CODE HERE</span>
+
+    <span class="c1"># Put test data in the right format for our probing classifier + balance classes</span>
+    <span class="n">test_X</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="p">(</span><span class="n">phoneme_states_test</span><span class="p">,</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">target_phonemes</span><span class="o">=</span><span class="n">target_phonemes</span><span class="p">)</span>
+    <span class="n">test_X</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">balance_classes</span><span class="p">(</span><span class="n">test_X</span><span class="p">,</span> <span class="n">test_y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">layer_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Balanced class distribution TEST:&quot;</span><span class="p">,</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test_y</span><span class="p">))</span>
+
+    <span class="c1"># Predict</span>
+    <span class="n">test_pred</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+
+    <span class="c1"># Calculate accuracy</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">test_pred</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Accuracy for layer </span><span class="si">{</span><span class="n">layer_idx</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">)</span>
+    <span class="n">accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+
+  <span class="n">accs_per_category</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><font color='green'><strong>ToDo8</strong></font></p>
+<p>Plot the layer-wise accuracies per phoneme category.</p>
+<p><font color='green'><strong>ToThink3</strong></font></p>
+<p>Does the layer-wise evolution of phoneme information match with the subcomponents in the traditional ASR pipeline?</p>
+<p><font color='red'><strong>ToSubmit2</strong></font></p>
+<p>Please submit your plot of the probing results. Make sure to add a caption in which you briefly explain the observed pattern of the probing accuracies over layers and how this relates to the traditional ASR pipeline.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">accs</span> <span class="ow">in</span> <span class="n">accs_per_category</span><span class="p">:</span>
+
+  <span class="c1"># Plot layer-wise probing accuracy per phoneme category</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">),</span> <span class="n">accs</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Representation of phonemes in Wav2Vec 2.0&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Wav2Vec 2.0 layer&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probing accuracy&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">phoneme_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./speech-perception"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop Week 1: Introduction to Posthoc Interpretability</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-2-probing-audio-models">Lab 2: Probing Audio Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-timit-dataset">The TIMIT dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wav2vec2-model">The Wav2Vec2 Model</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-model-input-and-analyze-transcriptions">Prepare model input and analyze transcriptions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-hidden-states">Extract hidden states</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#map-fine-grained-phoneme-labels-to-broader-categories">Map fine-grained phoneme labels to broader categories</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#train-and-evaluate-probing-classifiers">Train and evaluate probing classifiers</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
