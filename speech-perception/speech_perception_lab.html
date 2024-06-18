@@ -483,7 +483,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="workshop-on-speech-perception-part-1-probing-acoustic-phonemic-and-orthographic-information-in-wav2vec2">
 <h1>Workshop on Speech Perception, Part 1: Probing acoustic, phonemic and orthographic information in Wav2Vec2<a class="headerlink" href="#workshop-on-speech-perception-part-1-probing-acoustic-phonemic-and-orthographic-information-in-wav2vec2" title="Link to this heading">#</a></h1>
 <p><em>Interpretability &amp; Explainability in AI, MSc A.I., University of Amsterdam, June 2024</em></p>
-<p>This notebook includes contributions by Marianne de Heer Kloots, Marta Grasa &amp; Charlotte Pouw.</p>
+<p>This notebook includes contributions by: Marianne de Heer Kloots, Marta Grasa &amp; Charlotte Pouw.</p>
 <section id="probing-audio-models">
 <h2>Probing Audio models<a class="headerlink" href="#probing-audio-models" title="Link to this heading">#</a></h2>
 <p>In Week 1, you trained probes on the hidden states of a fine-tuned RoBERTa model, to gain insights into how sentiment is represented in this model across layers. In this notebook, you will perform similar analyses on an <strong>audio-based Transformer model: Wav2Vec2</strong>. This self-supervised model learns powerful representations of speech from raw audio data and can be applied to many downstream tasks, including <strong>Automatic Speech Recognition (ASR)</strong> — the conversion from spoken language audio signals into text transcriptions.</p>
@@ -601,7 +601,7 @@ document.write(`
   <span class="k">return</span> <span class="n">timit_split</span>
 
 <span class="k">def</span> <span class="nf">create_timit_subset</span><span class="p">(</span><span class="n">full_timit_dataset</span><span class="p">,</span> <span class="n">train_speakers</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">test_speakers</span><span class="o">=</span><span class="mi">24</span><span class="p">):</span>
-  <span class="n">phon_converted_timit</span> <span class="o">=</span> <span class="n">full_timit_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">convert_phon_utterance</span><span class="p">)</span>
+  <span class="n">phon_converted_timit</span> <span class="o">=</span> <span class="n">full_timit_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">convert_phon_utterance</span><span class="p">)</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;phonetic_detail&quot;</span><span class="p">,</span> <span class="s2">&quot;phonemic_detail&quot;</span><span class="p">)</span>
   <span class="n">timit_subset_train</span> <span class="o">=</span> <span class="n">filter_timit_data</span><span class="p">(</span><span class="n">phon_converted_timit</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">N_speakers</span><span class="o">=</span><span class="n">train_speakers</span><span class="p">)</span>
   <span class="n">timit_subset_test</span> <span class="o">=</span> <span class="n">filter_timit_data</span><span class="p">(</span><span class="n">phon_converted_timit</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">N_speakers</span><span class="o">=</span><span class="n">test_speakers</span><span class="p">)</span>
   <span class="n">timit_subset</span> <span class="o">=</span> <span class="n">DatasetDict</span><span class="p">({</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">timit_subset_train</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">timit_subset_test</span><span class="p">})</span>
@@ -752,7 +752,7 @@ document.write(`
         <span class="c1"># append the maximum amplitude to the envelope array</span>
         <span class="n">signal_envelope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">envelope_value</span><span class="p">)</span>
 
-    <span class="n">idx</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">envelope</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal_envelope</span><span class="p">))</span>
     <span class="n">envelope_timepoints</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sampling_rate</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">signal_envelope</span><span class="p">),</span> <span class="n">envelope_timepoints</span>
@@ -786,12 +786,12 @@ document.write(`
 <span class="c1"># Compute the amplitude envelope</span>
 <span class="n">envelope</span><span class="p">,</span> <span class="n">envelope_timepoints</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
 
-<span class="c1"># Word annotations</span>
+<span class="c1"># Word annotations (note: times should be in seconds!)</span>
 <span class="n">words</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
 <span class="n">word_start_times</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE (note: times should be in seconds!)</span>
 <span class="n">word_end_times</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE (note: times should be in seconds!)</span>
 
-<span class="c1"># Phoneme annotations</span>
+<span class="c1"># Phoneme annotations (note: times should be in seconds!)</span>
 <span class="n">phonemes</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
 <span class="n">phoneme_start_times</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE (note: times should be in seconds!)</span>
 <span class="n">phoneme_end_times</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE (note: times should be in seconds!)</span>
@@ -973,8 +973,8 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">audio_array</span><span class="p">,</span> <span class="n">noise_factor</span><span class="p">):</span>
-    <span class="c1"># # YOUR CODE HERE</span>
-    <span class="c1"># raise NotImplementedError</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">return</span> <span class="n">noised_audio</span>
 
@@ -1096,7 +1096,7 @@ document.write(`
 <span class="n">layer_cer</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="c1"># YOUR CODE HERE</span>
-<span class="c1"># raise NotImplementedError</span>
+<span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </pre></div>
 </div>
 </div>
@@ -1201,7 +1201,7 @@ document.write(`
         <span class="k">for</span> <span class="n">waveform_idx</span><span class="p">,</span> <span class="n">waveform</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 
             <span class="c1"># retrieve phoneme annotation for the current waveform</span>
-            <span class="n">phonemes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">waveform_idx</span><span class="p">][</span><span class="s2">&quot;phonetic_detail&quot;</span><span class="p">]</span>
+            <span class="n">phonemes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">waveform_idx</span><span class="p">][</span><span class="s2">&quot;phonemic_detail&quot;</span><span class="p">]</span>
             <span class="n">phoneme_indeces</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">],</span> <span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;stop&#39;</span><span class="p">],</span> <span class="n">phonemes</span><span class="p">[</span><span class="s1">&#39;utterance&#39;</span><span class="p">]):</span>
@@ -1437,11 +1437,11 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="c1"># Plot layer-wise probing accuracy for amplitude envelope</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">),</span> <span class="n">envelope_probe_accuracies</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">),</span> <span class="n">envelope_probe_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Representation of amplitude envelope in Wav2Vec 2.0&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Wav2Vec 2.0 layer&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probing score (R^2)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probing score ($R^2$)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
