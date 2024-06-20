@@ -1,0 +1,1444 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment &#8212; Interpretability &amp; Explainability in AI — Workshop materials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'speech-perception/speech_perception_lab2_CKA';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Workshop on Speech Perception, Part 1: Probing acoustic, phonemic and orthographic information in Wav2Vec2" href="speech_perception_lab1_probing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Interpretability & Explainability in AI — Workshop materials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to the IEinAI Workshop Materials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Workshop Materials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../week1/week1_intro.html">Week 1</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../week1/w1a_IEinAi_probing_student_version.html">1.1: Introduction to Posthoc Interpretability</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../week1/w1b_IEinAI_attribution_student_version.html">1.2: Feature Attribution for Language Models — Approaches and Evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mechinterp/mechinterp_intro.html">Mechanistic Interpretability</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="speech-perception_intro.html">Speech Perception</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="speech_perception_lab1_probing.html">Workshop on Speech Perception, Part 1: Probing acoustic, phonemic and orthographic information in Wav2Vec2</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/clclab/IEinAI/blob/main/book/speech-perception/speech_perception_lab2_CKA.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/clclab/IEinAI" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/clclab/IEinAI/issues/new?title=Issue%20on%20page%20%2Fspeech-perception/speech_perception_lab2_CKA.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/speech-perception/speech_perception_lab2_CKA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-representations-with-similarity-based-interpretability">Comparing representations with similarity-based interpretability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tothink-5-understanding-similarity-based-interpretability-techniques"><input type="checkbox"/> <font color="blue"><b>ToThink 5</b></font>: Understanding similarity-based interpretability techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speech-accent-archive-recordings-and-word-segments">Speech Accent Archive recordings and word segments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-13-inspecting-speech-accent-archive-data"><input type="checkbox"/> <font color="green"><strong>ToDo 13</strong></font>: Inspecting Speech Accent Archive data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrices-for-mfccs-and-glove-embeddings">Gram matrices for MFCCs and GloVe embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-14-inspecting-gram-matrices-with-linear-and-rbf-kernels"><input type="checkbox"/> <font color="green"><strong>ToDo 14</strong></font>: Inspecting Gram matrices with Linear and RBF kernels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrices-for-wav2vec2-representations">Gram matrices for Wav2Vec2 representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-model-hidden-states-for-word-segments">Extracting model hidden states for word segments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-mean-pooled-word-representations">Computing mean-pooled word representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-15-computing-mean-pooled-representations-over-word-segments"><input type="checkbox"/> <font color="green"><strong>ToDo 15</strong></font>: Computing mean-pooled representations over word segments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-16-inspecting-gram-matrices-of-wav2vec2-embeddings"><input type="checkbox"/> <font color="green"><strong>ToDo 16</strong></font>: Inspecting Gram matrices of Wav2Vec2 embeddings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cka-similarity-between-model-layers">CKA similarity between model layers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-17-inspecting-between-layer-similarities-across-models"><input type="checkbox"/> <font color="green"><strong>ToDo 17</strong></font>: Inspecting between-layer similarities across models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cka-similarity-of-wav2vec2-to-mfccs-and-glove">CKA similarity of Wav2Vec2 to MFCCs and GloVe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layerwise-cka-similarity-to-interpretable-features">Layerwise CKA similarity to interpretable features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-18-inspecting-layerwise-similarities-to-mfccs-and-glove-across-models"><input type="checkbox"/> <font color="green"><strong>ToDo 18</strong></font>: Inspecting layerwise similarities to MFCCs and GloVe across models</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-mean-and-middle-frame-embeddings">Comparing mean and middle frame embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-19-computing-middle-frame-embeddings"><input type="checkbox"/> <font color="green"><strong>ToDo 19</strong></font>: Computing middle frame embeddings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tosubmit-5-interpreting-differences-between-models-with-cka"><input type="checkbox"/> <font color="red"><strong>ToSubmit 5</strong></font>: Interpreting differences between models with CKA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-starting-points">🚀 Mini-project starting points</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="workshop-on-speech-perception-part-2-comparing-audio-transformer-representations-with-centered-kernel-alignment">
+<h1>Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment<a class="headerlink" href="#workshop-on-speech-perception-part-2-comparing-audio-transformer-representations-with-centered-kernel-alignment" title="Link to this heading">#</a></h1>
+<p><em>Interpretability &amp; Explainability in AI, MSc A.I., University of Amsterdam, June 2024</em></p>
+<p>This notebook includes contributions by: Marianne de Heer Kloots &amp; Marta Grasa.
+It makes use of the <a class="reference external" href="https://colab.research.google.com/github/google-research/google-research/blob/master/representation_similarity/Demo.ipynb">reference code</a> provided by Simon Kornblith and colleagues for implementing CKA computations.</p>
+<section id="comparing-representations-with-similarity-based-interpretability">
+<h2>Comparing representations with similarity-based interpretability<a class="headerlink" href="#comparing-representations-with-similarity-based-interpretability" title="Link to this heading">#</a></h2>
+<p>In the first notebook for this workshop we made our first steps towards understanding where different types of information are represented in Wav2Vec2, by evaluating how well we can decode interpretable features (like amplitude envelopes and phonemes) across the model’s hidden layers.</p>
+<p>In this notebook we experiment with a different technique for analyzing model internals, by computing similarities between different representation spaces. Such representational similarity analyses even allow us to compare representational spaces with very different formats, such model embeddings and syntactic trees (as in <a class="reference external" href="https://www.isca-archive.org/interspeech_2023/shen23_interspeech.html">Shen et al., 2023</a>), or model embeddings and human brain recordings (as in <a class="reference external" href="https://aclanthology.org/W19-4820/">Abnar et al., 2019</a>) — as long as we are able to define a similarity measure over a common set of stimuli within each representational space. It also allows us to examine for example how representations evolve across different layers of the same model, or how representations generated by different models compare.</p>
+<p>For this notebook, we will focus on a method called Centered Kernel Alignment (CKA), introduced by <a class="reference external" href="https://proceedings.mlr.press/v97/kornblith19a.html">Kornblith et al. (2019)</a>. We will use it to compare between a range of different Wav2Vec2 models (untrained, pretrained, and finetuned versions of the base and large architectures), and also to compare the internal representations of these models to more interpretable feature spaces like MFCC and GloVe vectors.</p>
+<section id="tothink-5-understanding-similarity-based-interpretability-techniques">
+<h3><input type="checkbox"/> <font color='blue'><b>ToThink 5</b></font>: Understanding similarity-based interpretability techniques<a class="headerlink" href="#tothink-5-understanding-similarity-based-interpretability-techniques" title="Link to this heading">#</a></h3>
+<p>Familiarize yourself with similarity-based interpretability techniques by watching <a class="reference external" href="https://youtu.be/u7Dvb_a1D-0">this video</a>. If you’re interested, a more in-depth explanation of CKA specifically is also covered in <a class="reference external" href="https://youtu.be/TBjdvjdS2KM">this talk</a>. What is an advantage of CKA as compared to other similarity-based interpretability methods, like CCA?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title CKA functions</span>
+<span class="c1">## taken from Kornblith et al. (2019) - https://cka-similarity.github.io/</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">gram_linear</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Compute Gram (kernel) matrix for a linear kernel.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: A num_examples x num_features matrix of features.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A num_examples x num_examples Gram matrix of examples.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">gram_rbf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Compute Gram (kernel) matrix for an RBF kernel.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: A num_examples x num_features matrix of features.</span>
+<span class="sd">    threshold: Fraction of median Euclidean distance to use as RBF kernel</span>
+<span class="sd">      bandwidth. (This is the heuristic we use in the paper. There are other</span>
+<span class="sd">      possible ways to set the bandwidth; we didn&#39;t try them.)</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A num_examples x num_examples Gram matrix of examples.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">dot_products</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+  <span class="n">sq_norms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">dot_products</span><span class="p">)</span>
+  <span class="n">sq_distances</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dot_products</span> <span class="o">+</span> <span class="n">sq_norms</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">sq_norms</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+  <span class="n">sq_median_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sq_distances</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sq_distances</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">threshold</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sq_median_distance</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">center_gram</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">unbiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Center a symmetric Gram matrix.</span>
+
+<span class="sd">  This is equvialent to centering the (possibly infinite-dimensional) features</span>
+<span class="sd">  induced by the kernel before computing the Gram matrix.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    gram: A num_examples x num_examples symmetric matrix.</span>
+<span class="sd">    unbiased: Whether to adjust the Gram matrix in order to compute an unbiased</span>
+<span class="sd">      estimate of HSIC. Note that this estimator may be negative.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A symmetric matrix with centered columns and rows.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">gram</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Input must be a symmetric matrix.&#39;</span><span class="p">)</span>
+  <span class="n">gram</span> <span class="o">=</span> <span class="n">gram</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+  <span class="k">if</span> <span class="n">unbiased</span><span class="p">:</span>
+    <span class="c1"># This formulation of the U-statistic, from Szekely, G. J., &amp; Rizzo, M.</span>
+    <span class="c1"># L. (2014). Partial distance correlation with methods for dissimilarities.</span>
+    <span class="c1"># The Annals of Statistics, 42(6), 2382-2412, seems to be more numerically</span>
+    <span class="c1"># stable than the alternative from Song et al. (2007).</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">gram</span> <span class="o">-=</span> <span class="n">means</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">gram</span> <span class="o">-=</span> <span class="n">means</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">gram</span> <span class="o">-=</span> <span class="n">means</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">gram</span> <span class="o">-=</span> <span class="n">means</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+  <span class="k">return</span> <span class="n">gram</span>
+
+
+<span class="k">def</span> <span class="nf">cka</span><span class="p">(</span><span class="n">gram_x</span><span class="p">,</span> <span class="n">gram_y</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Compute CKA.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    gram_x: A num_examples x num_examples Gram matrix.</span>
+<span class="sd">    gram_y: A num_examples x num_examples Gram matrix.</span>
+<span class="sd">    debiased: Use unbiased estimator of HSIC. CKA may still be biased.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    The value of CKA between X and Y.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">gram_x</span> <span class="o">=</span> <span class="n">center_gram</span><span class="p">(</span><span class="n">gram_x</span><span class="p">,</span> <span class="n">unbiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">)</span>
+  <span class="n">gram_y</span> <span class="o">=</span> <span class="n">center_gram</span><span class="p">(</span><span class="n">gram_y</span><span class="p">,</span> <span class="n">unbiased</span><span class="o">=</span><span class="n">debiased</span><span class="p">)</span>
+
+  <span class="c1"># Note: To obtain HSIC, this should be divided by (n-1)**2 (biased variant) or</span>
+  <span class="c1"># n*(n-3) (unbiased variant), but this cancels for CKA.</span>
+  <span class="n">scaled_hsic</span> <span class="o">=</span> <span class="n">gram_x</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">gram_y</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+  <span class="n">normalization_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gram_x</span><span class="p">)</span>
+  <span class="n">normalization_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gram_y</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">scaled_hsic</span> <span class="o">/</span> <span class="p">(</span><span class="n">normalization_x</span> <span class="o">*</span> <span class="n">normalization_y</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_debiased_dot_product_similarity_helper</span><span class="p">(</span>
+    <span class="n">xty</span><span class="p">,</span> <span class="n">sum_squared_rows_x</span><span class="p">,</span> <span class="n">sum_squared_rows_y</span><span class="p">,</span> <span class="n">squared_norm_x</span><span class="p">,</span> <span class="n">squared_norm_y</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Helper for computing debiased dot product similarity (i.e. linear HSIC).&quot;&quot;&quot;</span>
+  <span class="c1"># This formula can be derived by manipulating the unbiased estimator from</span>
+  <span class="c1"># Song et al. (2007).</span>
+  <span class="k">return</span> <span class="p">(</span>
+      <span class="n">xty</span> <span class="o">-</span> <span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">*</span> <span class="n">sum_squared_rows_x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sum_squared_rows_y</span><span class="p">)</span>
+      <span class="o">+</span> <span class="n">squared_norm_x</span> <span class="o">*</span> <span class="n">squared_norm_y</span> <span class="o">/</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)))</span>
+
+
+<span class="k">def</span> <span class="nf">feature_space_linear_cka</span><span class="p">(</span><span class="n">features_x</span><span class="p">,</span> <span class="n">features_y</span><span class="p">,</span> <span class="n">debiased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Compute CKA with a linear kernel, in feature space.</span>
+
+<span class="sd">  This is typically faster than computing the Gram matrix when there are fewer</span>
+<span class="sd">  features than examples.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    features_x: A num_examples x num_features matrix of features.</span>
+<span class="sd">    features_y: A num_examples x num_features matrix of features.</span>
+<span class="sd">    debiased: Use unbiased estimator of dot product similarity. CKA may still be</span>
+<span class="sd">      biased. Note that this estimator may be negative.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    The value of CKA between X and Y.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">features_x</span> <span class="o">=</span> <span class="n">features_x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features_x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="n">features_y</span> <span class="o">=</span> <span class="n">features_y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+  <span class="n">dot_product_similarity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">features_x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">features_y</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+  <span class="n">normalization_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">features_x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">features_x</span><span class="p">))</span>
+  <span class="n">normalization_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">features_y</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">features_y</span><span class="p">))</span>
+
+  <span class="k">if</span> <span class="n">debiased</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">features_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Equivalent to np.sum(features_x ** 2, 1) but avoids an intermediate array.</span>
+    <span class="n">sum_squared_rows_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="n">features_x</span><span class="p">,</span> <span class="n">features_x</span><span class="p">)</span>
+    <span class="n">sum_squared_rows_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="n">features_y</span><span class="p">,</span> <span class="n">features_y</span><span class="p">)</span>
+    <span class="n">squared_norm_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sum_squared_rows_x</span><span class="p">)</span>
+    <span class="n">squared_norm_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sum_squared_rows_y</span><span class="p">)</span>
+
+    <span class="n">dot_product_similarity</span> <span class="o">=</span> <span class="n">_debiased_dot_product_similarity_helper</span><span class="p">(</span>
+        <span class="n">dot_product_similarity</span><span class="p">,</span> <span class="n">sum_squared_rows_x</span><span class="p">,</span> <span class="n">sum_squared_rows_y</span><span class="p">,</span>
+        <span class="n">squared_norm_x</span><span class="p">,</span> <span class="n">squared_norm_y</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">normalization_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">_debiased_dot_product_similarity_helper</span><span class="p">(</span>
+        <span class="n">normalization_x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sum_squared_rows_x</span><span class="p">,</span> <span class="n">sum_squared_rows_x</span><span class="p">,</span>
+        <span class="n">squared_norm_x</span><span class="p">,</span> <span class="n">squared_norm_x</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">normalization_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">_debiased_dot_product_similarity_helper</span><span class="p">(</span>
+        <span class="n">normalization_y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sum_squared_rows_y</span><span class="p">,</span> <span class="n">sum_squared_rows_y</span><span class="p">,</span>
+        <span class="n">squared_norm_y</span><span class="p">,</span> <span class="n">squared_norm_y</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">dot_product_similarity</span> <span class="o">/</span> <span class="p">(</span><span class="n">normalization_x</span> <span class="o">*</span> <span class="n">normalization_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Helper functions</span>
+<span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set random seed.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">seed</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># if you are using GPU</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">def</span> <span class="nf">plot_gram_matrix</span><span class="p">(</span><span class="n">feature_list</span><span class="p">,</span> <span class="n">subset_ids</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">):</span>
+    <span class="n">N_subsets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">subset_ids</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gram_fun</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)))</span>
+    <span class="n">divider_lines</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)</span><span class="o">/</span><span class="n">N_subsets</span><span class="p">)</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N_subsets</span><span class="p">)]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">divider_lines</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">divider_lines</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">))</span>
+    <span class="n">text_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="n">divider_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span>\
+    <span class="p">[(</span><span class="n">divider_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">divider_lines</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">divider_lines</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">+</span>\
+    <span class="p">[(</span><span class="n">divider_lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">text_positions</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">subset_ids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">subset_ids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">im</span>
+
+<span class="c1"># plotting aesthetics</span>
+<span class="n">linestyles</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;base_unt&#39;</span><span class="p">:</span> <span class="s1">&#39;dotted&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;base_pret&#39;</span><span class="p">:</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;base_ft&#39;</span><span class="p">:</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_unt&#39;</span><span class="p">:</span> <span class="s1">&#39;dotted&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_pret&#39;</span><span class="p">:</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_ft&#39;</span><span class="p">:</span> <span class="s1">&#39;solid&#39;</span>
+<span class="p">}</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;base_unt&#39;</span><span class="p">:</span> <span class="s1">&#39;silver&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;base_pret&#39;</span><span class="p">:</span> <span class="s1">&#39;mediumpurple&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;base_ft&#39;</span><span class="p">:</span> <span class="s1">&#39;indigo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_unt&#39;</span><span class="p">:</span> <span class="s1">&#39;silver&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_pret&#39;</span><span class="p">:</span> <span class="s1">&#39;mediumpurple&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;large_ft&#39;</span><span class="p">:</span> <span class="s1">&#39;indigo&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">capture</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tgt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tgt</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">IPython.display</span> <span class="k">as</span> <span class="nn">ipd</span>
+<span class="kn">import</span> <span class="nn">librosa</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Wav2Vec2Config</span><span class="p">,</span> <span class="n">Wav2Vec2FeatureExtractor</span><span class="p">,</span> <span class="n">Wav2Vec2Model</span><span class="p">,</span> <span class="n">Wav2Vec2ForCTC</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Audio</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># download a subset of the speech accent archive with force-aligned transcriptions</span>
+<span class="c1"># (&#39;please_call_stella&#39; folder)</span>
+<span class="err">!</span><span class="n">gdown</span> <span class="mi">1</span><span class="n">rH</span><span class="o">-</span><span class="n">EWbtJBp0teUFXCjVHE_u2icvNRNNT</span>
+<span class="err">!</span><span class="n">unzip</span> <span class="n">please_call_stella</span><span class="o">.</span><span class="n">zip</span>
+
+<span class="c1"># GloVe embeddings for all words in the please_call_stella fragment</span>
+<span class="err">!</span><span class="n">gdown</span> <span class="mi">1</span><span class="n">tx7F6QLwjaWpg_sZY3mel8a13q0</span><span class="o">-</span><span class="n">CME0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup variables</span>
+<span class="n">STELLA_DIR</span> <span class="o">=</span> <span class="s1">&#39;/content/please_call_stella&#39;</span>
+<span class="n">SAMP_FREQ</span> <span class="o">=</span> <span class="mi">16000</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## load all Wav2Vec2 models we will compare</span>
+<span class="n">base_pret_ckpt</span> <span class="o">=</span> <span class="s2">&quot;facebook/wav2vec2-base&quot;</span>
+<span class="n">base_ft_ckpt</span> <span class="o">=</span> <span class="s2">&quot;facebook/wav2vec2-base-960h&quot;</span>
+<span class="n">large_pret_ckpt</span> <span class="o">=</span> <span class="s2">&quot;facebook/wav2vec2-large&quot;</span>
+<span class="n">large_ft_ckpt</span> <span class="o">=</span> <span class="s2">&quot;facebook/wav2vec2-large-960h&quot;</span>
+<span class="n">base_config</span> <span class="o">=</span> <span class="n">Wav2Vec2Config</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_pret_ckpt</span><span class="p">)</span>
+<span class="n">large_config</span> <span class="o">=</span> <span class="n">Wav2Vec2Config</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">large_pret_ckpt</span><span class="p">)</span>
+
+<span class="n">base_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;base_unt&#39;</span><span class="p">,</span> <span class="s1">&#39;base_pret&#39;</span><span class="p">,</span> <span class="s1">&#39;base_ft&#39;</span><span class="p">]</span>
+<span class="n">large_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;large_unt&#39;</span><span class="p">,</span> <span class="s1">&#39;large_pret&#39;</span><span class="p">,</span> <span class="s1">&#39;large_ft&#39;</span><span class="p">]</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># untrained base model</span>
+    <span class="s2">&quot;base_unt&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="p">(</span><span class="n">base_config</span><span class="p">),</span>
+    <span class="c1"># pretrained (only) base model</span>
+    <span class="s2">&quot;base_pret&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_pret_ckpt</span><span class="p">),</span>
+    <span class="c1"># pretrained + finetuned base model</span>
+    <span class="s2">&quot;base_ft&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_ft_ckpt</span><span class="p">),</span>
+    <span class="c1"># untrained large model</span>
+    <span class="s2">&quot;large_unt&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="p">(</span><span class="n">large_config</span><span class="p">),</span>
+    <span class="c1"># pretrained (only) large model</span>
+    <span class="s2">&quot;large_pret&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">large_pret_ckpt</span><span class="p">),</span>
+    <span class="c1"># pretrained + finetuned large model</span>
+    <span class="s2">&quot;large_ft&quot;</span><span class="p">:</span> <span class="n">Wav2Vec2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">large_ft_ckpt</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># feature extractor is the same for all models</span>
+<span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">Wav2Vec2FeatureExtractor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_ft_ckpt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="speech-accent-archive-recordings-and-word-segments">
+<h2>Speech Accent Archive recordings and word segments<a class="headerlink" href="#speech-accent-archive-recordings-and-word-segments" title="Link to this heading">#</a></h2>
+<p>To construct our stimulus set for representational similarity measures, we will use a subset of recordings from the <a class="reference external" href="https://accent.gmu.edu/">Speech Accent Archive</a>. The Speech Accent Archive contains recordings of many different speakers reading the same <em>elicitation paragraph</em> which we refer to as ‘Please call Stella’. This paragraph was constructed to contain a large variety of difficult English sounds and sound sequences, and read by speakers of English with a variety of native and non-native accents.</p>
+<p>In this notebook, we will be analyzing model representations on the level of <em>words</em>. To this end, we provide word-aligned transcriptions of a subset of the Speech Accent Archive recordings, obtained automatically using the <a class="reference external" href="https://montreal-forced-aligner.readthedocs.io/en/latest/">Montreal Forced Aligner</a> tool and provided as .TextGrid files in the <code class="docutils literal notranslate"><span class="pre">please_call_stella</span></code> folder (downloaded above).</p>
+<p>For demonstration, we here only use a small subset of 3 male North-American native English speakers. However, you can find more recordings with aligned transcripts in the same folder, in case you are interested in studying speaker or accent effects for your mini-project. Have a look at the <code class="docutils literal notranslate"><span class="pre">speaker_info</span></code> dataframe loaded below for details.</p>
+<section id="todo-13-inspecting-speech-accent-archive-data">
+<h3><input type="checkbox"/> <font color='green'><strong>ToDo 13</strong></font>: Inspecting Speech Accent Archive data<a class="headerlink" href="#todo-13-inspecting-speech-accent-archive-data" title="Link to this heading">#</a></h3>
+<p>Load our <code class="docutils literal notranslate"><span class="pre">annotated_speaker_subset</span></code> from the Speech Accent Archive by running the cells below. Listen to an example recording and some extracted word segments.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># functions for reading in wav files and TextGrid annotations from our please_call_stella folder</span>
+<span class="k">def</span> <span class="nf">get_word_annotations</span><span class="p">(</span><span class="n">annotations_file</span><span class="p">):</span>
+  <span class="n">word_annotation_tier</span> <span class="o">=</span> <span class="n">tgt</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_textgrid</span><span class="p">(</span><span class="n">annotations_file</span><span class="p">)</span><span class="o">.</span><span class="n">get_tier_by_name</span><span class="p">(</span><span class="s1">&#39;words&#39;</span><span class="p">)</span>
+  <span class="n">annotations_dict</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;start_times&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">intv</span><span class="o">.</span><span class="n">start_time</span> <span class="k">for</span> <span class="n">intv</span> <span class="ow">in</span> <span class="n">word_annotation_tier</span><span class="p">],</span>
+      <span class="s1">&#39;end_times&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">intv</span><span class="o">.</span><span class="n">end_time</span> <span class="k">for</span> <span class="n">intv</span> <span class="ow">in</span> <span class="n">word_annotation_tier</span><span class="p">],</span>
+      <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">intv</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">intv</span> <span class="ow">in</span> <span class="n">word_annotation_tier</span><span class="p">]</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">annotations_dict</span>
+
+<span class="k">def</span> <span class="nf">get_word_audios</span><span class="p">(</span><span class="n">full_audio</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">word_start_times</span><span class="p">,</span> <span class="n">word_end_times</span><span class="p">):</span>
+  <span class="n">word_audios</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">full_audio</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">wst</span><span class="o">*</span><span class="n">sr</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">wet</span><span class="o">*</span><span class="n">sr</span><span class="p">)]</span>
+      <span class="k">for</span> <span class="n">wst</span><span class="p">,</span> <span class="n">wet</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">word_start_times</span><span class="p">,</span> <span class="n">word_end_times</span><span class="p">)</span>
+  <span class="p">]</span>
+  <span class="k">return</span> <span class="n">word_audios</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># information about all speakers in this speech accent archive subset (e.g. age, gender and native language)</span>
+<span class="n">speaker_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">STELLA_DIR</span><span class="si">}</span><span class="s1">/speakers.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># we will create a subset containing only recordings by these speakers</span>
+<span class="n">speaker_subset_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;english1&#39;</span><span class="p">,</span> <span class="s1">&#39;english51&#39;</span><span class="p">,</span> <span class="s1">&#39;english81&#39;</span><span class="p">]</span>
+
+<span class="c1"># load the recordings and annotations for these speakers into a dict</span>
+<span class="n">annotated_speaker_subset</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">speaker_id</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;audio&#39;</span><span class="p">:</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">STELLA_DIR</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s1">.wav&#39;</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">SAMP_FREQ</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">}</span> <span class="o">|</span> <span class="n">get_word_annotations</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">STELLA_DIR</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s1">.TextGrid&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">speaker_id</span> <span class="ow">in</span> <span class="n">speaker_subset_ids</span>
+<span class="p">}</span>
+
+<span class="c1"># list of id strings describing all audio segments (including the speaker and the word corresponding to each segment)</span>
+<span class="n">audio_ids</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">speaker_id</span> <span class="ow">in</span> <span class="n">speaker_subset_ids</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="n">speaker_id</span><span class="p">][</span><span class="s1">&#39;words&#39;</span><span class="p">]]</span>
+
+<span class="c1"># raw audio signals (waveforms) for each word segment</span>
+<span class="n">word_audios</span> <span class="o">=</span> <span class="p">[</span><span class="n">wa</span>
+    <span class="k">for</span> <span class="n">speaker_id</span> <span class="ow">in</span> <span class="n">speaker_subset_ids</span>
+    <span class="k">for</span> <span class="n">wa</span> <span class="ow">in</span> <span class="n">get_word_audios</span><span class="p">(</span><span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="n">speaker_id</span><span class="p">][</span><span class="s1">&#39;audio&#39;</span><span class="p">],</span>
+                              <span class="n">SAMP_FREQ</span><span class="p">,</span>
+                              <span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="n">speaker_id</span><span class="p">][</span><span class="s1">&#39;words&#39;</span><span class="p">],</span>
+                              <span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="n">speaker_id</span><span class="p">][</span><span class="s1">&#39;start_times&#39;</span><span class="p">],</span>
+                              <span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="n">speaker_id</span><span class="p">][</span><span class="s1">&#39;end_times&#39;</span><span class="p">])</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">speaker_id</span> <span class="o">=</span> <span class="s1">&#39;english1&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Full recording for </span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+<span class="n">ipd</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">Audio</span><span class="p">(</span><span class="n">annotated_speaker_subset</span><span class="p">[</span><span class="s1">&#39;english1&#39;</span><span class="p">][</span><span class="s1">&#39;audio&#39;</span><span class="p">],</span> <span class="n">rate</span><span class="o">=</span><span class="n">SAMP_FREQ</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;A few word segments:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">audio_id</span><span class="p">,</span> <span class="n">word_audio</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">audio_ids</span><span class="p">,</span> <span class="n">word_audios</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">audio_id</span><span class="p">)</span>
+  <span class="n">ipd</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">Audio</span><span class="p">(</span><span class="n">word_audio</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">SAMP_FREQ</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="gram-matrices-for-mfccs-and-glove-embeddings">
+<h2>Gram matrices for MFCCs and GloVe embeddings<a class="headerlink" href="#gram-matrices-for-mfccs-and-glove-embeddings" title="Link to this heading">#</a></h2>
+<p>The first step in our similarity analyses is to compute <em>gram matrices</em> which capture the <em>representational similarity</em> between each example in our dataset as computed using some kernel function over our chosen set of features (see a helpful visualization <a class="reference external" href="https://youtu.be/TBjdvjdS2KM&amp;amp;t=219">here</a>).</p>
+<p>We will soon be computing these matrices for model internal layers, but we’ll first compute them over two sets of somewhat more interpretable features: the average <a class="reference external" href="https://en.wikipedia.org/wiki/Mel-frequency_cepstrum">Mel-frequency cepstral coefficients (MFCCs)</a> over word segments (capturing the word’s acoustics) and the <a class="reference external" href="https://nlp.stanford.edu/projects/glove/">GloVe vectors</a> for each word in the paragraph (capturing word-level distributional information).</p>
+<section id="todo-14-inspecting-gram-matrices-with-linear-and-rbf-kernels">
+<h3><input type="checkbox"/> <font color='green'><strong>ToDo 14</strong></font>: Inspecting Gram matrices with Linear and RBF kernels<a class="headerlink" href="#todo-14-inspecting-gram-matrices-with-linear-and-rbf-kernels" title="Link to this heading">#</a></h3>
+<p>Run the code cells below to plot the Gram matrices for the MFCC and GloVe features over all word segments in our subset of recordings. We can compute similarity between examples using a simple linear kernel (the dot product), but we can also use more complex non-linear kernels like the RBF kernel. What differences do you observe in the Gram matrices of these two feature spaces? What effect does the choice of kernel function have?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># glove embeddings for all words (3 times the same paragraph)</span>
+<span class="n">glove_emb_dict</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;stella_glove_embs.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+<span class="n">glove_embs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">glove_emb_dict</span><span class="p">[</span><span class="n">audio_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">audio_id</span> <span class="ow">in</span> <span class="n">audio_ids</span><span class="p">])</span>
+
+<span class="c1"># MFCC features for all words (3 times the same paragraph, read by each speaker)</span>
+<span class="n">avg_MFCCs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">wa</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">SAMP_FREQ</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">wa</span> <span class="ow">in</span> <span class="n">word_audios</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;MFCCs, Linear kernel&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plot_gram_matrix</span><span class="p">(</span><span class="n">avg_MFCCs</span><span class="p">,</span> <span class="n">speaker_subset_ids</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;GloVe embeddings, Linear kernel&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plot_gram_matrix</span><span class="p">(</span><span class="n">glove_embs</span><span class="p">,</span> <span class="n">speaker_subset_ids</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;MFCCs, RBF kernel&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plot_gram_matrix</span><span class="p">(</span><span class="n">avg_MFCCs</span><span class="p">,</span> <span class="n">speaker_subset_ids</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_rbf</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;GloVe embeddings, RBF kernel&#39;</span><span class="p">)</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plot_gram_matrix</span><span class="p">(</span><span class="n">glove_embs</span><span class="p">,</span> <span class="n">speaker_subset_ids</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_rbf</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="gram-matrices-for-wav2vec2-representations">
+<h2>Gram matrices for Wav2Vec2 representations<a class="headerlink" href="#gram-matrices-for-wav2vec2-representations" title="Link to this heading">#</a></h2>
+<p>We’ll now proceed to use the same technique to analyze inter-example similarities at different layers of the Wav2Vec2 model. To do that, we first need to extract the audio frame representations for each of the word segments in our dataset. Running the code cells below will do that.</p>
+<section id="extracting-model-hidden-states-for-word-segments">
+<h3>Extracting model hidden states for word segments<a class="headerlink" href="#extracting-model-hidden-states-for-word-segments" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SaveOutput</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">module_in</span><span class="p">,</span> <span class="n">module_out</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">module_out</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">hook</span>
+
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">get_frame_states_for_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">full_waveform</span><span class="p">,</span> <span class="n">segment_start_times</span><span class="p">,</span> <span class="n">segment_end_times</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Extract layerwise audio frame representations for segments out of a single full waveform,</span>
+<span class="sd">  indicated by the provided start &amp; end times.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1">## convert segment start &amp; end times to model frame indices</span>
+  <span class="n">time_offset</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">inputs_to_logits_ratio</span> <span class="o">/</span> <span class="n">feature_extractor</span><span class="o">.</span><span class="n">sampling_rate</span>
+  <span class="n">segment_start_frames</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">start_time</span> <span class="o">/</span> <span class="n">time_offset</span><span class="p">))</span> <span class="k">for</span> <span class="n">start_time</span> <span class="ow">in</span> <span class="n">segment_start_times</span><span class="p">]</span>
+  <span class="n">segment_end_frames</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">end_time</span> <span class="o">/</span> <span class="n">time_offset</span><span class="p">))</span> <span class="k">for</span> <span class="n">end_time</span> <span class="ow">in</span> <span class="n">segment_end_times</span><span class="p">]</span>
+
+  <span class="c1">## register hooks at CNN output and Transformer embeds + layers</span>
+  <span class="n">save_output</span> <span class="o">=</span> <span class="n">SaveOutput</span><span class="p">()</span>
+  <span class="c1"># for the ASR-finetuned model</span>
+  <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="n">Wav2Vec2ForCTC</span><span class="p">:</span>
+      <span class="n">last_conv_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wav2vec2</span><span class="o">.</span><span class="n">feature_extractor</span><span class="o">.</span><span class="n">conv_layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+      <span class="n">last_conv_layer</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="s1">&#39;CNN&#39;</span><span class="p">))</span>
+      <span class="n">model</span><span class="o">.</span><span class="n">wav2vec2</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layer_norm</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="s1">&#39;embeds&#39;</span><span class="p">))</span>
+      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">enc_layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wav2vec2</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+          <span class="n">enc_layer</span><span class="o">.</span><span class="n">final_layer_norm</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+  <span class="c1"># for the pretrained &amp; untrained model</span>
+  <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="n">Wav2Vec2Model</span><span class="p">:</span>
+      <span class="n">last_conv_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_extractor</span><span class="o">.</span><span class="n">conv_layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+      <span class="n">last_conv_layer</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="s1">&#39;CNN&#39;</span><span class="p">))</span>
+      <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layer_norm</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="s1">&#39;embeds&#39;</span><span class="p">))</span>
+      <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">enc_layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+          <span class="n">enc_layer</span><span class="o">.</span><span class="n">final_layer_norm</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">save_output</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+
+  <span class="c1"># prepare inputs</span>
+  <span class="n">inputs</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">full_waveform</span><span class="p">,</span>
+                             <span class="n">sampling_rate</span><span class="o">=</span><span class="n">SAMP_FREQ</span><span class="p">,</span>
+                             <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span>
+                             <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;longest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">input_values</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+  <span class="c1"># forward pass</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+  <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">output_hidden_states</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_attentions</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+  <span class="c1">## store only the frame states between the segment starts &amp; ends</span>
+  <span class="n">layer_segment_states</span> <span class="o">=</span> <span class="p">{</span><span class="n">layer</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">save_output</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+  <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">save_output</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="c1"># for the CNN output</span>
+    <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">start_frame</span><span class="p">,</span> <span class="n">end_frame</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">segment_start_frames</span><span class="p">,</span> <span class="n">segment_end_frames</span><span class="p">):</span>
+        <span class="n">layer_segment_states</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">save_output</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="n">layer</span><span class="p">][:,</span> <span class="p">:,</span> <span class="n">start_frame</span><span class="p">:</span><span class="n">end_frame</span><span class="p">]</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="c1"># for the Transformer embeds + layer representations</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">for</span> <span class="n">start_frame</span><span class="p">,</span> <span class="n">end_frame</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">segment_start_frames</span><span class="p">,</span> <span class="n">segment_end_frames</span><span class="p">):</span>
+        <span class="n">layer_segment_states</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">save_output</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="n">layer</span><span class="p">][:,</span> <span class="n">start_frame</span><span class="p">:</span><span class="n">end_frame</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+  <span class="k">del</span> <span class="n">save_output</span>
+  <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+  <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+
+  <span class="k">return</span> <span class="n">layer_segment_states</span>
+
+<span class="k">def</span> <span class="nf">frame_states_over_dataset</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Extract frame states for a range of models (provided in the `models` dict, which all work with feature_extractor),</span>
+<span class="sd">  over all annotated word segments in the provided dataset (dict organized by speaker_id with audio, start_times, and end_times for</span>
+<span class="sd">  each speaker, as in annotated_speaker_subset)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">model_frame_states</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">N_speakers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">_name_or_path</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">_name_or_path</span> <span class="k">else</span> <span class="s1">&#39;randomly initialized&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Extracting states from </span><span class="si">{</span><span class="n">model_id</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s1">)...&#39;</span><span class="p">)</span>
+    <span class="n">layer_segment_states</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">speaker_id</span><span class="p">,</span> <span class="n">speaker_data</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Speaker </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">N_speakers</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">speaker_id</span><span class="si">}</span><span class="s1">)...&#39;</span><span class="p">)</span>
+      <span class="n">full_waveform</span> <span class="o">=</span> <span class="n">speaker_data</span><span class="p">[</span><span class="s1">&#39;audio&#39;</span><span class="p">]</span>
+      <span class="n">word_start_times</span> <span class="o">=</span> <span class="n">speaker_data</span><span class="p">[</span><span class="s1">&#39;start_times&#39;</span><span class="p">]</span>
+      <span class="n">word_end_times</span> <span class="o">=</span> <span class="n">speaker_data</span><span class="p">[</span><span class="s1">&#39;end_times&#39;</span><span class="p">]</span>
+      <span class="n">layer_segment_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_frame_states_for_segments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">full_waveform</span><span class="p">,</span> <span class="n">word_start_times</span><span class="p">,</span> <span class="n">word_end_times</span><span class="p">))</span>
+    <span class="n">model_frame_states</span><span class="p">[</span><span class="n">model_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">layer</span><span class="p">:</span> <span class="p">[</span><span class="n">segst</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layer_segment_states</span><span class="p">))</span> <span class="k">for</span> <span class="n">segst</span> <span class="ow">in</span> <span class="n">layer_segment_states</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">layer</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layer_segment_states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">del</span> <span class="n">layer_segment_states</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">model_frame_states</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract frame states for all models in our comparison set and all speakers in our speaker subset</span>
+<span class="n">model_frame_states</span> <span class="o">=</span> <span class="n">frame_states_over_dataset</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">annotated_speaker_subset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="computing-mean-pooled-word-representations">
+<h3>Computing mean-pooled word representations<a class="headerlink" href="#computing-mean-pooled-word-representations" title="Link to this heading">#</a></h3>
+<section id="todo-15-computing-mean-pooled-representations-over-word-segments">
+<h4><input type="checkbox"/> <font color='green'><strong>ToDo 15</strong></font>: Computing mean-pooled representations over word segments<a class="headerlink" href="#todo-15-computing-mean-pooled-representations-over-word-segments" title="Link to this heading">#</a></h4>
+<p>To be able to use our kernel functions for computing similarities between words, we first need to create word representations out of the sets of frame states we have for each word segment. For now, we will simply take the mean over all frames within a word segment to create equally shaped vectors for each word segment in our dataset.<br />
+Complete the function below to return a matrix with the mean frame state vector for each word segment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_mean_frame_embs</span><span class="p">(</span><span class="n">frame_states</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  :param frame_states:        list of frame states for audio segments, extracted from a single</span>
+<span class="sd">                              model component; i.e. list of N_segments elements, each a np.array</span>
+<span class="sd">                              of shape (1, N_frames, D_component), where D_component is 512 for</span>
+<span class="sd">                              CNN output and 768 for Transformer representations</span>
+
+<span class="sd">  :return mean_frame_embs:    np.array of shape (N_segments, D_component), containing the mean-</span>
+<span class="sd">                              pooled frame embedding for every segment (i.e. the mean over frame</span>
+<span class="sd">                              states across the segment)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+  <span class="n">mean_frame_embs</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+  <span class="k">return</span> <span class="n">mean_frame_embs</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="todo-16-inspecting-gram-matrices-of-wav2vec2-embeddings">
+<h4><input type="checkbox"/> <font color='green'><strong>ToDo 16</strong></font>: Inspecting Gram matrices of Wav2Vec2 embeddings<a class="headerlink" href="#todo-16-inspecting-gram-matrices-of-wav2vec2-embeddings" title="Link to this heading">#</a></h4>
+<p>Now we are able to construct between-word similarity matrices for all models and layers of interest. Use the code cell below to inspect the Gram matrices for a few different models and layers. Also feel free to experiment with linear and RBF kernels again!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># choose from our set of loaded models from which we have extracted frame states</span>
+<span class="c1"># (&#39;base_unt&#39;, &#39;base_pret&#39;, &#39;base_ft&#39;, &#39;large_unt&#39;, &#39;large_pret&#39;, &#39;large_ft&#39;)</span>
+<span class="n">model_id</span> <span class="o">=</span> <span class="s1">&#39;base_ft&#39;</span>
+
+<span class="c1"># choose from &#39;CNN&#39;, &#39;embeds&#39;, &#39;T{i}&#39; (i = 1..12 for base and 1..24 for large)</span>
+<span class="n">model_component</span> <span class="o">=</span> <span class="s1">&#39;CNN&#39;</span>
+
+<span class="c1"># choose between gram_linear and gram_rbf</span>
+<span class="n">gram_fun</span> <span class="o">=</span> <span class="n">gram_linear</span>
+
+<span class="c1"># get word representations</span>
+<span class="n">model_embs</span> <span class="o">=</span> <span class="n">get_mean_frame_embs</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">model_id</span><span class="p">][</span><span class="n">model_component</span><span class="p">])</span>
+
+<span class="c1"># plot gram matrix for these word representations</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">plot_gram_matrix</span><span class="p">(</span><span class="n">model_embs</span><span class="p">,</span> <span class="n">speaker_subset_ids</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">)</span>
+<span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="cka-similarity-between-model-layers">
+<h2>CKA similarity between model layers<a class="headerlink" href="#cka-similarity-between-model-layers" title="Link to this heading">#</a></h2>
+<p>Now that we have between-word similarity matrices for all models and components, we can compute the similarities between all those matrices with CKA! This allows us for example to compare different layers of the same architecture, and possibly detect apparent differences in processing between models, as done by <a class="reference external" href="https://proceedings.mlr.press/v97/kornblith19a/kornblith19a.pdf">Kornblith et al. (2019)</a>.</p>
+<section id="todo-17-inspecting-between-layer-similarities-across-models">
+<h3><input type="checkbox"/> <font color='green'><strong>ToDo 17</strong></font>: Inspecting between-layer similarities across models<a class="headerlink" href="#todo-17-inspecting-between-layer-similarities-across-models" title="Link to this heading">#</a></h3>
+<p>Run the cells below to plot the between-layer similarities for each of the models in our comparison set. What differences stand out between the untrained, pretrained and finetuned versions, and between the base and large models?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_model_layer_cka</span><span class="p">(</span><span class="n">first_model_id</span><span class="p">,</span> <span class="n">second_model_id</span><span class="p">,</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">):</span>
+  <span class="n">first_model_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">first_model_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">second_model_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">second_model_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+  <span class="n">cka_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">first_model_components</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">second_model_components</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">comp1</span> <span class="ow">in</span> <span class="n">first_model_components</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">comp2</span> <span class="ow">in</span> <span class="n">second_model_components</span><span class="p">:</span>
+      <span class="n">comp1_embs</span> <span class="o">=</span> <span class="n">get_mean_frame_embs</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">first_model_id</span><span class="p">][</span><span class="n">comp1</span><span class="p">])</span>
+      <span class="n">comp2_embs</span> <span class="o">=</span> <span class="n">get_mean_frame_embs</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">second_model_id</span><span class="p">][</span><span class="n">comp2</span><span class="p">])</span>
+      <span class="n">cka_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">comp1</span><span class="p">,</span> <span class="n">comp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">cka</span><span class="p">(</span><span class="n">gram_fun</span><span class="p">(</span><span class="n">comp1_embs</span><span class="p">),</span> <span class="n">gram_fun</span><span class="p">(</span><span class="n">comp2_embs</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">cka_df</span>
+
+<span class="k">def</span> <span class="nf">plot_model_layer_cka</span><span class="p">(</span><span class="n">cka_df</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+  <span class="n">first_model_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cka_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+  <span class="n">second_model_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cka_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+  <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cka_df</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">first_model_components</span><span class="p">))</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">first_model_components</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">second_model_components</span><span class="p">))</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">second_model_components</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cka_base_models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;base_unt&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;base_unt&#39;</span><span class="p">,</span> <span class="s1">&#39;base_unt&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;base_pret&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;base_pret&#39;</span><span class="p">,</span> <span class="s1">&#39;base_pret&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;base_ft&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;base_ft&#39;</span><span class="p">,</span> <span class="s1">&#39;base_ft&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">cka_large_models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;large_unt&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;large_unt&#39;</span><span class="p">,</span> <span class="s1">&#39;large_unt&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;large_pret&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;large_pret&#39;</span><span class="p">,</span> <span class="s1">&#39;large_pret&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;large_ft&#39;</span><span class="p">:</span> <span class="n">compute_model_layer_cka</span><span class="p">(</span><span class="s1">&#39;large_ft&#39;</span><span class="p">,</span> <span class="s1">&#39;large_ft&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot base models</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">cka_df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cka_base_models</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+  <span class="n">plot_model_layer_cka</span><span class="p">(</span><span class="n">cka_df</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+  <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># plot large models</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">cka_df</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cka_large_models</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+  <span class="n">plot_model_layer_cka</span><span class="p">(</span><span class="n">cka_df</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+  <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="cka-similarity-of-wav2vec2-to-mfccs-and-glove">
+<h2>CKA similarity of Wav2Vec2 to MFCCs and GloVe<a class="headerlink" href="#cka-similarity-of-wav2vec2-to-mfccs-and-glove" title="Link to this heading">#</a></h2>
+<p>Next to computing similarities within and across model representations, we can also use CKA to compute similarity between model embeddings and more interpretable features.</p>
+<section id="layerwise-cka-similarity-to-interpretable-features">
+<h3>Layerwise CKA similarity to interpretable features<a class="headerlink" href="#layerwise-cka-similarity-to-interpretable-features" title="Link to this heading">#</a></h3>
+<section id="todo-18-inspecting-layerwise-similarities-to-mfccs-and-glove-across-models">
+<h4><input type="checkbox"/> <font color='green'><strong>ToDo 18</strong></font>: Inspecting layerwise similarities to MFCCs and GloVe across models<a class="headerlink" href="#todo-18-inspecting-layerwise-similarities-to-mfccs-and-glove-across-models" title="Link to this heading">#</a></h4>
+<p>Run the code cells below to obtain layerwise CKA similarities between Wav2Vec2 representations and MFCC vs. GloVe features. How do these layerwise patterns differ between models?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">frame_agg_fun</span><span class="o">=</span><span class="n">get_mean_frame_embs</span><span class="p">,</span> <span class="n">gram_fun</span><span class="o">=</span><span class="n">gram_linear</span><span class="p">):</span>
+  <span class="n">feature_cka</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">model_component</span><span class="p">:</span> <span class="n">cka</span><span class="p">(</span><span class="n">gram_fun</span><span class="p">(</span><span class="n">frame_agg_fun</span><span class="p">(</span><span class="n">model_frame_states</span><span class="p">[</span><span class="n">model_id</span><span class="p">][</span><span class="n">model_component</span><span class="p">])),</span>
+                           <span class="n">gram_fun</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
+      <span class="k">for</span> <span class="n">model_component</span> <span class="ow">in</span> <span class="n">model_frame_states</span><span class="p">[</span><span class="n">model_id</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">feature_cka</span>
+
+<span class="k">def</span> <span class="nf">plot_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_ids</span><span class="p">,</span> <span class="n">layerwise_cka_sims</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">layerwise_cka</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model_ids</span><span class="p">,</span> <span class="n">layerwise_cka_sims</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">layerwise_cka</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">model_id</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyles</span><span class="p">[</span><span class="n">model_id</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">model_id</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layerwise_cka</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span> <span class="nb">list</span><span class="p">(</span><span class="n">layerwise_cka</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;CKA similarity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">base_layerwise_MFCC_sims</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">avg_MFCCs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">base_models</span>
+    <span class="p">]</span>
+<span class="n">large_layerwise_MFCC_sims</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">avg_MFCCs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">large_models</span>
+<span class="p">]</span>
+<span class="n">base_layerwise_GloVe_sims</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">glove_embs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">base_models</span>
+    <span class="p">]</span>
+<span class="n">large_layerwise_GloVe_sims</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">glove_embs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">large_models</span>
+<span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Layerwise similarity to MFCCs (base models)&#39;</span><span class="p">)</span>
+<span class="n">plot_layerwise_feature_cka</span><span class="p">(</span><span class="n">base_models</span><span class="p">,</span> <span class="n">base_layerwise_MFCC_sims</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Layerwise similarity to MFCCs (large models)&#39;</span><span class="p">)</span>
+<span class="n">plot_layerwise_feature_cka</span><span class="p">(</span><span class="n">large_models</span><span class="p">,</span> <span class="n">large_layerwise_MFCC_sims</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Layerwise similarity to GloVe (base models)&#39;</span><span class="p">)</span>
+<span class="n">plot_layerwise_feature_cka</span><span class="p">(</span><span class="n">base_models</span><span class="p">,</span> <span class="n">base_layerwise_GloVe_sims</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Layerwise similarity to GloVe (large models)&#39;</span><span class="p">)</span>
+<span class="n">plot_layerwise_feature_cka</span><span class="p">(</span><span class="n">large_models</span><span class="p">,</span> <span class="n">large_layerwise_GloVe_sims</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparing-mean-and-middle-frame-embeddings">
+<h3>Comparing mean and middle frame embeddings<a class="headerlink" href="#comparing-mean-and-middle-frame-embeddings" title="Link to this heading">#</a></h3>
+<section id="todo-19-computing-middle-frame-embeddings">
+<h4><input type="checkbox"/> <font color='green'><strong>ToDo 19</strong></font>: Computing middle frame embeddings<a class="headerlink" href="#todo-19-computing-middle-frame-embeddings" title="Link to this heading">#</a></h4>
+<p>In their paper about word-level information encoded in self-supervised speech model representations, <a class="reference external" href="https://doi.org/10.1162/tacl_a_00656">Pasad et al. (2024)</a> investigate, amongst other things, which frames within a word segment seem most informative. One remarkable result from this analysis is that the middle frame of the word segment often seems as informative on its own as the mean-pooled word representation averaging all frames within a word segment (see e.g. Figure 4). We will here try to replicate this analysis by comparing similarity to GloVe embeddings between the mean-pooled representations we used so far and the middle frame embeddings.<br />
+Complete the function below to return a matrix with the middle frame state vector for each word segment. Then examine the layerwise patterns of similarities to GloVe for mean and middle frame embeddings. Are they in line with the findings in Pasad et al.?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_middle_frame_embs</span><span class="p">(</span><span class="n">frame_states</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  :param frame_states:        list of frame states for audio segments, extracted from a single</span>
+<span class="sd">                              model component; i.e. list of N_segments elements, each a np.array</span>
+<span class="sd">                              of shape (1, N_frames, D_component), where D_component is 512 for</span>
+<span class="sd">                              CNN output and 768 for Transformer representations</span>
+
+<span class="sd">  :return middle_frame_embs:  np.array of shape (N_segments, D_component), containing the middle</span>
+<span class="sd">                              frame state for every segment</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+  <span class="n">middle_frame_indices</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+  <span class="n">middle_frame_embs</span> <span class="o">=</span> <span class="c1"># YOUR CODE HERE</span>
+  <span class="k">return</span> <span class="n">middle_frame_embs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_emb_comparison</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+  <span class="n">mean_emb_cka_sims</span> <span class="o">=</span> <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">frame_agg_fun</span><span class="o">=</span><span class="n">get_mean_frame_embs</span><span class="p">)</span>
+  <span class="n">middle_emb_cka_sims</span> <span class="o">=</span> <span class="n">compute_layerwise_feature_cka</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">frame_agg_fun</span><span class="o">=</span><span class="n">get_middle_frame_embs</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mean_emb_cka_sims</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;solid&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;mean-pooled&#39;</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">middle_emb_cka_sims</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;middle frame&#39;</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;CKA similarity&#39;</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mean_emb_cka_sims</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span> <span class="nb">list</span><span class="p">(</span><span class="n">mean_emb_cka_sims</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+  <span class="n">plot_emb_comparison</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">glove_embs</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+  <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Layerwise similarity to GloVe embeddings&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tosubmit-5-interpreting-differences-between-models-with-cka">
+<h4><input type="checkbox"/> <font color='red'><strong>ToSubmit 5</strong></font>: Interpreting differences between models with CKA<a class="headerlink" href="#tosubmit-5-interpreting-differences-between-models-with-cka" title="Link to this heading">#</a></h4>
+<p>Choose your favourite model comparison plot out of the ones generated above to include in your report.<br />
+Add a brief (max. 2 sentences) caption explaining what insights this analysis provides on differences in speech sound processing between the untrained, pretrained, and finetuned versions of the base and large Wav2Vec2 models.</p>
+</section>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mini-project-starting-points">
+<h1>🚀 Mini-project starting points<a class="headerlink" href="#mini-project-starting-points" title="Link to this heading">#</a></h1>
+<p>This week you have learned about several techniques for analyzing the internals of Audio Transformer models. We hope you are excited to apply these and/or other techniques to further study speech and sound processing models for your mini-project! Below, we provide a few possible starting points for inspiration. Of course, you are also free to come up with your own ideas. But do confirm with your TA that they are realistic to pursue within the mini-project timeframe!</p>
+<p><strong>1. Temporal generalization and context-invariant phonetic encoding</strong><br />
+In week 1, you applied Temporal Generalization Matrices to compute the crossaccuracy of probes across different model layers. Temporal Generalization analysis has also been used to study the encoding of phoneme sequences across time in neural speech models and the human brain — see <a class="reference external" href="https://arxiv.org/pdf/2405.08237">Oli et al. (2024)</a> for a study replicating neuroscience findings in a self-supervised RNN model. What is the window of phoneme decodability in Wav2Vec2, and how context-invariant are its phonetic encodings?</p>
+<p><strong>2. Effects of noise or speaker accent on model representations and transcription accuracy</strong><br />
+In the first notebook of this workshop, we saw that adding noise to the audio signal causes a decrease in Wav2Vec2’s transcription accuracy (as measured by CER and WER). Similar performance decreases can be observed for other types of audio that the model wasn’t exposed to during training, such as non-native accented speech or speech from other speaker minorities in the training dataset (e.g. women, children, elderly). It would be great if we could identify the Transformer components responsible for such biases, so that we might be able to mitigate them using targeted finetuning (as has been done for text models; e.g. <a class="reference external" href="https://aclanthology.org/2023.blackboxnlp-1.29/">Chintam et al., 2023</a>). Possible steps towards this:</p>
+<ul class="simple">
+<li><p>Can you localize which model components show most representational sensitivity to changes in noise / speaker identity / speaker accent using similarity-based interpretability techniques? (e.g. using differences in similarities between word representations for native- and non-native accented speech)</p></li>
+<li><p>Can you localize which model components are causally involved in increases to WER/CER metrics observed for noisy audio / accented speakers etc.? (e.g. using causal interventions)</p></li>
+</ul>
+<p><strong>3. Language-specific phonology and perceptual narrowing</strong><br />
+Human speech perception is known to become tuned to language-specific experience over development: we start out being able to distinguish speech sounds from many different languages, but we become worse at distinguishing speech sounds from languages other than our native language over time. This phenomenon is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Perceptual_narrowing#Phoneme_distinction">perceptual narrowing</a>.<br />
+Can you find evidence of language-specific speech perception in Wav2Vec2 models trained on different languages?<br />
+Relevant resources:</p>
+<ul class="simple">
+<li><p>French <a class="reference external" href="https://huggingface.co/LeBenchmark">LeBenchmark</a> set of Wav2Vec2 models trained on different amounts of French speech data</p></li>
+<li><p>English <a class="reference external" href="https://huggingface.co/techsword/wav2vec2-base-english-librispeech730h-checkpoints/tree/main">set of Wav2Vec2 checkpoints</a> over training released by <a class="reference external" href="https://aclanthology.org/2024.naacl-long.239/">Shen et al. (2024)</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/pacscilab/voxangeles">VoxAngeles</a> Corpus with phonetic transcriptions for 95 different languages</p></li>
+<li><p>ABX tests of phone discrimination ability as used by <a class="reference external" href="https://aclanthology.org/2022.acl-long.523/">Millet &amp; Dunbar (2022)</a> and their <a class="reference external" href="https://docs.cognitive-ml.fr/perceptimatic/perceptimatic_description.html">collection of stimuli</a> targeted at French vs. English speech sound contrasts</p></li>
+</ul>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./speech-perception"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="speech_perception_lab1_probing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Workshop on Speech Perception, Part 1: Probing acoustic, phonemic and orthographic information in Wav2Vec2</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-representations-with-similarity-based-interpretability">Comparing representations with similarity-based interpretability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tothink-5-understanding-similarity-based-interpretability-techniques"><input type="checkbox"/> <font color="blue"><b>ToThink 5</b></font>: Understanding similarity-based interpretability techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speech-accent-archive-recordings-and-word-segments">Speech Accent Archive recordings and word segments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-13-inspecting-speech-accent-archive-data"><input type="checkbox"/> <font color="green"><strong>ToDo 13</strong></font>: Inspecting Speech Accent Archive data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrices-for-mfccs-and-glove-embeddings">Gram matrices for MFCCs and GloVe embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-14-inspecting-gram-matrices-with-linear-and-rbf-kernels"><input type="checkbox"/> <font color="green"><strong>ToDo 14</strong></font>: Inspecting Gram matrices with Linear and RBF kernels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrices-for-wav2vec2-representations">Gram matrices for Wav2Vec2 representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-model-hidden-states-for-word-segments">Extracting model hidden states for word segments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-mean-pooled-word-representations">Computing mean-pooled word representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-15-computing-mean-pooled-representations-over-word-segments"><input type="checkbox"/> <font color="green"><strong>ToDo 15</strong></font>: Computing mean-pooled representations over word segments</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-16-inspecting-gram-matrices-of-wav2vec2-embeddings"><input type="checkbox"/> <font color="green"><strong>ToDo 16</strong></font>: Inspecting Gram matrices of Wav2Vec2 embeddings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cka-similarity-between-model-layers">CKA similarity between model layers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-17-inspecting-between-layer-similarities-across-models"><input type="checkbox"/> <font color="green"><strong>ToDo 17</strong></font>: Inspecting between-layer similarities across models</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cka-similarity-of-wav2vec2-to-mfccs-and-glove">CKA similarity of Wav2Vec2 to MFCCs and GloVe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layerwise-cka-similarity-to-interpretable-features">Layerwise CKA similarity to interpretable features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-18-inspecting-layerwise-similarities-to-mfccs-and-glove-across-models"><input type="checkbox"/> <font color="green"><strong>ToDo 18</strong></font>: Inspecting layerwise similarities to MFCCs and GloVe across models</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-mean-and-middle-frame-embeddings">Comparing mean and middle frame embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-19-computing-middle-frame-embeddings"><input type="checkbox"/> <font color="green"><strong>ToDo 19</strong></font>: Computing middle frame embeddings</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tosubmit-5-interpreting-differences-between-models-with-cka"><input type="checkbox"/> <font color="red"><strong>ToSubmit 5</strong></font>: Interpreting differences between models with CKA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-starting-points">🚀 Mini-project starting points</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png"></a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
