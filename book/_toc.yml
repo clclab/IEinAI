@@ -24,7 +24,8 @@ parts:
       #     - file: symbolic/symbolic_lab_probing
       - file: speech-perception/speech-perception_intro
         sections:
-          - file: speech-perception/speech_perception_lab
+          - file: speech-perception/speech_perception_lab1_probing
+          - file: speech-perception/speech_perception_lab2_CKA
       # - file: music-speech-generation/music-speech-generation_intro
       #   sections:
       #     - file: music-speech-generation/music-speech-generation_lab_placeholder
