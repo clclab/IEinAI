@@ -12,6 +12,7 @@ For presentations, choose from:
   
 - Both of:
     - Shen, G., Alishahi, A., Bisazza, A., Chrupała, G. (2023) Wave to Syntax: Probing spoken language models for syntax. _Proc. INTERSPEECH 2023_, 1259-1263. https://doi.org/10.21437/Interspeech.2023-679
-    - de Heer Kloots, M. & Zuidema, W. (2024). Human-like Linguistic Biases in Neural Speech Models: Phonetic Categorization and Phonotactic Constraints in Wav2Vec2.0. _Accepted to Proc. INTERSPEECH 2024_. [Find the PDF on Canvas]
+    - de Heer Kloots, M. & Zuidema, W. (2024). Human-like Linguistic Biases in Neural Speech Models: Phonetic Categorization and Phonotactic Constraints in Wav2Vec2.0. _Accepted to Proc. INTERSPEECH 2024_. 
+    https://doi.org/10.48550/arXiv.2407.03005
 
-During the computer labs, we will work through [this notebook](https://clclab.github.io/IEinAI/speech-perception/speech_perception_lab.html).
+During the computer labs, we will work through two notebooks — one on [probing acoustic, phonemic and orthographic information in Wav2Vec2](https://clclab.github.io/IEinAI/speech-perception/speech_perception_lab1_probing.html), and one on [comparing Audio Transformer representations with CKA](https://clclab.github.io/IEinAI/speech-perception/speech_perception_lab2_CKA.html).
