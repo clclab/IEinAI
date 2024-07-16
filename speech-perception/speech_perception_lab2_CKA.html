@@ -188,7 +188,6 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="speech-perception_intro.html">Speech Perception</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="speech_perception_lab1_probing.html">Workshop on Speech Perception, Part 1: Probing acoustic, phonemic and orthographic information in Wav2Vec2</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a></li>
-
 </ul>
 </li>
 </ul>
@@ -417,7 +416,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-representations-with-similarity-based-interpretability">Comparing representations with similarity-based interpretability</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tothink-5-understanding-similarity-based-interpretability-techniques"><input type="checkbox"/> <font color="blue"><b>ToThink 5</b></font>: Understanding similarity-based interpretability techniques</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
@@ -457,10 +455,6 @@ document.write(`
 </ul>
 </li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-starting-points">🚀 Mini-project starting points</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -1271,28 +1265,6 @@ Add a brief (max. 2 sentences) caption explaining what insights this analysis pr
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="mini-project-starting-points">
-<h1>🚀 Mini-project starting points<a class="headerlink" href="#mini-project-starting-points" title="Link to this heading">#</a></h1>
-<p>This week you have learned about several techniques for analyzing the internals of Audio Transformer models. We hope you are excited to apply these and/or other techniques to further study speech and sound processing models for your mini-project! Below, we provide a few possible starting points for inspiration. Of course, you are also free to come up with your own ideas. But do confirm with your TA that they are realistic to pursue within the mini-project timeframe!</p>
-<p><strong>1. Temporal generalization and context-invariant phonetic encoding</strong><br />
-In week 1, you applied Temporal Generalization Matrices to compute the crossaccuracy of probes across different model layers. Temporal Generalization analysis has also been used to study the encoding of phoneme sequences across time in neural speech models and the human brain — see <a class="reference external" href="https://arxiv.org/pdf/2405.08237">Oli et al. (2024)</a> for a study replicating neuroscience findings in a self-supervised RNN model. What is the window of phoneme decodability in Wav2Vec2, and how context-invariant are its phonetic encodings?</p>
-<p><strong>2. Effects of noise or speaker accent on model representations and transcription accuracy</strong><br />
-In the first notebook of this workshop, we saw that adding noise to the audio signal causes a decrease in Wav2Vec2’s transcription accuracy (as measured by CER and WER). Similar performance decreases can be observed for other types of audio that the model wasn’t exposed to during training, such as non-native accented speech or speech from other speaker minorities in the training dataset (e.g. women, children, elderly). It would be great if we could identify the Transformer components responsible for such biases, so that we might be able to mitigate them using targeted finetuning (as has been done for text models; e.g. <a class="reference external" href="https://aclanthology.org/2023.blackboxnlp-1.29/">Chintam et al., 2023</a>). Possible steps towards this:</p>
-<ul class="simple">
-<li><p>Can you localize which model components show most representational sensitivity to changes in noise / speaker identity / speaker accent using similarity-based interpretability techniques? (e.g. using differences in similarities between word representations for native- and non-native accented speech)</p></li>
-<li><p>Can you localize which model components are causally involved in increases to WER/CER metrics observed for noisy audio / accented speakers etc.? (e.g. using causal interventions)</p></li>
-</ul>
-<p><strong>3. Language-specific phonology and perceptual narrowing</strong><br />
-Human speech perception is known to become tuned to language-specific experience over development: we start out being able to distinguish speech sounds from many different languages, but we become worse at distinguishing speech sounds from languages other than our native language over time. This phenomenon is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Perceptual_narrowing#Phoneme_distinction">perceptual narrowing</a>.<br />
-Can you find evidence of language-specific speech perception in Wav2Vec2 models trained on different languages?<br />
-Relevant resources:</p>
-<ul class="simple">
-<li><p>French <a class="reference external" href="https://huggingface.co/LeBenchmark">LeBenchmark</a> set of Wav2Vec2 models trained on different amounts of French speech data</p></li>
-<li><p>English <a class="reference external" href="https://huggingface.co/techsword/wav2vec2-base-english-librispeech730h-checkpoints/tree/main">set of Wav2Vec2 checkpoints</a> over training released by <a class="reference external" href="https://aclanthology.org/2024.naacl-long.239/">Shen et al. (2024)</a></p></li>
-<li><p>The <a class="reference external" href="https://github.com/pacscilab/voxangeles">VoxAngeles</a> Corpus with phonetic transcriptions for 95 different languages, and the <a class="reference external" href="https://zenodo.org/records/5846137">CommonPhone</a> dataset with phonetic transcriptions of a few more common languages</p></li>
-<li><p>ABX tests of phone discrimination ability as used by <a class="reference external" href="https://aclanthology.org/2022.acl-long.523/">Millet &amp; Dunbar (2022)</a> and their <a class="reference external" href="https://docs.cognitive-ml.fr/perceptimatic/perceptimatic_description.html">collection of stimuli</a> targeted at French vs. English speech sound contrasts</p></li>
-</ul>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1349,7 +1321,6 @@ Relevant resources:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Workshop on Speech Perception, Part 2: Comparing Audio Transformer representations with Centered Kernel Alignment</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-representations-with-similarity-based-interpretability">Comparing representations with similarity-based interpretability</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tothink-5-understanding-similarity-based-interpretability-techniques"><input type="checkbox"/> <font color="blue"><b>ToThink 5</b></font>: Understanding similarity-based interpretability techniques</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
@@ -1389,10 +1360,6 @@ Relevant resources:</p>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-project-starting-points">🚀 Mini-project starting points</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>
